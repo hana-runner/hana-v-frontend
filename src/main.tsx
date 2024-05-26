@@ -12,6 +12,10 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { path: "/splash", element: <Splash /> },
+      {
+        path: "/home",
+        element: <Home />,
+      },
     ],
   },
 ]);

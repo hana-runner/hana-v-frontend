@@ -1,7 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { BiBell, BiHomeAlt2 } from "react-icons/bi";
 import { IoMenu } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 
 const NavIcon = () => {
   const navigate = useNavigate();
