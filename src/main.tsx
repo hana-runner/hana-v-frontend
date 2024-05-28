@@ -3,14 +3,16 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import { NotFound, Splash } from "./pages";
+import { Home, NotFound, Splash } from "./pages";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Splash /> },
   {
-    path: "/home",
+    path: "/",
     element: <App />,
     errorElement: <NotFound />,
+    children: [
+      { path: "/splash", element: <Splash /> },
+    ],
   },
 ]);
 
