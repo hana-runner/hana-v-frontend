@@ -1,26 +1,15 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Outlet, useNavigate } from "react-router-dom";
-import { Navbar } from "./components";
+import { Route, Routes } from "react-router-dom";
+import { Home, Splash } from "./pages";
 
 function App() {
-  const navigate = useNavigate();
-
-  const path = window.location.pathname;
-
-  const isHeader = path === "/splash";
-
-  useEffect(() => {
-    navigate("/splash");
-  }, [navigate]);
-
-  return isHeader ? (
-    <Outlet />
-  ) : (
-    <>
-      <Navbar title="Hana" option={false} />
-      <Outlet />
-    </>
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/splash" element={<Splash />} />
+    </Routes>
   );
 }
 
