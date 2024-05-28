@@ -25,10 +25,10 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-hanaGreen text-white px-4 py-2 rounded-xl hover:opacity-90;
+    @apply bg-hanaGreen text-white px-6 py-2 rounded-xl hover:opacity-90;
   }
   .btn-cancel {
-    @apply bg-hanaSilver text-hanaBlack px-4 py-2 rounded-xl hover:opacity-90;
+    @apply bg-hanaSilver text-hanaBlack px-6 py-2 rounded-xl hover:opacity-90;
   }
 }
 
