@@ -65,7 +65,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
   }, []);
 
   return (
-    <section>
+    <section className="flex flex-col justify-evenly items-center h-[100vh] gap-9">
       <div className="flex gap-2">
         {Array(6)
           .fill(null)
@@ -85,9 +85,9 @@ const VerifyCode = ({ dispatch }: Prop) => {
       </div>
       <button
         type="button"
-        className="bg-white border border-hanaSilver rounded-lg text-hanaSilver w-80 py-2 under"
+        className="btn-primary w-80 py-2"
         ref={buttonRef}
-        onClick={() => onCodeSubmit()}
+        onClick={() => dispatch({ type: "code" })}
       >
         다음
       </button>
