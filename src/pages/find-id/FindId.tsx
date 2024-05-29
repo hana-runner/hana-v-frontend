@@ -1,5 +1,7 @@
-import React, { useReducer, useState } from "react";
-import FindIdEmail from "./FindIdEmail";
+import React, { useEffect, useReducer, useState } from "react";
+import VerifyEmail from "./verification/VerifyEmail";
+import VerifyCode from "./verification/VerifyCode";
+import ShowId from "./verification/ShowId";
 
 type VerificationList = {
   email: boolean;
@@ -33,14 +35,16 @@ const reducer = (list: VerificationList, { type }: Action) => {
   return newer;
 };
 const FindId = () => {
-  const [emailVerified, setVerification] = useState(false);
   const [checkList, dispatch] = useReducer(reducer, InitialVerificationStatus);
 
   return (
     <section className="flex flex-col justify-evenly items-center h-[100vh] gap-9">
       {!checkList.email && !checkList.code && (
-        <FindIdEmail dispatch={dispatch} />
+        <VerifyEmail dispatch={dispatch} />
       )}
+
+      {checkList.email && !checkList.code && <VerifyCode dispatch={dispatch} />}
+      {checkList.email && checkList.code && <ShowId />}
     </section>
   );
 };

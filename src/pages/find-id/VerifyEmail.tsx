@@ -8,7 +8,7 @@ type Prop = {
   dispatch: React.Dispatch<Action>;
 };
 
-const FindIdEmail = ({ dispatch }: Prop) => {
+const VerifyEmail = ({ dispatch }: Prop) => {
   const selectedRef = useRef<HTMLSelectElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
 
@@ -39,7 +39,7 @@ const FindIdEmail = ({ dispatch }: Prop) => {
               className="border-b-2 border-hanaGreen bg-transparent focus:outline-none w-full"
               ref={selectedRef}
             >
-              <option value="naver.com" selected>
+              <option value="naver.com" defaultChecked>
                 naver.com
               </option>
               <option value="gmail.com">gmail.com</option>
@@ -58,4 +58,4 @@ const FindIdEmail = ({ dispatch }: Prop) => {
   );
 };
 
-export default FindIdEmail;
+export default VerifyEmail;
