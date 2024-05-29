@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import VerifyEmail from "./verification/VerifyEmail";
 import VerifyCode from "./verification/VerifyCode";
 import ShowId from "./verification/ShowId";
