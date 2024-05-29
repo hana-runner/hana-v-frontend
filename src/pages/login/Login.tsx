@@ -1,5 +1,7 @@
 import React, { useReducer, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import validateId from "./validation/id-validation";
+import validatePw from "./validation/pw-validation";
 
 const InitialLoginInfoStatus: LoginValidateInfo = {
   userId: false,
@@ -14,9 +16,9 @@ enum LOGIN_ACTION {
   RESET = "reset",
 }
 
-type LoginAction = {
+interface LoginAction {
   type: LOGIN_ACTION;
-};
+}
 
 const reducer = (state: LoginValidateInfo, { type }: LoginAction) => {
   let newer: LoginValidateInfo;
@@ -46,17 +48,6 @@ const reducer = (state: LoginValidateInfo, { type }: LoginAction) => {
   }
 
   return newer;
-};
-
-const validateId = (id: string) => {
-  const pattern = /^[a-zA-Z]+$/;
-  return pattern.test(id);
-};
-
-const validatePw = (pw: string) => {
-  const pattern =
-    /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
-  return pattern.test(pw);
 };
 
 const Login = () => {
@@ -123,18 +114,14 @@ const Login = () => {
       <div>
         <button
           type="button"
-          className="bg-hanaGreen rounded-lg text-white w-80 py-2"
+          className="btn-primary w-80 py-2"
           onClick={loginHandler}
         >
           로그인
         </button>
       </div>
       <div className="flex gap-4 font-hanaRegular text-hanaSilver underline">
-        <button
-          type="button"
-          className=""
-          onClick={() => navigation("/find/id")}
-        >
+        <button type="button" onClick={() => navigation("/find/id")}>
           아이디 찾기
         </button>
         <span className="w-[1px] h-[25px] bg-hanaSilver"> </span>
