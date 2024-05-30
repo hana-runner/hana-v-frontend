@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
 import RegisterId from "./RegisterId";
 import RegisterPw from "./RegisterPw";
-import { RegisterProvider } from "./context";
+import { RegisterProvider } from "./register-context/context";
 import RegisterSSN from "./RegisterSSN";
 import RegisterName from "./RegisterName";
 import RegisterEmail from "./RegisterEmail";

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "../../../components";
-import { useUserInfo } from "./context";
+import { useUserInfo } from "./register-context/context";
 
 interface Value {
   value: string;

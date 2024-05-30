@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Modal } from "../../../components";
 
-import validatePw from "../login/validation/pw-validation";
-import { useUserInfo } from "./context";
+import validatePw from "../../../components/validation/pw-validation";
+import { useUserInfo } from "./register-context/context";
 
 enum InfoType {
   USER_NAME,
