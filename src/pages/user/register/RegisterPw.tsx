@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Modal } from "../../../components";
-import validatePw from "../../../components/common/validation/pw-validation";
+
+import validatePw from "../login/validation/pw-validation";
 import { useUserInfo } from "./context";
 
 enum InfoType {

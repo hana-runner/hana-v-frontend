@@ -12,7 +12,6 @@ const Home = () => {
           modalToggle={() => setOpenModal(!openModal)}
         />
       )}
-      <div>home</div>
     </section>
   );
 };

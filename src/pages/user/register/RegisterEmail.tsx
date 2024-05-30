@@ -2,25 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "./context";
 import { Modal } from "../../../components";
 
-enum InfoType {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
-}
+import { EMAIL_DOMAIN, InfoType } from "../../../types/enums";
+
 interface Action {
   type: InfoType;
 }
 
 interface Prop {
   dispatch: React.Dispatch<Action>;
-}
-
-enum EMAIL_DOMAIN {
-  GOOGLE = "gmail.com",
-  NAVER = "naver.com",
 }
 
 const RegisterEmail = ({ dispatch }: Prop) => {

@@ -1,8 +1,12 @@
 import axios from "axios";
+import interestApi from "./interfaces/interestApi";
+import userApi from "./interfaces/userApi";
 
-class ApiClient {
+class ApiClient implements userApi, interestApi {
+  // 싱글톤 인스턴스
   private static instance: ApiClient;
 
+  // axios 인스턴스를 저장하는 필드, api 요청을 보낼 때 사용
   private axiosInstance;
 
   constructor() {
@@ -128,11 +132,24 @@ class ApiClient {
     return response.data;
   }
 
+  // 사용자별 관심사 목록
+  public async getUserInterests() {
+    const userId = 1;
+    const response = await this.axiosInstance.request<userInterestType[]>({
+      method: "get",
+      url: `/user-interests/${userId}`,
+    });
+
+    return response.data;
+  }
+
   /*
   #####################################################
     singleton pattern, creational patterns
   #####################################################
   */
+
+  // 싱글톤 인스턴스 가져오기 - 인스턴스 없을 경우 새로운 인스턴스 생성
   static getInstance(): ApiClient {
     if (!this.instance) {
       this.instance = new this();
@@ -147,10 +164,24 @@ class ApiClient {
     };
 
     const newInstance = axios.create({
-      baseURL: process.env.REACT_APP_API_URL,
+      baseURL: import.meta.env.VITE_API_URL,
       timeout: 100000,
       headers,
     });
+
+    newInstance.interceptors.request.use(
+      (config) => {
+        // eslint-disable-next-line no-param-reassign
+        config.headers["Content-Type"] = "application/json";
+
+        return config;
+      },
+
+      (error) => {
+        console.log(error);
+        return Promise.reject(error);
+      },
+    );
 
     return newInstance;
   };

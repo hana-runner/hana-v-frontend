@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { EMAIL_DOMAIN } from "../../../../types/enums";
 
 type Action = {
   type: "email" | "code";
