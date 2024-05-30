@@ -2,6 +2,7 @@ import React, { useReducer, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import validateId from "./validation/id-validation";
 import validatePw from "./validation/pw-validation";
+import { Navbar } from "../../../components";
 
 const InitialLoginInfoStatus: LoginValidateInfo = {
   userId: false,
@@ -90,44 +91,50 @@ const Login = () => {
   };
 
   return (
-    <section className="flex flex-col justify-center items-center h-[80vh] gap-9">
-      <h1 className="text-xl">
-        아이디와 비밀번호를
-        <br />
-        입력해주세요
-      </h1>
-      <div>
-        <span className="flex flex-col gap-4">
-          <input
-            className="border-2 border-hanaSilver w-80 h-[48px] px-2 rounded-lg focus:outline-none"
-            placeholder="아이디"
-            ref={idRef}
-          />
+    <section className="flex flex-col justify-between items-center h-[100vh]">
+      <Navbar title="아이디 찾기" option />
+      <div className="flex flex-col gap-20 h-full py-10">
+        <div className="flex flex-col gap-10">
+          <h1 className="text-xl">
+            아이디와 비밀번호를
+            <br />
+            입력해주세요
+          </h1>
+          <div>
+            <span className="flex flex-col gap-4">
+              <input
+                className="border-2 border-hanaSilver w-80 h-[48px] px-2 rounded-lg focus:outline-none"
+                placeholder="아이디"
+                ref={idRef}
+              />
 
-          <input
-            className="border-2 border-hanaSilver w-80 h-[48px] px-2 rounded-lg focus:outline-none"
-            placeholder="비밀번호"
-            ref={pwRef}
-          />
-        </span>
-      </div>
-      <div>
-        <button
-          type="button"
-          className="btn-primary w-80 py-2"
-          onClick={loginHandler}
-        >
-          로그인
-        </button>
-      </div>
-      <div className="flex gap-4 font-hanaRegular text-hanaSilver underline">
-        <button type="button" onClick={() => navigation("/find/id")}>
-          아이디 찾기
-        </button>
-        <span className="w-[1px] h-[25px] bg-hanaSilver"> </span>
-        <button type="button" onClick={() => navigation("/find/password")}>
-          비밀번호 찾기
-        </button>
+              <input
+                className="border-2 border-hanaSilver w-80 h-[48px] px-2 rounded-lg focus:outline-none"
+                placeholder="비밀번호"
+                ref={pwRef}
+              />
+            </span>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-5">
+          <button
+            type="button"
+            className="btn-primary w-80 py-2"
+            onClick={loginHandler}
+          >
+            로그인
+          </button>
+          <div className="flex justify-center gap-4 font-hanaRegular text-hanaSilver underline">
+            <button type="button" onClick={() => navigation("/find/id")}>
+              아이디 찾기
+            </button>
+            <span className="w-[1px] h-[25px] bg-hanaSilver"> </span>
+            <button type="button" onClick={() => navigation("/find/password")}>
+              비밀번호 찾기
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -17,8 +17,8 @@ const VerifyEmail = ({ dispatch }: Prop) => {
   };
 
   return (
-    <section>
-      <div className="flex flex-col gap-10 w-80 h-full">
+    <section className="flex flex-col w-80 h-full justify-between py-10">
+      <div className="flex flex-col gap-5">
         <div className="text-xl text-start">
           이메일 주소를
           <br />
@@ -46,14 +46,15 @@ const VerifyEmail = ({ dispatch }: Prop) => {
             </select>
           </span>
         </div>
-        <button
-          type="button"
-          className="bg-white border border-hanaSilver rounded-lg text-hanaSilver w-80 py-2 under"
-          onClick={() => onEmailSubmit()}
-        >
-          다음
-        </button>
       </div>
+
+      <button
+        type="button"
+        className="bg-white border border-hanaSilver rounded-lg text-hanaSilver w-80 py-2 under"
+        onClick={() => onEmailSubmit()}
+      >
+        다음
+      </button>
     </section>
   );
 };

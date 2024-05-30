@@ -1,7 +1,8 @@
 import React, { useReducer } from "react";
 import VerifyEmail from "./verification/VerifyEmail";
 import VerifyCode from "./verification/VerifyCode";
-import ShowId from "./verification/ShowId";
+import ShowId from "./ShowId";
+import { Navbar } from "../../../components";
 
 type VerificationList = {
   email: boolean;
@@ -38,13 +39,18 @@ const FindId = () => {
   const [checkList, dispatch] = useReducer(reducer, InitialVerificationStatus);
 
   return (
-    <section className="flex flex-col justify-evenly items-center h-[100vh] gap-9">
-      {!checkList.email && !checkList.code && (
-        <VerifyEmail dispatch={dispatch} />
-      )}
+    <section className="flex flex-col justify-between items-center h-[100vh]">
+      <Navbar title="아이디 찾기" option />
+      <div className="flex h-full">
+        {!checkList.email && !checkList.code && (
+          <VerifyEmail dispatch={dispatch} />
+        )}
 
-      {checkList.email && !checkList.code && <VerifyCode dispatch={dispatch} />}
-      {checkList.email && checkList.code && <ShowId />}
+        {checkList.email && !checkList.code && (
+          <VerifyCode dispatch={dispatch} />
+        )}
+        {checkList.email && checkList.code && <ShowId />}
+      </div>
     </section>
   );
 };
