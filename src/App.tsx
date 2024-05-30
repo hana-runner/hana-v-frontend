@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { Home, Splash } from "./pages";
-import Login from "./pages/login/Login";
-import FindId from "./pages/find-id/FindId";
+import Login from "./pages/user/login/Login";
+import FindId from "./pages/user/find-id/FindId";
 
 function App() {
   return (
