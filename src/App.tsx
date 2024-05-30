@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { Home, Splash } from "./pages";
 import Login from "./pages/user/login/Login";
 import FindId from "./pages/user/findId/FindId";
+import { Register } from "./pages/user";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/splash" element={<Splash />} />
       <Route path="/login" element={<Login />} />
       <Route path="/find/id" element={<FindId />} />
+      <Route path="/registeration" element={<Register />} />
     </Routes>
   );
 }

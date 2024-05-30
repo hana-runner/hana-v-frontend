@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 
-type Value = {
+interface Value {
   value: string;
   index: number;
-};
+}
 
-type Action = {
+interface Action {
   type: "email" | "code";
-};
+}
 
-type Prop = {
+interface Prop {
   dispatch: React.Dispatch<Action>;
-};
+}
 
 const VerifyCode = ({ dispatch }: Prop) => {
-  const [current, setCurrent] = useState<number>(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [values, setValues] = useState<Value[]>([]);
