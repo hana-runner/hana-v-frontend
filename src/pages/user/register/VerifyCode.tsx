@@ -5,17 +5,20 @@ interface Value {
   index: number;
 }
 
-enum VERIFICATION {
-  EMAIL = "email",
-  CODE = "code",
-}
-
 interface Action {
-  type: unknown;
+  type: InfoType;
 }
 
 interface Prop {
   dispatch: React.Dispatch<Action>;
+}
+enum InfoType {
+  USER_NAME,
+  USER_PW,
+  NAME,
+  USER_SSN,
+  USER_EMAIL,
+  CODE_VERIFICATION,
 }
 
 const VerifyCode = ({ dispatch }: Prop) => {
@@ -46,7 +49,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
       return;
     }
 
-    dispatch({ type: VERIFICATION.CODE });
+    dispatch({ type: InfoType.CODE_VERIFICATION });
   };
 
   const handleRemove = (
@@ -100,7 +103,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
         type="button"
         className="btn-primary w-80 py-2"
         ref={buttonRef}
-        onClick={() => dispatch({ type: VERIFICATION.CODE })}
+        onClick={() => dispatch({ type: InfoType.CODE_VERIFICATION })}
       >
         다음
       </button>

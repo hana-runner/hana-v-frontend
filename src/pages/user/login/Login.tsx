@@ -2,7 +2,7 @@ import React, { useReducer, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import validateId from "./validation/id-validation";
 import validatePw from "./validation/pw-validation";
-import { Navbar } from "../../../components";
+import UserWrapper from "../../../components/UserWrapper";
 
 const InitialLoginInfoStatus: LoginValidateInfo = {
   userId: false,
@@ -91,8 +91,7 @@ const Login = () => {
   };
 
   return (
-    <section className="flex flex-col justify-between items-center h-[100vh]">
-      <Navbar title="아이디 찾기" option />
+    <UserWrapper hasNav title="로그인" option>
       <div className="flex flex-col gap-20 h-full py-10">
         <div className="flex flex-col gap-10">
           <h1 className="text-xl">
@@ -136,7 +135,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </section>
+    </UserWrapper>
   );
 };
 
