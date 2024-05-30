@@ -1,3 +1,5 @@
+import { EMAIL_DOMAIN } from "./enums";
+
 interface RegisterType
   extends Pick<UserInfoType, "username" | "pw" | "name" | "email"> {}
 
@@ -7,11 +9,6 @@ interface UserRegisterInfoType {
   userSSN: string;
   name: string;
   userEmail: EmailType;
-}
-
-enum EMAIL_DOMAIN {
-  GOOGLE = "gmail.com",
-  NAVER = "naver.com",
 }
 
 interface EmailType {
