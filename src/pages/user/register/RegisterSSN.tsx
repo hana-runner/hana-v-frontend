@@ -107,8 +107,8 @@ const RegisterSSN = ({ dispatch }: Prop) => {
           <br />
           입력해주세요
         </h1>
-        <div className="grid grid-cols-10 w-full">
-          <span className="flex justify-between col-span-6 border-b-2 px-1 py-1 border-b-hanaGreen ">
+        <div className="grid grid-cols-12 w-full">
+          <span className="col-span-6 flex justify-between border-b-2 px-1 py-1 border-b-hanaGreen ">
             {Array(6)
               .fill(null)
               .map((_, index) => {
@@ -138,9 +138,23 @@ const RegisterSSN = ({ dispatch }: Prop) => {
               maxLength={1}
             />
           </span>
-          <span className="col-span-1 flex justify-start py-1 px-1">
-            asdfas
+          <span className="col-span-4 flex justify-between items-center py-1 px-1">
+            {Array(6)
+              .fill(null)
+              .map((_, index) => {
+                return (
+                  <div
+                    key={index}
+                    className=" bg-hanaBlack rounded-full w-3 h-3 "
+                  >
+                    {" "}
+                  </div>
+                );
+              })}
           </span>
+        </div>
+        <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
+          {userInfo.name}
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
           {Array(userInfo.userPw.length)

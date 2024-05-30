@@ -6,6 +6,7 @@ import RegisterId from "./RegisterId";
 import RegisterPw from "./RegisterPw";
 import { RegisterProvider } from "./context";
 import RegisterSSN from "./RegisterSSN";
+import RegisterName from "./RegisterName";
 
 interface CheckList {
   username: boolean;
@@ -79,6 +80,7 @@ const Register = () => {
   useEffect(() => {
     console.log("id", infoList.username);
     console.log("pw", infoList.userPw);
+    console.log("name", infoList.name);
   }, [infoList]);
 
   return (
@@ -91,7 +93,10 @@ const Register = () => {
         {infoList.username && !infoList.userPw && (
           <RegisterPw dispatch={dispatch} />
         )}
-        {infoList.userPw && !infoList.userSSN && (
+        {infoList.userPw && !infoList.name && (
+          <RegisterName dispatch={dispatch} />
+        )}
+        {infoList.name && !infoList.userSSN && (
           <RegisterSSN dispatch={dispatch} />
         )}
       </UserWrapper>
