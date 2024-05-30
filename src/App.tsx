@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { Home, Splash } from "./pages";
 import Login from "./pages/user/login/Login";
-import FindId from "./pages/user/find-id/FindId";
+import FindId from "./pages/user/findId/FindId";
 
 function App() {
   return (
