@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import NavIcon from "./common/NavIcon";
 
-type NavbarType = {
+interface NavbarType {
   title: string;
   option: boolean;
-};
+}
 
 const Navbar = ({ title, option }: NavbarType) => {
   const navigate = useNavigate();
