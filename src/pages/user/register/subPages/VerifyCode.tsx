@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { InfoType } from "../../../../types/enums";
 
 interface Value {
   value: string;
@@ -11,14 +12,6 @@ interface Action {
 
 interface Prop {
   dispatch: React.Dispatch<Action>;
-}
-enum InfoType {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
 }
 
 const VerifyCode = ({ dispatch }: Prop) => {
