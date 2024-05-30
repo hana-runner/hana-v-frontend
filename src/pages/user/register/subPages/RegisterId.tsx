@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Modal } from "../../../../components";
 import { useUserInfo } from "../register-context/context";
+import validateId from "../../../../components/validation/id-validation";
 
 enum InfoType {
   USER_NAME,
@@ -22,11 +23,21 @@ interface Prop {
 const RegisterId = ({ dispatch }: Prop) => {
   const idRef = useRef<HTMLInputElement | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
+  const [message, setMessage] = useState<string>("");
   const { setUsername } = useUserInfo();
 
   const onNext = () => {
     const inputId = idRef.current?.value;
     if (!inputId) {
+      setMessage("아이디를 입력해주세요");
+      setModalOpened(true);
+      return;
+    }
+
+    if (!validateId(inputId)) {
+      setMessage(
+        "유효하지 않은 아이디입니다.\n아이디는 한글, 영문자만 사용하여 작성해주세요",
+      );
       setModalOpened(true);
       return;
     }
@@ -62,7 +73,7 @@ const RegisterId = ({ dispatch }: Prop) => {
       {modalOpened && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
           <Modal
-            message="아이디를 입력해주세요"
+            message={message}
             option=""
             modalToggle={() => setModalOpened(false)}
           />
