@@ -44,7 +44,7 @@ const RegisterId = ({ dispatch }: Prop) => {
         </h1>
         <div className="grid grid-cols-10 border-b-2 border-hanaGreen w-full">
           <input
-            className=" col-span-9 px-5 py-1 bg-transparent focus:outline-none"
+            className=" col-span-9 px-2 py-1 bg-transparent focus:outline-none"
             placeholder="아이디"
             ref={idRef}
           />

@@ -14,7 +14,7 @@ function App() {
       <Route path="/splash" element={<Splash />} />
       <Route path="/login" element={<Login />} />
       <Route path="/find/id" element={<FindId />} />
-      <Route path="/registeration" element={<Register />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 }

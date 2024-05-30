@@ -47,13 +47,15 @@ const RegisterPw = ({ dispatch }: Prop) => {
         </h1>
         <div className="grid grid-cols-10 border-b-2 border-hanaGreen w-full">
           <input
-            className=" col-span-9 px-5 py-1 bg-transparent"
-            placeholder="아이디"
+            className=" col-span-9 px-2 py-1 bg-transparent"
+            placeholder="비밀번호"
             ref={pwRef}
           />
           <div className="col-span-1">x</div>
         </div>
-        <div>{userInfo.username}</div>
+        <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
+          {userInfo.username}
+        </div>
       </div>
       <button
         type="button"
