@@ -6,16 +6,6 @@ import React, {
   useReducer,
 } from "react";
 
-interface EmailType {
-  emailId: string;
-  domain: EMAIL_DOMAIN;
-}
-
-enum EMAIL_DOMAIN {
-  NAVER = "naver.com",
-  GMAIL = "gmail.com",
-}
-
 interface UserRegisterInfoType {
   username: string;
   userPw: string;
@@ -35,6 +25,10 @@ interface RegisterContextProp {
 
 interface RegisterProviderProp {
   children: ReactNode;
+}
+enum EMAIL_DOMAIN {
+  GOOGLE = "gmail.com",
+  NAVER = "naver.com",
 }
 
 enum ACTION {

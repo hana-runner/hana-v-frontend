@@ -7,6 +7,7 @@ import RegisterPw from "./RegisterPw";
 import { RegisterProvider } from "./context";
 import RegisterSSN from "./RegisterSSN";
 import RegisterName from "./RegisterName";
+import RegisterEmail from "./RegisterEmail";
 
 interface CheckList {
   username: boolean;
@@ -98,6 +99,9 @@ const Register = () => {
         )}
         {infoList.name && !infoList.userSSN && (
           <RegisterSSN dispatch={dispatch} />
+        )}
+        {infoList.userSSN && !infoList.userEmail && (
+          <RegisterEmail dispatch={dispatch} />
         )}
       </UserWrapper>
     </RegisterProvider>
