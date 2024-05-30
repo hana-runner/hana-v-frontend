@@ -8,7 +8,6 @@ interface NavbarType {
   option: boolean;
 }
 
-
 const Navbar = ({ title, option }: NavbarType) => {
   const navigate = useNavigate();
 
