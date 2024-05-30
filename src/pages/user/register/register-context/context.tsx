@@ -5,14 +5,7 @@ import React, {
   useMemo,
   useReducer,
 } from "react";
-
-interface UserRegisterInfoType {
-  username: string;
-  userPw: string;
-  userSSN: string;
-  name: string;
-  userEmail: EmailType;
-}
+import { EMAIL_DOMAIN } from "../../../../types/enums";
 
 interface RegisterContextProp {
   userInfo: UserRegisterInfoType;
@@ -25,10 +18,6 @@ interface RegisterContextProp {
 
 interface RegisterProviderProp {
   children: ReactNode;
-}
-enum EMAIL_DOMAIN {
-  GOOGLE = "gmail.com",
-  NAVER = "naver.com",
 }
 
 enum ACTION {
