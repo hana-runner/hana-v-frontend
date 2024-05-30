@@ -1,6 +1,7 @@
 import React from "react";
 import { AccountBoard, Navbar } from "../../components";
 import HistoryOption from "../../components/HistoryOption";
+import TransactionHistoryList from "../../components/TransactionHistoryList";
 
 function TransactionHistory() {
   return (
@@ -8,6 +9,7 @@ function TransactionHistory() {
       <Navbar title="거래내역조회" option={false} />
       <AccountBoard />
       <HistoryOption />
+      <TransactionHistoryList />
     </section>
   );
 }
