@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "./context";
 import { Modal } from "../../../components";
+
 import { EMAIL_DOMAIN, InfoType } from "../../../types/enums";
 
 interface Action {

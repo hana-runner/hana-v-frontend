@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+
 import { FindId, Home, Interests, Login, Splash } from "./pages";
 import { Register } from "./pages/user";
 
