@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Verified from "./Verified";
+import React from "react";
 
 const ShowId = () => {
-  const [verified, setVerified] = useState(false);
-
   return (
     <section className="flex flex-col gap-10 w-80 h-80 py-10">
       <h1 className="text-hanaBlack text-lg font-hanaMedium">
