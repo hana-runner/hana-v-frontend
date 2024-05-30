@@ -2,7 +2,6 @@ import React, { useReducer, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import validateId from "../../../components/common/validation/id-validation";
 import validatePw from "../../../components/common/validation/pw-validation";
-import { Navbar } from "../../../components";
 import UserWrapper from "../../../components/UserWrapper";
 
 const InitialLoginInfoStatus: LoginValidateInfo = {

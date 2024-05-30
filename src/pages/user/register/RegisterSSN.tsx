@@ -25,7 +25,6 @@ interface Prop {
 
 const RegisterSSN = ({ dispatch }: Prop) => {
   const { setUserSSN, userInfo } = useUserInfo();
-  const pwRef = useRef<HTMLInputElement | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
   const [message, setMessage] = useState<string>("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);

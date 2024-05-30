@@ -8,6 +8,8 @@ import { RegisterProvider } from "./context";
 import RegisterSSN from "./RegisterSSN";
 import RegisterName from "./RegisterName";
 import RegisterEmail from "./RegisterEmail";
+import VerifyCode from "./VerifyCode";
+import Verified from "./Verified";
 
 interface CheckList {
   username: boolean;
@@ -103,6 +105,10 @@ const Register = () => {
         {infoList.userSSN && !infoList.userEmail && (
           <RegisterEmail dispatch={dispatch} />
         )}
+        {infoList.userEmail && !infoList.codeVerification && (
+          <VerifyCode dispatch={dispatch} />
+        )}
+        {infoList.codeVerification && <Verified />}
       </UserWrapper>
     </RegisterProvider>
   );
