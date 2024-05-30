@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import { Modal } from "../../../components";
-import { useUserInfo } from "./register-context/context";
+import { Modal } from "../../../../components";
+import { useUserInfo } from "../register-context/context";
 
 enum InfoType {
   USER_NAME,

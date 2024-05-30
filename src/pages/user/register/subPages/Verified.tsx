@@ -9,6 +9,7 @@ const Verified = () => {
       navigate("/login");
     }, 2000);
   }, []);
+
   return (
     <section className="flex flex-col justify-center h-full">인증 완료</section>
   );
