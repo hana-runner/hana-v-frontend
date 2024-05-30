@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import VerifyEmail from "./verification/VerifyEmail";
 import VerifyCode from "./verification/VerifyCode";
-import ShowId from "./verification/ShowId";
+import ShowId from "./ShowId";
 
 type VerificationList = {
   email: boolean;
