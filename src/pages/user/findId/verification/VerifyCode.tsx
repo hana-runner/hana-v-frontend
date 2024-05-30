@@ -27,6 +27,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
   ) => {
     const newValue = e.target.value;
     if (!/^[0-9]$/.test(newValue)) {
+      e.target.value = "";
       return;
     }
 
@@ -65,24 +66,32 @@ const VerifyCode = ({ dispatch }: Prop) => {
   }, []);
 
   return (
-    <section className="flex flex-col justify-evenly items-center h-[100vh] gap-9">
-      <div className="flex gap-2">
-        {Array(6)
-          .fill(null)
-          .map((_, index) => (
-            <input
-              key={index}
-              className="focus:outline-1 focus:outline-hanaGreen bg-hanaSilver w-10 h-10 rounded-lg px-2 text-center"
-              type="text"
-              ref={(el) => {
-                inputRefs.current[index] = el;
-              }}
-              onChange={(e) => moveToNext(e, index)}
-              onKeyDown={(e) => handleRemove(e, index)}
-              maxLength={1}
-            />
-          ))}
+    <section className="flex flex-col w-80 h-full justify-between py-10">
+      <div className="flex flex-col justify-start gap-5 h-full">
+        <h1 className="text-start text-xl">
+          인증번호 6자리를
+          <br />
+          입력해주세요
+        </h1>
+        <div className="flex gap-2 justify-between items-center">
+          {Array(6)
+            .fill(null)
+            .map((_, index) => (
+              <input
+                key={index}
+                className="focus:outline-1 focus:outline-hanaGreen bg-hanaSilver w-10 h-10 rounded-lg px-2 text-center"
+                type="text"
+                ref={(el) => {
+                  inputRefs.current[index] = el;
+                }}
+                onChange={(e) => moveToNext(e, index)}
+                onKeyDown={(e) => handleRemove(e, index)}
+                maxLength={1}
+              />
+            ))}
+        </div>
       </div>
+
       <button
         type="button"
         className="btn-primary w-80 py-2"
