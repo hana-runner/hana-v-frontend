@@ -2,14 +2,14 @@ import React, { useEffect, useReducer } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
-import RegisterId from "./RegisterId";
-import RegisterPw from "./RegisterPw";
+import RegisterId from "./subPages/RegisterId";
+import RegisterPw from "./subPages/RegisterPw";
 import { RegisterProvider } from "./register-context/context";
-import RegisterSSN from "./RegisterSSN";
-import RegisterName from "./RegisterName";
-import RegisterEmail from "./RegisterEmail";
-import VerifyCode from "./VerifyCode";
-import Verified from "./Verified";
+import RegisterSSN from "./subPages/RegisterSSN";
+import RegisterName from "./subPages/RegisterName";
+import RegisterEmail from "./subPages/RegisterEmail";
+import VerifyCode from "./subPages/VerifyCode";
+import Verified from "./subPages/Verified";
 
 interface CheckList {
   username: boolean;

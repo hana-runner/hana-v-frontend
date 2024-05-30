@@ -1,17 +1,10 @@
 import React, { useRef, useState } from "react";
-import { Modal } from "../../../components";
+import { Modal } from "../../../../components";
 
-import validatePw from "../../../components/validation/pw-validation";
-import { useUserInfo } from "./register-context/context";
+import { useUserInfo } from "../register-context/context";
+import { InfoType } from "../../../../types/enums";
+import validatePw from "../../../../components/validation/pw-validation";
 
-enum InfoType {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
-}
 interface Action {
   type: InfoType;
 }
@@ -26,10 +19,26 @@ const RegisterPw = ({ dispatch }: Prop) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [message, setMessage] = useState<string>("");
 
+  const openModal = () => {
+    setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setModalOpened(false);
+  };
+
   const onNext = () => {
     const inputPw = pwRef.current?.value;
     if (!inputPw) {
       setMessage("비밀번호를 입력해주세요");
+      openModal();
+      return;
+    }
+
+    if (!validatePw(inputPw)) {
+      setMessage(
+        "비밀번호는 영문자, 기호를 모두 포함하여 8~16자 사이로 작성해 주세요",
+      );
       setModalOpened(true);
       return;
     }
@@ -69,11 +78,7 @@ const RegisterPw = ({ dispatch }: Prop) => {
 
       {modalOpened && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <Modal
-            message={message}
-            option=""
-            modalToggle={() => setModalOpened(false)}
-          />
+          <Modal message={message} option="" modalToggle={closeModal} />
         </div>
       )}
     </section>

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "./register-context/context";
-import { Modal } from "../../../components";
+import { useUserInfo } from "../register-context/context";
+import { Modal } from "../../../../components";
 
-import { EMAIL_DOMAIN, InfoType } from "../../../types/enums";
+import { EMAIL_DOMAIN, InfoType } from "../../../../types/enums";
 
 interface Action {
   type: InfoType;

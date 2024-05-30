@@ -11,3 +11,8 @@ export enum InfoType {
   USER_EMAIL,
   CODE_VERIFICATION,
 }
+
+export enum VERIFICATION {
+  EMAIL = "email",
+  CODE = "code",
+}
