@@ -104,8 +104,8 @@ const Login = () => {
             <br />
             입력해주세요
           </h1>
-          <div>
-            <div className="flex flex-col gap-4 text-start">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 text-start">
               <input
                 className="border-2 border-hanaSilver w-80 h-[48px] px-2 rounded-lg focus:outline-none"
                 placeholder="아이디"
