@@ -12,7 +12,7 @@ import {
   Register,
   ResetPw,
   Splash,
-  TransactionHistory,
+  Transaction,
 } from "./pages";
 import { FindAccountProvider } from "./components/context/find-account-context/find-account-context";
 
@@ -29,7 +29,7 @@ function App() {
       <Route path="/find/password" element={<FindPw />} />
       <Route path="/interests" element={<Interests />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/transactionHistory" element={<TransactionHistory />} />
+      <Route path="/transaction" element={<Transaction />} />
     </Routes>
   );
 }
