@@ -35,7 +35,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
   };
 
   const onNext = () => {
-    if (values.length !== 6) {
+    if (values.length < 6) {
       setMessage("인증 번호는 총 6자리입니다");
       openModal();
       return;
@@ -59,11 +59,9 @@ const VerifyCode = ({ dispatch }: Prop) => {
 
     setValues(updatedValues);
 
-    if (newValue && index < 5) {
+    if (newValue && index < 6) {
       inputRefs.current[index + 1]?.focus();
-      return;
     }
-    onNext();
   };
 
   const handleRemove = (
@@ -84,6 +82,10 @@ const VerifyCode = ({ dispatch }: Prop) => {
   useEffect(() => {
     inputRefs.current[0]?.focus();
     inputRefs.current[0]?.click();
+
+    if (values.length === 6) {
+      onNext();
+    }
   }, []);
 
   return (
