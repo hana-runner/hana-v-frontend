@@ -1,7 +1,7 @@
 import React from "react";
 import { AccountBoard, Navbar } from "../../components";
-import HistoryOption from "../../components/HistoryOption";
-import TransactionHistoryList from "../../components/TransactionHistoryList";
+import HistoryOption from "../../components/transaction/HistoryOption";
+import TransactionHistoryList from "../../components/transaction/TransactionHistoryList";
 
 function TransactionHistory() {
   return (
