@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InfoType } from "../../../../types/enums";
 import { Modal } from "../../../../components";
 
@@ -32,14 +32,14 @@ const VerifyCode = ({ dispatch }: Prop) => {
     inputRefs.current[values.length]?.click();
   };
 
-  const onNext = () => {
+  const onNext = useCallback(() => {
     if (values.length < 6) {
       setMessage("인증 번호는 총 6자리입니다");
       openModal();
       return;
     }
     dispatch({ type: InfoType.CODE_VERIFICATION });
-  };
+  }, [values, dispatch]);
 
   const moveToNext = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -84,7 +84,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
     if (values.length === 6) {
       onNext();
     }
-  }, []);
+  }, [onNext, values]);
 
   return (
     <section className="flex flex-col w-80 h-full justify-between py-10">
