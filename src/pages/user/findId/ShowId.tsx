@@ -6,7 +6,7 @@ const ShowId = () => {
       <h1 className="text-hanaBlack text-lg font-hanaMedium">
         아이디를 찾았어요!
       </h1>
-      <div className="bg-hanaSilver bg-hanaSilver bg-opacity-15 rounded-lg text-center text-balance w-80 h-10">
+      <div className="bg-hanaSilver bg-opacity-15 rounded-lg text-center text-balance w-80 h-10">
         아이디
       </div>
       <div className="flex flex-col gap-5">
