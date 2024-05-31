@@ -80,7 +80,9 @@ const VerifyCode = ({ dispatch }: Prop) => {
   useEffect(() => {
     inputRefs.current[0]?.focus();
     inputRefs.current[0]?.click();
+  }, []);
 
+  useEffect(() => {
     if (values.length === 6) {
       onNext();
     }
