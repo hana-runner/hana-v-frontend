@@ -107,7 +107,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
                 return (
                   <input
                     key={index}
-                    className=" w-5 rounded-lg text-center text-hanaBlack bg-transparent"
+                    className=" w-5 rounded-lg text-center text-hanaBlack bg-transparent focus:outline-none"
                     type="text"
                     ref={(el) => {
                       inputRefs.current[index] = el;
