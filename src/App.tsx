@@ -10,7 +10,7 @@ import {
   Login,
   Register,
   Splash,
-  TransactionHistory,
+  Transaction,
 } from "./pages";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
       <Route path="/find/id" element={<FindId />} />
       <Route path="/interests" element={<Interests />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/transactionHistory" element={<TransactionHistory />} />
+      <Route path="/transaction" element={<Transaction />} />
     </Routes>
   );
 }

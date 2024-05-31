@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Transaction } from "../types/transactionHistory";
-import Tag from "./common/Tag";
+import { Transaction } from "../../types/transaction";
 
 const TransactionHistoryList: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -69,10 +68,7 @@ const TransactionHistoryList: React.FC = () => {
               </div>
             </div>
             <div className="flex justify-between">
-              <div className="text-[10px]">
-                {" "}
-                <Tag id={transaction.category_id} title="쇼핑" />
-              </div>
+              <div className="text-[10px]">{transaction.category_id}</div>
               <div className="text-[12px]">
                 잔액
                 {" "}

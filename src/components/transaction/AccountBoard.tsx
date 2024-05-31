@@ -1,5 +1,5 @@
 import React from "react";
-import { AccountBoardInfo } from "../types/accountBoardInfo";
+import { AccountBoardInfo } from "../../types/accountBoardInfo";
 
 const AccountBoard: React.FC = () => {
   const account: AccountBoardInfo = {

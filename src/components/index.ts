@@ -8,4 +8,4 @@ export { default as AccountCard } from "./account/AccountCard";
 export { default as MyAccount } from "./account/MyAccount";
 export { default as MonthlyConsumption } from "./consumption/MonthlyConsumption";
 export { default as SelectBox } from "./SelectBox";
-export { default as AccountBoard } from "./AccountBoard";
+export { default as AccountBoard } from "./transaction/AccountBoard";
