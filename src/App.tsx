@@ -1,8 +1,9 @@
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-
-import { FindId, Home, Interests, Login, Splash } from "./pages";
+import {
+  FindId, Home, Interests, Login, Splash, TransactionHistory,
+} from "./pages";
 import { Register } from "./pages/user";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Route path="/find/id" element={<FindId />} />
       <Route path="/interests" element={<Interests />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/transactionHistory" element={<TransactionHistory />} />
     </Routes>
   );
 }

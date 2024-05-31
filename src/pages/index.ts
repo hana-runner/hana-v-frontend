@@ -9,3 +9,4 @@ export { default as VerifyEmail } from "./user/findId/verification/VerifyEmail";
 export { default as ShowId } from "./user/findId/ShowId";
 export { default as validateId } from "../components/validation/id-validation";
 export { default as validatePw } from "../components/validation/pw-validation";
+export { default as TransactionHistory } from "./TransactionHistories/TransactionHistory";
