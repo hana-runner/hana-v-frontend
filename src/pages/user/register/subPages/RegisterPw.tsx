@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { useUserInfo } from "../register-context/context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { INFO_TYPE } from "../../../../types/enums";
 import validatePw from "../../../../components/validation/pw-validation";
 

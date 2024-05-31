@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "../register-context/context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import validateId from "../../../../components/validation/id-validation";
 import { INFO_TYPE } from "../../../../types/enums";
 
