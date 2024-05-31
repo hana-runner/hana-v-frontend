@@ -1,10 +1,10 @@
 import React from "react";
 
-interface ModalType {
-  option: string;
+type ModalType = {
+  option: boolean;
   message: string;
   modalToggle: () => void;
-}
+};
 
 const Modal = ({ option, message, modalToggle }: ModalType) => {
   const handleClick = () => {
