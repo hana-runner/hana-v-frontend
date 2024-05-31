@@ -2,21 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
 import { INFO_TYPE } from "../../../../types/enums";
+import { RegisterAction, ActionProp } from "../../../../types/actions";
 
 interface Value {
   value: string;
   index: number;
 }
 
-interface Action {
-  type: INFO_TYPE;
-}
-
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const RegisterSSN = ({ dispatch }: Prop) => {
+const RegisterSSN = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setUserSSN, userInfo } = useUserInfo();
   const [modalOpened, setModalOpened] = useState(false);
   const [message, setMessage] = useState<string>("");
@@ -97,7 +90,9 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   useEffect(() => {
     inputRefs.current[0]?.focus();
     inputRefs.current[0]?.click();
+  }, []);
 
+  useEffect(() => {
     if (userInfo.userSSN) {
       dispatch({ type: INFO_TYPE.USER_SSN });
     }

@@ -3,16 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { INFO_TYPE } from "../../../../types/enums";
 import validatePw from "../../../../components/validation/pw-validation";
+import { ActionProp, RegisterAction } from "../../../../types/actions";
 
-interface Action {
-  type: INFO_TYPE;
-}
-
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const RegisterPw = ({ dispatch }: Prop) => {
+const RegisterPw = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setUserPw, userInfo } = useUserInfo();
   const pwRef = useRef<HTMLInputElement | null>(null);
   const [errorMsg, setErrMsg] = useState<string>("");

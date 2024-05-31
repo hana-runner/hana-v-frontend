@@ -1,6 +1,6 @@
 // export type CommonAction = { type: InfoType } | { type: VERIFICATION };
 
-import { LOGIN_ACTION } from "./enums";
+import { INFO_TYPE, LOGIN_ACTION } from "./enums";
 
 interface CommonAction<T> {
   type: T;
@@ -14,4 +14,12 @@ interface FindIdAction extends Required<CommonAction<"email" | "code">> {
   type: "email" | "code";
 }
 
+interface RegisterAction extends Required<CommonAction<INFO_TYPE>> {
+  type: INFO_TYPE;
+}
+
 type Action = LoginAction | FindIdAction;
+
+interface ActionProp<T extends CommonAction> {
+  dispatch: React.Dispatch<T>;
+}

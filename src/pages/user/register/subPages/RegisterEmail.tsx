@@ -4,16 +4,9 @@ import { Modal } from "../../../../components";
 
 import { EMAIL_DOMAIN, INFO_TYPE } from "../../../../types/enums";
 import { EmailType } from "../../../../types/register";
+import { RegisterAction, ActionProp } from "../../../../types/actions";
 
-interface Action {
-  type: INFO_TYPE;
-}
-
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const RegisterEmail = ({ dispatch }: Prop) => {
+const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const selectedRef = useRef<HTMLSelectElement | null>(null);
