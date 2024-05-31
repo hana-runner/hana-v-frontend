@@ -1,6 +1,7 @@
 import axios from "axios";
-import interestApi from "./interfaces/interestApi";
 import userApi from "./interfaces/userApi";
+import { EmailType, RegisterType } from "../types/register";
+import interestApi from "./interfaces/interestApi";
 
 class ApiClient implements userApi, interestApi {
   // 싱글톤 인스턴스
@@ -135,10 +136,12 @@ class ApiClient implements userApi, interestApi {
   // 사용자별 관심사 목록
   public async getUserInterests() {
     const userId = 1;
-    const response = await this.axiosInstance.request<userInterestType[]>({
-      method: "get",
-      url: `/user-interests/${userId}`,
-    });
+    const response = await this.axiosInstance.request<userInterestResponseType>(
+      {
+        method: "get",
+        url: `/user-interests/${userId}`,
+      },
+    );
 
     return response.data;
   }

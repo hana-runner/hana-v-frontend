@@ -4,12 +4,14 @@ import { Route, Routes } from "react-router-dom";
 import {
   AddAccount,
   ConsumptionDetail,
+  FindId,
   Home,
+  Interests,
+  Login,
+  Register,
   Splash,
   TransactionHistory,
 } from "./pages";
-import { FindId, Login, Register } from "./pages/user";
-import Interests from "./pages/interests/Interests";
 
 function App() {
   return (

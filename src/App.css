@@ -2,9 +2,4 @@
   width: 390px;
   min-height: 100vh;
   background-color: #f9f9fb;
-  overflow-y: auto;
-}
-
-#root::-webkit-scrollbar {
-  display: none;
 }
