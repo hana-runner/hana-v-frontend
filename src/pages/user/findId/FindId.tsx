@@ -40,7 +40,7 @@ const FindId = () => {
 
   return (
     <section className="flex flex-col justify-between items-center h-[100vh]">
-      <Navbar title="아이디 찾기" option />
+      <Navbar title="아이디 찾기" option logo />
       <div className="flex h-full">
         {!checkList.email && !checkList.code && (
           <VerifyEmail dispatch={dispatch} />

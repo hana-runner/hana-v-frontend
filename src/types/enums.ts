@@ -3,7 +3,7 @@ export enum EMAIL_DOMAIN {
   NAVER = "naver.com",
 }
 
-export enum InfoType {
+export enum INFO_TYPE {
   USER_NAME,
   USER_PW,
   NAME,

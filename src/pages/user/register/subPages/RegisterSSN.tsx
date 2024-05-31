@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../register-context/context";
 import { Modal } from "../../../../components";
-import { InfoType } from "../../../../types/enums";
+import { INFO_TYPE } from "../../../../types/enums";
 
 interface Value {
   value: string;
@@ -9,7 +9,7 @@ interface Value {
 }
 
 interface Action {
-  type: InfoType;
+  type: INFO_TYPE;
 }
 
 interface Prop {
@@ -99,7 +99,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
     inputRefs.current[0]?.click();
 
     if (userInfo.userSSN) {
-      dispatch({ type: InfoType.USER_SSN });
+      dispatch({ type: INFO_TYPE.USER_SSN });
     }
   }, [userInfo.userSSN, dispatch]);
 

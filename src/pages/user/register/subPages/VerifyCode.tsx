@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { InfoType } from "../../../../types/enums";
+import { INFO_TYPE } from "../../../../types/enums";
 import { Modal } from "../../../../components";
 
 interface Value {
@@ -8,7 +8,7 @@ interface Value {
 }
 
 interface Action {
-  type: InfoType;
+  type: INFO_TYPE;
 }
 
 interface Prop {
@@ -38,7 +38,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
       openModal();
       return;
     }
-    dispatch({ type: InfoType.CODE_VERIFICATION });
+    dispatch({ type: INFO_TYPE.CODE_VERIFICATION });
   }, [values, dispatch]);
 
   const moveToNext = (

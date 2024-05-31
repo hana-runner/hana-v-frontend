@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { useUserInfo } from "../register-context/context";
-import { InfoType } from "../../../../types/enums";
+import { INFO_TYPE } from "../../../../types/enums";
 import validatePw from "../../../../components/validation/pw-validation";
 
 interface Action {
-  type: InfoType;
+  type: INFO_TYPE;
 }
 
 interface Prop {
@@ -36,7 +36,7 @@ const RegisterPw = ({ dispatch }: Prop) => {
 
   useEffect(() => {
     if (userInfo.userPw) {
-      dispatch({ type: InfoType.USER_PW });
+      dispatch({ type: INFO_TYPE.USER_PW });
     }
   }, [userInfo.userPw, dispatch]);
 
