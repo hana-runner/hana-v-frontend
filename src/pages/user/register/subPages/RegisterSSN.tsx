@@ -23,6 +23,16 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [values, setValues] = useState<Value[]>([]);
 
+  const openModal = () => {
+    if (message) setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setModalOpened(false);
+    inputRefs.current[values.length]?.focus();
+    inputRefs.current[values.length]?.click();
+  };
+
   const moveToNext = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
@@ -60,7 +70,6 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   };
 
   const makeUserSSN = () => {
-    console.log("make user leng", values.length);
     if (values.length === 0) return "";
     const value: string[] = values.map((item) => {
       return item.value;
@@ -78,7 +87,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
     if (!ssn || ssn.length < 7) {
       setMessage("주민번호를 입력해주세요");
-      setModalOpened(true);
+      openModal();
       return;
     }
 
@@ -87,9 +96,9 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   };
 
   useEffect(() => {
-    inputRefs.current[values.length]?.focus();
-    inputRefs.current[values.length]?.click();
-  }, [values.length]);
+    inputRefs.current[0]?.focus();
+    inputRefs.current[0]?.click();
+  }, []);
 
   return (
     <section className="flex flex-col justify-between h-full">
@@ -171,11 +180,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
       {modalOpened && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <Modal
-            message={message}
-            option=""
-            modalToggle={() => setModalOpened(false)}
-          />
+          <Modal message={message} option="" modalToggle={() => closeModal()} />
         </div>
       )}
     </section>

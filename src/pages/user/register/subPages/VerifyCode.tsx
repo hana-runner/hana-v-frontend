@@ -22,8 +22,6 @@ const VerifyCode = ({ dispatch }: Prop) => {
   const [message, setMessage] = useState<string>("");
   const [values, setValues] = useState<Value[]>([]);
 
-  console.log(values);
-
   const openModal = () => {
     setModalOpened(true);
   };
