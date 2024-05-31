@@ -1,17 +1,30 @@
-import React, { useState } from "react";
-import { Modal } from "../components";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { MenuCard, MonthlyConsumption, MyAccount, Navbar } from "../components";
 
 const Home = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <section>
-      {openModal && (
-        <Modal
-          option="confirm"
-          message="삭제 하시겠습니까?"
-          modalToggle={() => setOpenModal(!openModal)}
-        />
-      )}
+      <Navbar option={false} title="HANA" logo={true} />
+      {/* 나의 계좌 */}
+      <MyAccount />
+      <MonthlyConsumption />
+      <MenuCard
+        title="나의 관심사"
+        description="나의 관심사를 설정하여 비슷한 관심사를 가진 사람들과 소비를 비교해 보아요!"
+        color="#BA75CC"
+        // 관심사 페이지로 이동
+        clickHandler={() => navigate("/")}
+      />
+      <MenuCard
+        title="나의 거래 이력"
+        description="나의 거래 이력을 조회하고 소비 내역을 카테고리에 따라 분류해 보아요!"
+        color="#757ECC"
+        // 거래 내역 조회 페이지로 이동
+        clickHandler={() => navigate("/")}
+      />
     </section>
   );
 };

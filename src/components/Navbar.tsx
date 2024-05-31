@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import NavIcon from "./common/NavIcon";
 
-interface NavbarType {
+type NavbarType = {
   title: string;
   option: boolean;
-}
+  logo: boolean;
+};
 
-const Navbar = ({ title, option }: NavbarType) => {
+const Navbar = ({ title, option, logo }: NavbarType) => {
   const navigate = useNavigate();
 
   return (
@@ -21,7 +22,10 @@ const Navbar = ({ title, option }: NavbarType) => {
           <IoIosArrowBack size={20} />
         </div>
       )}
-      <div className="flex-grow text-center">{title}</div>
+      <div className="flex-grow flex justify-center items-center text-center font-hanaMedium">
+        {title}
+        {logo && <img src="/img/logo1.png" className="size-4 ml-1" />}
+      </div>
       <NavIcon />
     </div>
   );

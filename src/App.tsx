@@ -1,7 +1,17 @@
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { FindId, Home, Interests, Login, Splash } from "./pages";
+import {
+  AddAccount,
+  ConsumptionDetail,
+  FindId,
+  Home,
+  Interests,
+  Login,
+  Register,
+  Splash,
+  TransactionHistory,
+} from "./pages";
 
 function App() {
   return (
@@ -9,9 +19,13 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
       <Route path="/splash" element={<Splash />} />
+      <Route path="/consumption" element={<ConsumptionDetail />} />
+      <Route path="/add_account" element={<AddAccount />} />
       <Route path="/login" element={<Login />} />
       <Route path="/find/id" element={<FindId />} />
       <Route path="/interests" element={<Interests />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/transactionHistory" element={<TransactionHistory />} />
     </Routes>
   );
 }

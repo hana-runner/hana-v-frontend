@@ -1,6 +1,7 @@
 import axios from "axios";
-import interestApi from "./interfaces/interestApi";
 import userApi from "./interfaces/userApi";
+import { EmailType, RegisterType } from "../types/register";
+import interestApi from "./interfaces/interestApi";
 
 class ApiClient implements userApi, interestApi {
   // 싱글톤 인스턴스

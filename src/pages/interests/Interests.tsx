@@ -59,7 +59,7 @@ const Interests = () => {
 
   return (
     <section>
-      <Navbar title="관심사" option={true} />
+      <Navbar title="관심사" option={true} logo={false} />
 
       {isLoading ? (
         <div>Loading...</div>
