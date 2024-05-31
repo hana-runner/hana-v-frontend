@@ -68,7 +68,7 @@ const Interests = () => {
           {/* 관심사 bar */}
           <div className="border-b border-hanaSilver">
             <ul className="flex gap-4 overflow-x-auto scrollbar-hide">
-              {userInterests?.map(
+              {userInterests?.data.map(
                 (userInterest: userInterestType, idx: number) => (
                   <div>
                     <li key={idx} ref={(el) => (titleRefs.current[idx] = el)}>
@@ -99,7 +99,7 @@ const Interests = () => {
             ref={imageContainerRef}
             onScroll={handleImageScroll}
           >
-            {userInterests?.map(
+            {userInterests?.data.map(
               (userInterest: userInterestType, idx: number) => (
                 <li className="relative flex flex-col min-w-full snap-center">
                   <BiPencil

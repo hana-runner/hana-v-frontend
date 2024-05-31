@@ -1,5 +1,5 @@
 interface interestApi {
-  getUserInterests(): Promise<userInterestType[]>;
+  getUserInterests(): Promise<userInterestResponseType>;
 }
 
 export default interestApi;
