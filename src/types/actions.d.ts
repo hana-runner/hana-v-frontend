@@ -14,6 +14,10 @@ interface FindIdAction extends Required<CommonAction<VERIFICATION>> {
   type: VERIFICATION;
 }
 
+interface FindPwAction extends Required<CommonAction<VERIFICATION>> {
+  type: VERIFICATION;
+}
+
 interface RegisterAction extends Required<CommonAction<VERIFICATION>> {
   type: VERIFICATION;
 }

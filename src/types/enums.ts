@@ -3,13 +3,13 @@ export enum EMAIL_DOMAIN {
   NAVER = "naver.com",
 }
 
-export enum INFO_TYPE {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
+export enum LOGIN_INFO_TYPE {
+  USER_NAME = "username",
+  USER_PW = "pw",
+  NAME = "name",
+  USER_SSN = "ssn",
+  USER_EMAIL = "email",
+  CODE_VERIFICATION = "code",
 }
 
 export enum VERIFICATION {

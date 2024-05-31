@@ -30,3 +30,9 @@ interface RegisterVerification
 
 interface FindIdVerification
   extends Pick<VerificationList, VERIFICATION.EMAIL | VERIFICATION.CODE> {}
+
+interface FindPwVerification
+  extends Pick<
+    VerificationList,
+    VERIFICATION.EMAIL | VERIFICATION.USER_ID | VERIFICATION.CODE
+  > {}

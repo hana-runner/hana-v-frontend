@@ -1,8 +1,3 @@
-interface LoginValidateInfo {
-  userId: boolean;
-  userPw: boolean;
-}
-
 interface LoginType extends Pick<UserInfoType, "username" | "pw"> {}
 
 interface FindIdType extends pick<UserInfoType, "email" | "name"> {}
