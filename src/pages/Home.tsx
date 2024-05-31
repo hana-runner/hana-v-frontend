@@ -1,16 +1,10 @@
-import React, { useState } from "react";
-import {
-  MenuCard,
-  Modal,
-  MonthlyConsumption,
-  MyAccount,
-  Navbar,
-} from "../components";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { MenuCard, MonthlyConsumption, MyAccount, Navbar } from "../components";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
+
   return (
     <section>
       <Navbar option={false} title="HANA" logo={true} />

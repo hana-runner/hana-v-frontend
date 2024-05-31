@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "../register-context/context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
 
-import { EMAIL_DOMAIN, InfoType } from "../../../../types/enums";
+import { EMAIL_DOMAIN, INFO_TYPE } from "../../../../types/enums";
+import { EmailType } from "../../../../types/register";
 
 interface Action {
-  type: InfoType;
+  type: INFO_TYPE;
 }
 
 interface Prop {
@@ -32,13 +33,16 @@ const RegisterEmail = ({ dispatch }: Prop) => {
       domain: selectedRef.current?.value as EMAIL_DOMAIN,
     };
     setEmail(email);
-    dispatch({ type: InfoType.USER_EMAIL });
   };
 
   useEffect(() => {
     emailRef.current?.focus();
     emailRef.current?.click();
-  }, []);
+
+    if (userInfo.userEmail) {
+      dispatch({ type: INFO_TYPE.USER_EMAIL });
+    }
+  }, [userInfo.userEmail, dispatch]);
 
   return (
     <section className="flex flex-col justify-between h-full">
@@ -121,7 +125,7 @@ const RegisterEmail = ({ dispatch }: Prop) => {
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
           <Modal
             message={message}
-            option=""
+            option={false}
             modalToggle={() => setModalOpened(false)}
           />
         </div>
