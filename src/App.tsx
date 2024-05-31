@@ -1,7 +1,13 @@
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { AddAccount, ConsumptionDetail, Home, Splash } from "./pages";
+import {
+  AddAccount,
+  ConsumptionDetail,
+  Home,
+  Splash,
+  TransactionHistory,
+} from "./pages";
 import { FindId, Login, Register } from "./pages/user";
 import Interests from "./pages/interests/Interests";
 
@@ -17,6 +23,7 @@ function App() {
       <Route path="/find/id" element={<FindId />} />
       <Route path="/interests" element={<Interests />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/transactionHistory" element={<TransactionHistory />} />
     </Routes>
   );
 }
