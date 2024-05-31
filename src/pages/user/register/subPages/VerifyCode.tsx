@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { InfoType } from "../../../../types/enums";
+import { Modal } from "../../../../components";
 
 interface Value {
   value: string;
   index: number;
 }
 
-enum VERIFICATION {
-  EMAIL = "email",
-  CODE = "code",
-}
-
 interface Action {
-  type: unknown;
+  type: InfoType;
 }
 
 interface Prop {
@@ -21,9 +18,30 @@ interface Prop {
 const VerifyCode = ({ dispatch }: Prop) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [message, setMessage] = useState<string>("");
   const [values, setValues] = useState<Value[]>([]);
 
   console.log(values);
+
+  const openModal = () => {
+    setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setModalOpened(false);
+    inputRefs.current[values.length]?.focus();
+    inputRefs.current[values.length]?.click();
+  };
+
+  const onNext = () => {
+    if (values.length !== 6) {
+      setMessage("인증 번호는 총 6자리입니다");
+      openModal();
+      return;
+    }
+    dispatch({ type: InfoType.CODE_VERIFICATION });
+  };
 
   const moveToNext = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -45,8 +63,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
       inputRefs.current[index + 1]?.focus();
       return;
     }
-
-    dispatch({ type: VERIFICATION.CODE });
+    onNext();
   };
 
   const handleRemove = (
@@ -100,10 +117,15 @@ const VerifyCode = ({ dispatch }: Prop) => {
         type="button"
         className="btn-primary w-80 py-2"
         ref={buttonRef}
-        onClick={() => dispatch({ type: VERIFICATION.CODE })}
+        onClick={() => onNext()}
       >
         다음
       </button>
+      {modalOpened && (
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+          <Modal message={message} option="" modalToggle={closeModal} />
+        </div>
+      )}
     </section>
   );
 };

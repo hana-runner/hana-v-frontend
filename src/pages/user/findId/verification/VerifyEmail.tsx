@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { EMAIL_DOMAIN } from "../../../../types/enums";
 
 type Action = {
   type: "email" | "code";
@@ -39,10 +40,10 @@ const VerifyEmail = ({ dispatch }: Prop) => {
               className="border-b-2 border-hanaGreen bg-transparent focus:outline-none w-full"
               ref={selectedRef}
             >
-              <option value="naver.com" defaultChecked>
+              <option value={EMAIL_DOMAIN.NAVER} defaultChecked>
                 naver.com
               </option>
-              <option value="gmail.com">gmail.com</option>
+              <option value={EMAIL_DOMAIN.GOOGLE}>gmail.com</option>
             </select>
           </span>
         </div>
