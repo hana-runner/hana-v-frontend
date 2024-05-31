@@ -1,20 +1,14 @@
 import React, { useRef } from "react";
-import { EMAIL_DOMAIN } from "../../../../types/enums";
+import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/enums";
 
-type Action = {
-  type: "email" | "code";
-};
+import { FindIdAction, ActionProp } from "../../../../types/actions";
 
-type Prop = {
-  dispatch: React.Dispatch<Action>;
-};
-
-const VerifyEmail = ({ dispatch }: Prop) => {
+const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
   const selectedRef = useRef<HTMLSelectElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
 
   const onEmailSubmit = () => {
-    dispatch({ type: "email" });
+    dispatch({ type: VERIFICATION.EMAIL });
   };
 
   return (

@@ -3,7 +3,7 @@ import VerifyEmail from "./verification/VerifyEmail";
 import VerifyCode from "./verification/VerifyCode";
 import ShowId from "./ShowId";
 import UserWrapper from "../../../components/UserWrapper";
-import { Action } from "../../../types/actions";
+import { FindIdAction } from "../../../types/actions";
 
 type VerificationList = {
   email: boolean;
@@ -15,7 +15,7 @@ const InitialVerificationStatus: VerificationList = {
   code: false,
 };
 
-const reducer = (list: VerificationList, { type }: Action) => {
+const reducer = (list: VerificationList, { type }: FindIdAction) => {
   let newer: VerificationList;
   switch (type) {
     case "email":

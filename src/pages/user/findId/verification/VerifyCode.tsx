@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Action } from "../../../../types/actions";
+import { ActionProp, FindIdAction } from "../../../../types/actions";
 import { VERIFICATION } from "../../../../types/enums";
 import { Modal } from "../../../../components";
 
@@ -8,11 +8,7 @@ interface Value {
   index: number;
 }
 
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const VerifyCode = ({ dispatch }: Prop) => {
+const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
