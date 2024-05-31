@@ -4,23 +4,13 @@ import { useNavigate } from "react-router-dom";
 import validateId from "../../../components/validation/id-validation";
 import validatePw from "../../../components/validation/pw-validation";
 import UserWrapper from "../../../components/UserWrapper";
+import { LOGIN_ACTION } from "../../../types/enums";
+import { LoginAction } from "../../../types/actions";
 
 const InitialLoginInfoStatus: LoginValidateInfo = {
   userId: false,
   userPw: false,
 };
-
-enum LOGIN_ACTION {
-  ID_VALIDATE = "id_validate",
-  PW_VALIDATE = "pw_validate",
-  ID_RESET = "id_reset",
-  PW_RESET = "pw_reset",
-  RESET = "reset",
-}
-
-interface LoginAction {
-  type: LOGIN_ACTION;
-}
 
 const reducer = (state: LoginValidateInfo, { type }: LoginAction) => {
   let newer: LoginValidateInfo;
@@ -104,8 +94,8 @@ const Login = () => {
             <br />
             입력해주세요
           </h1>
-          <div>
-            <div className="flex flex-col gap-4 text-start">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 text-start">
               <input
                 className="border-2 border-hanaSilver w-80 h-[48px] px-2 rounded-lg focus:outline-none"
                 placeholder="아이디"

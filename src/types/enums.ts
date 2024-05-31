@@ -3,7 +3,7 @@ export enum EMAIL_DOMAIN {
   NAVER = "naver.com",
 }
 
-export enum InfoType {
+export enum INFO_TYPE {
   USER_NAME,
   USER_PW,
   NAME,
@@ -15,4 +15,12 @@ export enum InfoType {
 export enum VERIFICATION {
   EMAIL = "email",
   CODE = "code",
+}
+
+export enum LOGIN_ACTION {
+  ID_VALIDATE = "id_validate",
+  PW_VALIDATE = "pw_validate",
+  ID_RESET = "id_reset",
+  PW_RESET = "pw_reset",
+  RESET = "reset",
 }
