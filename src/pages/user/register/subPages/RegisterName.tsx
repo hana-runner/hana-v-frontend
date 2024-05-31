@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../register-context/context";
-import { Modal } from "../../../../components";
 
 enum InfoType {
   USER_NAME,
