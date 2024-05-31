@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
@@ -11,56 +11,45 @@ import RegisterEmail from "./subPages/RegisterEmail";
 import VerifyCode from "./subPages/VerifyCode";
 import Verified from "./subPages/Verified";
 
-import { INFO_TYPE } from "../../../types/enums";
+import { VERIFICATION } from "../../../types/enums";
+import { RegisterVerification } from "../../../types/verification";
+import { RegisterAction } from "../../../types/actions";
 
-interface CheckList {
-  username: boolean;
-  userPw: boolean;
-  name: boolean;
-  userSSN: boolean;
-  userEmail: boolean;
-  codeVerification: boolean;
-}
-
-interface Action {
-  type: INFO_TYPE;
-}
-
-const defaultCheckList: CheckList = {
-  username: false,
-  userPw: false,
-  name: false,
-  userSSN: false,
-  userEmail: false,
-  codeVerification: false,
+const defaultCheckList: RegisterVerification = {
+  [VERIFICATION.CODE]: false,
+  [VERIFICATION.EMAIL]: false,
+  [VERIFICATION.NAME]: false,
+  [VERIFICATION.USER_ID]: false,
+  [VERIFICATION.USER_PW]: false,
+  [VERIFICATION.USER_SSN]: false,
 };
 
-const reducer = (list: CheckList, { type }: Action) => {
-  let newer: CheckList;
+const reducer = (list: RegisterVerification, { type }: RegisterAction) => {
+  let newer: RegisterVerification;
 
   switch (type) {
-    case INFO_TYPE.USER_NAME:
-      newer = { ...list, username: true };
+    case VERIFICATION.USER_ID:
+      newer = { ...list, [VERIFICATION.USER_ID]: true };
       break;
 
-    case INFO_TYPE.USER_PW:
-      newer = { ...list, userPw: true };
+    case VERIFICATION.USER_PW:
+      newer = { ...list, [VERIFICATION.USER_PW]: true };
       break;
 
-    case INFO_TYPE.USER_EMAIL:
-      newer = { ...list, userEmail: true };
+    case VERIFICATION.EMAIL:
+      newer = { ...list, [VERIFICATION.EMAIL]: true };
       break;
 
-    case INFO_TYPE.NAME:
-      newer = { ...list, name: true };
+    case VERIFICATION.NAME:
+      newer = { ...list, [VERIFICATION.NAME]: true };
       break;
 
-    case INFO_TYPE.USER_SSN:
-      newer = { ...list, userSSN: true };
+    case VERIFICATION.USER_SSN:
+      newer = { ...list, [VERIFICATION.USER_SSN]: true };
       break;
 
-    case INFO_TYPE.CODE_VERIFICATION:
-      newer = { ...list, codeVerification: true };
+    case VERIFICATION.CODE:
+      newer = { ...list, [VERIFICATION.CODE]: true };
       break;
 
     default:
@@ -73,6 +62,9 @@ const reducer = (list: CheckList, { type }: Action) => {
 const Register = () => {
   const navigate = useNavigate();
   const [infoList, dispatch] = useReducer(reducer, defaultCheckList);
+  useEffect(() => {
+    console.log(infoList);
+  }, [infoList]);
 
   return (
     <RegisterProvider>
@@ -80,23 +72,23 @@ const Register = () => {
         <div className="flex justify-start h-14" onClick={() => navigate(-1)}>
           <IoIosArrowBack size={20} />
         </div>
-        {!infoList.username && <RegisterId dispatch={dispatch} />}
-        {infoList.username && !infoList.userPw && (
+        {!infoList[VERIFICATION.USER_ID] && <RegisterId dispatch={dispatch} />}
+        {infoList[VERIFICATION.USER_ID] && !infoList[VERIFICATION.USER_PW] && (
           <RegisterPw dispatch={dispatch} />
         )}
-        {infoList.userPw && !infoList.name && (
+        {infoList[VERIFICATION.USER_PW] && !infoList[VERIFICATION.NAME] && (
           <RegisterName dispatch={dispatch} />
         )}
-        {infoList.name && !infoList.userSSN && (
+        {infoList[VERIFICATION.NAME] && !infoList[VERIFICATION.USER_SSN] && (
           <RegisterSSN dispatch={dispatch} />
         )}
-        {infoList.userSSN && !infoList.userEmail && (
+        {infoList[VERIFICATION.USER_SSN] && !infoList[VERIFICATION.EMAIL] && (
           <RegisterEmail dispatch={dispatch} />
         )}
-        {infoList.userEmail && !infoList.codeVerification && (
+        {infoList[VERIFICATION.EMAIL] && !infoList[VERIFICATION.CODE] && (
           <VerifyCode dispatch={dispatch} />
         )}
-        {infoList.codeVerification && <Verified />}
+        {infoList[VERIFICATION.CODE] && <Verified path="/login" />}
       </UserWrapper>
     </RegisterProvider>
   );

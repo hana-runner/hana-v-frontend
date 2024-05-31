@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "../../../../components/context/register-context/register-context";
-import validateId from "../../../../components/validation/id-validation";
-
+import { ActionProp, FindPwAction } from "../../../../types/actions";
 import { VERIFICATION } from "../../../../types/enums";
-import { ActionProp, RegisterAction } from "../../../../types/actions";
+import validateId from "../../login/validation/id-validation";
+import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
 
-const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
+const VerifyId = ({ dispatch }: ActionProp<FindPwAction>) => {
+  const { userInfo, setUsername } = useFindAccount();
   const idRef = useRef<HTMLInputElement | null>(null);
-  const { setUsername, userInfo } = useUserInfo();
   const [errorMsg, setErrorMsg] = useState("");
 
   const onNext = () => {
@@ -62,4 +61,4 @@ const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
   );
 };
 
-export default RegisterId;
+export default VerifyId;

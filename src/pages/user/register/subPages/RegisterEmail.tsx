@@ -2,18 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
 
-import { EMAIL_DOMAIN, INFO_TYPE } from "../../../../types/enums";
+import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/enums";
 import { EmailType } from "../../../../types/register";
+import { RegisterAction, ActionProp } from "../../../../types/actions";
 
-interface Action {
-  type: INFO_TYPE;
-}
-
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const RegisterEmail = ({ dispatch }: Prop) => {
+const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const selectedRef = useRef<HTMLSelectElement | null>(null);
@@ -40,7 +33,7 @@ const RegisterEmail = ({ dispatch }: Prop) => {
     emailRef.current?.click();
 
     if (userInfo.userEmail) {
-      dispatch({ type: INFO_TYPE.USER_EMAIL });
+      dispatch({ type: VERIFICATION.EMAIL });
     }
   }, [userInfo.userEmail, dispatch]);
 

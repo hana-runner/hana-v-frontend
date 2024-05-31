@@ -1,16 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
-import { INFO_TYPE } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/enums";
 
-interface Action {
-  type: INFO_TYPE;
-}
+import { RegisterAction, ActionProp } from "../../../../types/actions";
 
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const RegisterName = ({ dispatch }: Prop) => {
+const RegisterName = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setName, userInfo } = useUserInfo();
   const nameRef = useRef<HTMLInputElement | null>(null);
   const [message, setMessage] = useState<string>("");
@@ -29,7 +23,7 @@ const RegisterName = ({ dispatch }: Prop) => {
     nameRef.current?.focus();
     nameRef.current?.click();
     if (userInfo.name) {
-      dispatch({ type: INFO_TYPE.NAME });
+      dispatch({ type: VERIFICATION.NAME });
     }
   }, [userInfo.name, dispatch]);
 

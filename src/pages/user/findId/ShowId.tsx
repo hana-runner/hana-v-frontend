@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ShowId = () => {
+  const navigate = useNavigate();
   return (
-    <section className="flex flex-col gap-10 w-80 h-80 py-10">
+    <section className="flex flex-col gap-10 py-10">
       <h1 className="text-hanaBlack text-lg font-hanaMedium">
         아이디를 찾았어요!
       </h1>
@@ -13,10 +15,15 @@ const ShowId = () => {
         <button
           type="button"
           className="underline text-hanaSilver font-hanaRegular text-sm underline-offset-2"
+          onClick={() => navigate("")}
         >
           비밀번호 재등록
         </button>
-        <button type="button" className="btn-primary">
+        <button
+          type="button"
+          className="btn-primary"
+          onClick={() => navigate("/login")}
+        >
           로그인
         </button>
       </div>

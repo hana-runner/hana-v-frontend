@@ -1,8 +1,10 @@
+import { EmailType } from "./register";
+
 interface UserInfoType {
   username: string;
   pw: string;
   name: string;
-  email: string;
+  email: EmailType;
   birthday: Date;
   gender: number;
   created_at: Date;
@@ -13,4 +15,7 @@ interface UserInfoType {
 }
 
 interface UserUpdateInfoType
+  extends Pick<UserInfoType, "username" | "pw" | "email"> {}
+
+interface UserFindAccountType
   extends Pick<UserInfoType, "username" | "pw" | "email"> {}
