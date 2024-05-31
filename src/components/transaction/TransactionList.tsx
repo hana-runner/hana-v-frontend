@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Transaction } from "../types/transactionHistory";
+import { Transaction } from "../../types/transaction";
 
 const TransactionHistoryList: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
