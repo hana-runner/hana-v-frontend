@@ -1,17 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Action } from "../../../../types/actions";
+import { VERIFICATION } from "../../../../types/enums";
+import { Modal } from "../../../../components";
 
 interface Value {
   value: string;
   index: number;
-}
-
-enum VERIFICATION {
-  EMAIL = "email",
-  CODE = "code",
-}
-
-interface Action {
-  type: unknown;
 }
 
 interface Prop {
@@ -21,9 +15,26 @@ interface Prop {
 const VerifyCode = ({ dispatch }: Prop) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [message, setMessage] = useState<string>("");
   const [values, setValues] = useState<Value[]>([]);
 
-  console.log(values);
+  const openModal = (msg: string) => {
+    setMessage(msg);
+    setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setModalOpened(false);
+    inputRefs.current[values.length]?.focus();
+    inputRefs.current[values.length]?.click();
+  };
+
+  const onNext = () => {
+    if (values.length < 6) {
+      openModal("인증코드는 6자리입니다");
+    }
+  };
 
   const moveToNext = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -43,10 +54,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
 
     if (newValue && index < 5) {
       inputRefs.current[index + 1]?.focus();
-      return;
     }
-
-    dispatch({ type: VERIFICATION.CODE });
   };
 
   const handleRemove = (
@@ -68,6 +76,12 @@ const VerifyCode = ({ dispatch }: Prop) => {
     inputRefs.current[0]?.focus();
     inputRefs.current[0]?.click();
   }, []);
+
+  useEffect(() => {
+    if (values.length === 6) {
+      dispatch({ type: VERIFICATION.CODE });
+    }
+  }, [values, dispatch]);
 
   return (
     <section className="flex flex-col w-80 h-full justify-between py-10">
@@ -100,10 +114,15 @@ const VerifyCode = ({ dispatch }: Prop) => {
         type="button"
         className="btn-primary w-80 py-2"
         ref={buttonRef}
-        onClick={() => dispatch({ type: VERIFICATION.CODE })}
+        onClick={() => onNext()}
       >
         다음
       </button>
+      {modalOpened && (
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+          <Modal message={message} option={false} modalToggle={closeModal} />
+        </div>
+      )}
     </section>
   );
 };

@@ -1,16 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "../register-context/context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
+import { INFO_TYPE } from "../../../../types/enums";
 
-enum InfoType {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
-}
 interface Action {
-  type: InfoType;
+  type: INFO_TYPE;
 }
 
 interface Prop {
@@ -36,7 +29,7 @@ const RegisterName = ({ dispatch }: Prop) => {
     nameRef.current?.focus();
     nameRef.current?.click();
     if (userInfo.name) {
-      dispatch({ type: InfoType.NAME });
+      dispatch({ type: INFO_TYPE.NAME });
     }
   }, [userInfo.name, dispatch]);
 

@@ -1,14 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { InfoType } from "../../../../types/enums";
+import { INFO_TYPE } from "../../../../types/enums";
 import { Modal } from "../../../../components";
+import { Action } from "../../../../types/actions";
 
 interface Value {
   value: string;
   index: number;
-}
-
-interface Action {
-  type: InfoType;
 }
 
 interface Prop {
@@ -38,7 +35,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
       openModal();
       return;
     }
-    dispatch({ type: InfoType.CODE_VERIFICATION });
+    dispatch({ type: INFO_TYPE.CODE_VERIFICATION });
   }, [values, dispatch]);
 
   const moveToNext = (
@@ -123,7 +120,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
       </button>
       {modalOpened && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <Modal message={message} option="" modalToggle={closeModal} />
+          <Modal message={message} option={false} modalToggle={closeModal} />
         </div>
       )}
     </section>

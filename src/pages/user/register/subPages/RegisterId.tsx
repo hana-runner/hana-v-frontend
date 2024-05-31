@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "../register-context/context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import validateId from "../../../../components/validation/id-validation";
-import { InfoType } from "../../../../types/enums";
-import { userInfo } from "os";
+import { INFO_TYPE } from "../../../../types/enums";
 
 interface Action {
-  type: InfoType;
+  type: INFO_TYPE;
 }
 
 interface Prop {
@@ -34,7 +33,7 @@ const RegisterId = ({ dispatch }: Prop) => {
 
   useEffect(() => {
     if (userInfo.username) {
-      dispatch({ type: InfoType.USER_NAME });
+      dispatch({ type: INFO_TYPE.USER_NAME });
     }
   }, [userInfo.username, dispatch]);
 
