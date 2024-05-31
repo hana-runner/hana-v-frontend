@@ -8,7 +8,7 @@ const Verified = () => {
     setTimeout(() => {
       navigate("/login");
     }, 2000);
-  }, []);
+  }, [navigate]);
 
   return (
     <section className="flex flex-col justify-center h-full">인증 완료</section>

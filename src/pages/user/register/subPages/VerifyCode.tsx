@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { INFO_TYPE } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/enums";
 import { Modal } from "../../../../components";
 import { RegisterAction, ActionProp } from "../../../../types/actions";
 
@@ -31,7 +31,7 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
       openModal();
       return;
     }
-    dispatch({ type: INFO_TYPE.CODE_VERIFICATION });
+    dispatch({ type: VERIFICATION.CODE });
   }, [values, dispatch]);
 
   const moveToNext = (

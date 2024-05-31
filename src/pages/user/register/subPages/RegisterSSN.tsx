@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
-import { INFO_TYPE } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/enums";
 import { RegisterAction, ActionProp } from "../../../../types/actions";
 
 interface Value {
@@ -94,7 +94,7 @@ const RegisterSSN = ({ dispatch }: ActionProp<RegisterAction>) => {
 
   useEffect(() => {
     if (userInfo.userSSN) {
-      dispatch({ type: INFO_TYPE.USER_SSN });
+      dispatch({ type: VERIFICATION.USER_SSN });
     }
   }, [userInfo.userSSN, dispatch]);
 

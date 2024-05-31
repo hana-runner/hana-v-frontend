@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
-import { INFO_TYPE } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/enums";
 import validatePw from "../../../../components/validation/pw-validation";
 import { ActionProp, RegisterAction } from "../../../../types/actions";
 
@@ -29,7 +29,7 @@ const RegisterPw = ({ dispatch }: ActionProp<RegisterAction>) => {
 
   useEffect(() => {
     if (userInfo.userPw) {
-      dispatch({ type: INFO_TYPE.USER_PW });
+      dispatch({ type: VERIFICATION.USER_PW });
     }
   }, [userInfo.userPw, dispatch]);
 

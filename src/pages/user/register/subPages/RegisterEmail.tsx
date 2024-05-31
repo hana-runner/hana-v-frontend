@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
 
-import { EMAIL_DOMAIN, INFO_TYPE } from "../../../../types/enums";
+import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/enums";
 import { EmailType } from "../../../../types/register";
 import { RegisterAction, ActionProp } from "../../../../types/actions";
 
@@ -33,7 +33,7 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
     emailRef.current?.click();
 
     if (userInfo.userEmail) {
-      dispatch({ type: INFO_TYPE.USER_EMAIL });
+      dispatch({ type: VERIFICATION.EMAIL });
     }
   }, [userInfo.userEmail, dispatch]);
 

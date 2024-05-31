@@ -1,6 +1,6 @@
 // export type CommonAction = { type: InfoType } | { type: VERIFICATION };
 
-import { INFO_TYPE, LOGIN_ACTION, VERIFICATION } from "./enums";
+import { LOGIN_ACTION, VERIFICATION } from "./enums";
 
 interface CommonAction<T> {
   type: T;
@@ -14,8 +14,8 @@ interface FindIdAction extends Required<CommonAction<VERIFICATION>> {
   type: VERIFICATION;
 }
 
-interface RegisterAction extends Required<CommonAction<INFO_TYPE>> {
-  type: INFO_TYPE;
+interface RegisterAction extends Required<CommonAction<VERIFICATION>> {
+  type: VERIFICATION;
 }
 
 // type Action = LoginAction | FindIdAction;

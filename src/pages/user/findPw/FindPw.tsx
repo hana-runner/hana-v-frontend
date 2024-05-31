@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
+import UserWrapper from "../../../components/UserWrapper";
 
-const FindId = () => {
+const FindPw = () => {
   const selectedRef = useRef<HTMLSelectElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
 
   return (
-    <section className="flex flex-col justify-evenly items-center h-[100vh] gap-9">
+    <UserWrapper hasNav title="비밀번호 재설정" option logo>
       <div className="flex flex-col gap-10 w-80 h-full">
         <div className="text-xl text-start">
           이메일 주소를
@@ -27,21 +28,18 @@ const FindId = () => {
               className="border-b-2 border-hanaGreen bg-transparent focus:outline-none w-full"
               ref={selectedRef}
             >
-              <option value="naver.com" selected>
+              <option value="naver.com" defaultChecked>
                 naver.com
               </option>
               <option value="gmail.com">gmail.com</option>
             </select>
           </span>
         </div>
-        <button
-          type="button"
-          className="bg-white border border-hanaSilver rounded-lg text-hanaSilver w-80 py-2 under"
-        >
+        <button type="button" className="btn-primary">
           다음
         </button>
       </div>
-    </section>
+    </UserWrapper>
   );
 };
-export default FindId;
+export default FindPw;

@@ -12,6 +12,7 @@ import {
   Splash,
   TransactionHistory,
 } from "./pages";
+import { FindPw } from "./pages/user";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/add_account" element={<AddAccount />} />
       <Route path="/login" element={<Login />} />
       <Route path="/find/id" element={<FindId />} />
+      <Route path="/find/password" element={<FindPw />} />
       <Route path="/interests" element={<Interests />} />
       <Route path="/register" element={<Register />} />
       <Route path="/transactionHistory" element={<TransactionHistory />} />

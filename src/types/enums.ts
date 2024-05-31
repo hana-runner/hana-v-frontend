@@ -15,6 +15,18 @@ export enum INFO_TYPE {
 export enum VERIFICATION {
   EMAIL = "email",
   CODE = "code",
+  USER_ID = "username",
+  NAME = "name",
+  USER_PW = "pw",
+  USER_SSN = "ssn",
+}
+
+export enum VALIDATION {
+  EMAIL = "email",
+  CODE = "code",
+  USER_ID = "username",
+  NAME = "name",
+  USER_PW = "pw",
 }
 
 export enum LOGIN_ACTION {

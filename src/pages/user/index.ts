@@ -1,4 +1,5 @@
 export { default as FindId } from "./findId/FindId";
+export { default as FindPw } from "./findPw/FindPw";
 export { default as Login } from "./login/Login";
 export { default as VerifyCode } from "./findId/verification/VerifyCode";
 export { default as VerifyEmail } from "./findId/verification/VerifyEmail";

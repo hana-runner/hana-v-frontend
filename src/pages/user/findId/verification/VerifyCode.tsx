@@ -80,7 +80,7 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
   }, [values, dispatch]);
 
   return (
-    <section className="flex flex-col w-80 h-full justify-between py-10">
+    <section className="flex flex-col h-full justify-between py-10">
       <div className="flex flex-col justify-start gap-5 h-full">
         <h1 className="text-start text-xl">
           인증번호 6자리를

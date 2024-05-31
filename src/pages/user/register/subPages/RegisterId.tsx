@@ -2,17 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import validateId from "../../../../components/validation/id-validation";
 
-import { INFO_TYPE } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/enums";
+import { ActionProp, RegisterAction } from "../../../../types/actions";
 
-interface Action {
-  type: INFO_TYPE;
-}
-
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const RegisterId = ({ dispatch }: Prop) => {
+const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
   const idRef = useRef<HTMLInputElement | null>(null);
   const { setUsername, userInfo } = useUserInfo();
   const [errorMsg, setErrorMsg] = useState("");
@@ -34,7 +27,7 @@ const RegisterId = ({ dispatch }: Prop) => {
 
   useEffect(() => {
     if (userInfo.username) {
-      dispatch({ type: INFO_TYPE.USER_NAME });
+      dispatch({ type: VERIFICATION.USER_ID });
     }
   }, [userInfo.username, dispatch]);
 

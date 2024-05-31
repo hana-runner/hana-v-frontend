@@ -4,26 +4,23 @@ import VerifyCode from "./verification/VerifyCode";
 import ShowId from "./ShowId";
 import UserWrapper from "../../../components/UserWrapper";
 import { FindIdAction } from "../../../types/actions";
+import { FindIdVerification } from "../../../types/verification";
+import { VERIFICATION } from "../../../types/enums";
 
-type VerificationList = {
-  email: boolean;
-  code: boolean;
+const InitialVerificationList: FindIdVerification = {
+  [VERIFICATION.EMAIL]: false,
+  [VERIFICATION.CODE]: false,
 };
 
-const InitialVerificationStatus: VerificationList = {
-  email: false,
-  code: false,
-};
-
-const reducer = (list: VerificationList, { type }: FindIdAction) => {
-  let newer: VerificationList;
+const reducer = (list: FindIdVerification, { type }: FindIdAction) => {
+  let newer: FindIdVerification;
   switch (type) {
-    case "email":
-      newer = { ...list, email: true };
+    case VERIFICATION.EMAIL:
+      newer = { ...list, [VERIFICATION.EMAIL]: true };
       break;
 
-    case "code":
-      newer = { ...list, code: true };
+    case VERIFICATION.CODE:
+      newer = { ...list, [VERIFICATION.CODE]: true };
       break;
 
     default:
@@ -33,7 +30,7 @@ const reducer = (list: VerificationList, { type }: FindIdAction) => {
   return newer;
 };
 const FindId = () => {
-  const [checkList, dispatch] = useReducer(reducer, InitialVerificationStatus);
+  const [checkList, dispatch] = useReducer(reducer, InitialVerificationList);
 
   return (
     <UserWrapper hasNav title="아이디 찾기" option logo>
