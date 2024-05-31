@@ -6,6 +6,7 @@ import React, {
   useReducer,
 } from "react";
 import { EMAIL_DOMAIN } from "../../../../types/enums";
+import { UserRegisterInfoType, EmailType } from "../../../../types/register";
 
 interface RegisterContextProp {
   userInfo: UserRegisterInfoType;

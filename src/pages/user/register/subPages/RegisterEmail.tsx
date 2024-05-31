@@ -125,7 +125,7 @@ const RegisterEmail = ({ dispatch }: Prop) => {
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
           <Modal
             message={message}
-            option=""
+            option={false}
             modalToggle={() => setModalOpened(false)}
           />
         </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../register-context/context";
 import validateId from "../../../../components/validation/id-validation";
 import { InfoType } from "../../../../types/enums";
-import { userInfo } from "os";
 
 interface Action {
   type: InfoType;

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
@@ -11,6 +11,8 @@ import RegisterEmail from "./subPages/RegisterEmail";
 import VerifyCode from "./subPages/VerifyCode";
 import Verified from "./subPages/Verified";
 
+import { InfoType } from "../../../types/enums";
+
 interface CheckList {
   username: boolean;
   userPw: boolean;
@@ -18,14 +20,6 @@ interface CheckList {
   userSSN: boolean;
   userEmail: boolean;
   codeVerification: boolean;
-}
-enum InfoType {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
 }
 
 interface Action {
@@ -79,12 +73,6 @@ const reducer = (list: CheckList, { type }: Action) => {
 const Register = () => {
   const navigate = useNavigate();
   const [infoList, dispatch] = useReducer(reducer, defaultCheckList);
-
-  useEffect(() => {
-    console.log("id", infoList.username);
-    console.log("pw", infoList.userPw);
-    console.log("name", infoList.name);
-  }, [infoList]);
 
   return (
     <RegisterProvider>

@@ -183,7 +183,11 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
       {modalOpened && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <Modal message={message} option="" modalToggle={() => closeModal()} />
+          <Modal
+            message={message}
+            option={false}
+            modalToggle={() => closeModal()}
+          />
         </div>
       )}
     </section>
