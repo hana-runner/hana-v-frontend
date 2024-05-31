@@ -1,20 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../register-context/context";
 import { Modal } from "../../../../components";
+import { InfoType } from "../../../../types/enums";
 
 interface Value {
   value: string;
   index: number;
 }
 
-enum InfoType {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
-}
 interface Action {
   type: InfoType;
 }
@@ -48,10 +41,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
     if (newValue && index < 6) {
       inputRefs.current[index + 1]?.focus();
-      return;
     }
-
-    dispatch({ type: InfoType.USER_SSN });
   };
 
   const handleRemove = (
@@ -70,6 +60,8 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   };
 
   const makeUserSSN = () => {
+    console.log("make user leng", values.length);
+    if (values.length === 0) return "";
     const value: string[] = values.map((item) => {
       return item.value;
     });
@@ -83,7 +75,8 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
   const onNext = () => {
     const ssn = makeUserSSN();
-    if (!ssn) {
+
+    if (!ssn || ssn.length < 7) {
       setMessage("주민번호를 입력해주세요");
       setModalOpened(true);
       return;
@@ -94,9 +87,9 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   };
 
   useEffect(() => {
-    inputRefs.current[0]?.focus();
-    inputRefs.current[0]?.click();
-  }, []);
+    inputRefs.current[values.length]?.focus();
+    inputRefs.current[values.length]?.click();
+  }, [values.length]);
 
   return (
     <section className="flex flex-col justify-between h-full">
@@ -133,6 +126,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
               ref={(el) => {
                 inputRefs.current[6] = el;
               }}
+              onChange={(e) => moveToNext(e, 6)}
               onKeyDown={(e) => handleRemove(e, 6)}
               maxLength={1}
             />
