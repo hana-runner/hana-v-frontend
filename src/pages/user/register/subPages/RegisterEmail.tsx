@@ -3,6 +3,7 @@ import { useUserInfo } from "../register-context/context";
 import { Modal } from "../../../../components";
 
 import { EMAIL_DOMAIN, InfoType } from "../../../../types/enums";
+import { EmailType } from "../../../../types/register";
 
 interface Action {
   type: InfoType;
@@ -32,13 +33,16 @@ const RegisterEmail = ({ dispatch }: Prop) => {
       domain: selectedRef.current?.value as EMAIL_DOMAIN,
     };
     setEmail(email);
-    dispatch({ type: InfoType.USER_EMAIL });
   };
 
   useEffect(() => {
     emailRef.current?.focus();
     emailRef.current?.click();
-  }, []);
+
+    if (userInfo.userEmail) {
+      dispatch({ type: InfoType.USER_EMAIL });
+    }
+  }, [userInfo.userEmail, dispatch]);
 
   return (
     <section className="flex flex-col justify-between h-full">

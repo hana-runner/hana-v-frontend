@@ -92,13 +92,16 @@ const RegisterSSN = ({ dispatch }: Prop) => {
     }
 
     setUserSSN(ssn);
-    dispatch({ type: InfoType.USER_SSN });
   };
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
     inputRefs.current[0]?.click();
-  }, []);
+
+    if (userInfo.userSSN) {
+      dispatch({ type: InfoType.USER_SSN });
+    }
+  }, [userInfo.userSSN, dispatch]);
 
   return (
     <section className="flex flex-col justify-between h-full">

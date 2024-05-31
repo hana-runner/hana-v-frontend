@@ -30,13 +30,15 @@ const RegisterName = ({ dispatch }: Prop) => {
     }
 
     setName(inputName);
-    dispatch({ type: InfoType.NAME });
   };
 
   useEffect(() => {
     nameRef.current?.focus();
     nameRef.current?.click();
-  }, []);
+    if (userInfo.name) {
+      dispatch({ type: InfoType.NAME });
+    }
+  }, [userInfo.name, dispatch]);
 
   return (
     <section className="flex flex-col justify-between h-full">

@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../register-context/context";
 import validateId from "../../../../components/validation/id-validation";
 import { InfoType } from "../../../../types/enums";
+import { userInfo } from "os";
 
 interface Action {
   type: InfoType;
@@ -13,7 +14,7 @@ interface Prop {
 
 const RegisterId = ({ dispatch }: Prop) => {
   const idRef = useRef<HTMLInputElement | null>(null);
-  const { setUsername } = useUserInfo();
+  const { setUsername, userInfo } = useUserInfo();
   const [errorMsg, setErrorMsg] = useState("");
 
   const onNext = () => {
@@ -29,8 +30,13 @@ const RegisterId = ({ dispatch }: Prop) => {
     }
 
     setUsername(inputId);
-    dispatch({ type: InfoType.USER_NAME });
   };
+
+  useEffect(() => {
+    if (userInfo.username) {
+      dispatch({ type: InfoType.USER_NAME });
+    }
+  }, [userInfo.username, dispatch]);
 
   return (
     <section className="flex flex-col justify-between h-full">
