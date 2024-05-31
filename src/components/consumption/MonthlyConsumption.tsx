@@ -1,10 +1,9 @@
 import React from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { FaCircle } from "react-icons/fa";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
-import LegendElement, { CategoryType } from "./LegendElement";
+import LegendElement, { CategoryType } from "../LegendElement";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -34,10 +33,10 @@ const MonthlyConsumption = () => {
   const totalConsumption = 2000000000;
 
   const categories: CategoryType[] = [
-    { title: "식비", ratio: 40, color: "#008C8C" },
-    { title: "교통비", ratio: 30, color: "#EF5489" },
-    { title: "통신비", ratio: 20, color: "#FFCC5A" },
-    { title: "주거", ratio: 10, color: "#B5B5B5" },
+    { title: "식비", ratio: 40, color: "#008C8C", unit: "%" },
+    { title: "교통비", ratio: 30, color: "#EF5489", unit: "%" },
+    { title: "통신비", ratio: 20, color: "#FFCC5A", unit: "%" },
+    { title: "주거", ratio: 10, color: "#B5B5B5", unit: "%" },
   ];
 
   return (
@@ -48,12 +47,12 @@ const MonthlyConsumption = () => {
           나의 전체 계좌의 소비 패턴을 분석해주는 서비스입니다
         </span>
       </div>
-      <div className="bg-white mx-4 rounded-2xl shadow-md py-4">
+      <div className="bg-white mx-4 mb-8 rounded-3xl shadow-md py-4">
         <div className="flex justify-between items-center mx-8">
           <span className="font-hanaMedium">이번 달 소비 내역</span>
           <IoIosArrowForward
             className="text-hanaSilver"
-            onClick={() => navigate("/consumption_details")}
+            onClick={() => navigate("/consumption")}
           />
         </div>
         {/* 도넛차트 */}
@@ -76,6 +75,7 @@ const MonthlyConsumption = () => {
               title={category.title}
               ratio={category.ratio}
               color={category.color}
+              unit={category.unit}
             />
           ))}
         </div>

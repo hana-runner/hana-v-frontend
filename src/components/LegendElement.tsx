@@ -1,21 +1,26 @@
 import React from "react";
-import { FaCircle } from "react-icons/fa";
 
 export interface CategoryType {
   title: string;
   ratio: number;
   color: string;
+  unit: string;
 }
 
-const LegendElement = ({ title, ratio, color }: CategoryType) => {
+const LegendElement = ({ title, ratio, color, unit }: CategoryType) => {
   return (
     <div className="flex justify-between py-1">
       <div className="w-1/2 flex justify-start items-center">
-        <FaCircle style={{ color }} className="w-2 h-2 mr-2" />
+        <div
+          className="size-2 rounded-full mr-2"
+          style={{ backgroundColor: color }}
+        ></div>
         <div>{title}</div>
       </div>
       <div>
-        <div>{ratio} %</div>
+        <div>
+          {ratio.toLocaleString()} {unit}
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const MenuCard = ({
 }: MenuCardType) => {
   return (
     <div
-      className="h-32 shadow-md rounded-2xl mx-4 my-8 p-8"
+      className="h-32 shadow-md rounded-2xl mx-4 my-4 p-8"
       style={{ backgroundColor: color }}
       onClick={clickHandler}
     >

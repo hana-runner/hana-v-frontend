@@ -1,7 +1,7 @@
 import React from "react";
 
 type ModalType = {
-  option: string;
+  option: boolean;
   message: string;
   modalToggle: () => void;
 };

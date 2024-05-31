@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import { Modal, MonthlyConsumption, Navbar } from "../components";
-import MenuCard from "../components/MenuCard";
+import {
+  MenuCard,
+  Modal,
+  MonthlyConsumption,
+  MyAccount,
+  Navbar,
+} from "../components";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -8,15 +13,9 @@ const Home = () => {
   const [openModal, setOpenModal] = useState(false);
   return (
     <section>
-      {openModal && (
-        <Modal
-          option="confirm"
-          message="삭제 하시겠습니까?"
-          modalToggle={() => setOpenModal(!openModal)}
-        />
-      )}
       <Navbar option={false} title="HANA" logo={true} />
       {/* 나의 계좌 */}
+      <MyAccount />
       <MonthlyConsumption />
       <MenuCard
         title="나의 관심사"
