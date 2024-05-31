@@ -1,20 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../register-context/context";
 import { Modal } from "../../../../components";
+import { InfoType } from "../../../../types/enums";
 
 interface Value {
   value: string;
   index: number;
 }
 
-enum InfoType {
-  USER_NAME,
-  USER_PW,
-  NAME,
-  USER_SSN,
-  USER_EMAIL,
-  CODE_VERIFICATION,
-}
 interface Action {
   type: InfoType;
 }
@@ -29,6 +22,16 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   const [message, setMessage] = useState<string>("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [values, setValues] = useState<Value[]>([]);
+
+  const openModal = () => {
+    if (message) setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setModalOpened(false);
+    inputRefs.current[values.length]?.focus();
+    inputRefs.current[values.length]?.click();
+  };
 
   const moveToNext = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -48,10 +51,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
     if (newValue && index < 6) {
       inputRefs.current[index + 1]?.focus();
-      return;
     }
-
-    dispatch({ type: InfoType.USER_SSN });
   };
 
   const handleRemove = (
@@ -70,6 +70,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
   };
 
   const makeUserSSN = () => {
+    if (values.length === 0) return "";
     const value: string[] = values.map((item) => {
       return item.value;
     });
@@ -83,20 +84,24 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
   const onNext = () => {
     const ssn = makeUserSSN();
-    if (!ssn) {
+
+    if (!ssn || ssn.length < 7) {
       setMessage("주민번호를 입력해주세요");
-      setModalOpened(true);
+      openModal();
       return;
     }
 
     setUserSSN(ssn);
-    dispatch({ type: InfoType.USER_SSN });
   };
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
     inputRefs.current[0]?.click();
-  }, []);
+
+    if (userInfo.userSSN) {
+      dispatch({ type: InfoType.USER_SSN });
+    }
+  }, [userInfo.userSSN, dispatch]);
 
   return (
     <section className="flex flex-col justify-between h-full">
@@ -114,7 +119,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
                 return (
                   <input
                     key={index}
-                    className=" w-5 rounded-lg text-center text-hanaBlack bg-transparent"
+                    className=" w-5 rounded-lg text-center text-hanaBlack bg-transparent focus:outline-none"
                     type="text"
                     ref={(el) => {
                       inputRefs.current[index] = el;
@@ -133,6 +138,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
               ref={(el) => {
                 inputRefs.current[6] = el;
               }}
+              onChange={(e) => moveToNext(e, 6)}
               onKeyDown={(e) => handleRemove(e, 6)}
               maxLength={1}
             />
@@ -177,11 +183,7 @@ const RegisterSSN = ({ dispatch }: Prop) => {
 
       {modalOpened && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <Modal
-            message={message}
-            option=""
-            modalToggle={() => setModalOpened(false)}
-          />
+          <Modal message={message} option="" modalToggle={() => closeModal()} />
         </div>
       )}
     </section>
