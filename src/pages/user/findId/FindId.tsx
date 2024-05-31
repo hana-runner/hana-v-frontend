@@ -2,15 +2,12 @@ import React, { useReducer } from "react";
 import VerifyEmail from "./verification/VerifyEmail";
 import VerifyCode from "./verification/VerifyCode";
 import ShowId from "./ShowId";
-import { Navbar } from "../../../components";
+import UserWrapper from "../../../components/UserWrapper";
+import { Action } from "../../../types/actions";
 
 type VerificationList = {
   email: boolean;
   code: boolean;
-};
-
-type Action = {
-  type: "email" | "code";
 };
 
 const InitialVerificationStatus: VerificationList = {
@@ -39,8 +36,7 @@ const FindId = () => {
   const [checkList, dispatch] = useReducer(reducer, InitialVerificationStatus);
 
   return (
-    <section className="flex flex-col justify-between items-center h-[100vh]">
-      <Navbar title="아이디 찾기" option logo />
+    <UserWrapper hasNav title="아이디 찾기" option logo>
       <div className="flex h-full">
         {!checkList.email && !checkList.code && (
           <VerifyEmail dispatch={dispatch} />
@@ -51,7 +47,7 @@ const FindId = () => {
         )}
         {checkList.email && checkList.code && <ShowId />}
       </div>
-    </section>
+    </UserWrapper>
   );
 };
 export default FindId;

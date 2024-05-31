@@ -4,23 +4,13 @@ import { useNavigate } from "react-router-dom";
 import validateId from "../../../components/validation/id-validation";
 import validatePw from "../../../components/validation/pw-validation";
 import UserWrapper from "../../../components/UserWrapper";
+import { LOGIN_ACTION } from "../../../types/enums";
+import { LoginAction } from "../../../types/actions";
 
 const InitialLoginInfoStatus: LoginValidateInfo = {
   userId: false,
   userPw: false,
 };
-
-enum LOGIN_ACTION {
-  ID_VALIDATE = "id_validate",
-  PW_VALIDATE = "pw_validate",
-  ID_RESET = "id_reset",
-  PW_RESET = "pw_reset",
-  RESET = "reset",
-}
-
-interface LoginAction {
-  type: LOGIN_ACTION;
-}
 
 const reducer = (state: LoginValidateInfo, { type }: LoginAction) => {
   let newer: LoginValidateInfo;

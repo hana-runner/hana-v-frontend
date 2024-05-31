@@ -1,14 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { INFO_TYPE } from "../../../../types/enums";
 import { Modal } from "../../../../components";
+import { Action } from "../../../../types/actions";
 
 interface Value {
   value: string;
   index: number;
-}
-
-interface Action {
-  type: INFO_TYPE;
 }
 
 interface Prop {

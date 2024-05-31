@@ -6,6 +6,7 @@ interface Prop {
   children: ReactNode;
   title?: string;
   option?: boolean;
+  logo?: boolean;
 }
 
 const UserWrapper = ({
@@ -13,10 +14,17 @@ const UserWrapper = ({
   children,
   title = "",
   option = false,
+  logo = false,
 }: Prop) => {
   return (
     <section className="flex flex-col justify-between items-center h-[100vh]">
-      {hasNav && <Navbar title={title || ""} option={option || false} />}
+      {hasNav && (
+        <Navbar
+          title={title || ""}
+          option={option || false}
+          logo={logo || false}
+        />
+      )}
       <div className="flex flex-col justify-between h-full w-80 py-10">
         {children}
       </div>
