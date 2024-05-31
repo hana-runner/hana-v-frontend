@@ -88,7 +88,7 @@ const Register = () => {
         {infoList[VERIFICATION.EMAIL] && !infoList[VERIFICATION.CODE] && (
           <VerifyCode dispatch={dispatch} />
         )}
-        {infoList[VERIFICATION.CODE] && <Verified />}
+        {infoList[VERIFICATION.CODE] && <Verified path="/login" />}
       </UserWrapper>
     </RegisterProvider>
   );

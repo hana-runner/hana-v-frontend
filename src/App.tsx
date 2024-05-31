@@ -5,14 +5,16 @@ import {
   AddAccount,
   ConsumptionDetail,
   FindId,
+  FindPw,
   Home,
   Interests,
   Login,
   Register,
+  ResetPw,
   Splash,
   TransactionHistory,
 } from "./pages";
-import { FindPw } from "./pages/user";
+import { FindAccountProvider } from "./components/context/find-account-context/find-account-context";
 
 function App() {
   return (

@@ -34,7 +34,7 @@ const FindId = () => {
 
   return (
     <UserWrapper hasNav title="아이디 찾기" option logo>
-      <div className="flex h-full">
+      <div className="h-full">
         {!checkList.email && !checkList.code && (
           <VerifyEmail dispatch={dispatch} />
         )}
