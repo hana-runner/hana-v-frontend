@@ -1,17 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/enums";
 
-import { FindIdAction, ActionProp } from "../../../../types/actions";
+import { FindPwAction, ActionProp } from "../../../../types/actions";
 import { EmailType } from "../../../../types/register";
+import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
 
-const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
+const VerifyEmail = ({ dispatch }: ActionProp<FindPwAction>) => {
+  const { userInfo, setEmail } = useFindAccount();
   const selectedRef = useRef<HTMLSelectElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const [errMsg, setErrMsg] = useState<string>("");
-  const [email, setEmail] = useState<EmailType>({
-    emailId: "",
-    domain: EMAIL_DOMAIN.NAVER,
-  });
 
   const onEmailSubmit = () => {
     const emailId = emailRef.current?.value;
@@ -31,13 +29,13 @@ const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
   };
 
   useEffect(() => {
-    if (email.emailId) {
+    if (userInfo.email.emailId) {
       dispatch({ type: VERIFICATION.EMAIL });
     }
-  }, [email, dispatch]);
+  }, [userInfo, dispatch]);
 
   return (
-    <section className="flex flex-col h-full justify-between py-10">
+    <section className="h-full">
       <div className="flex flex-col gap-5">
         <div className="text-xl text-start">
           이메일 주소를

@@ -4,35 +4,36 @@ import { useNavigate } from "react-router-dom";
 import validateId from "../../../components/validation/id-validation";
 import validatePw from "../../../components/validation/pw-validation";
 import UserWrapper from "../../../components/UserWrapper";
-import { LOGIN_ACTION } from "../../../types/enums";
+import { LOGIN_ACTION, VALIDATION } from "../../../types/enums";
 import { LoginAction } from "../../../types/actions";
+import { LoginValidation } from "../../../types/validation";
 
-const InitialLoginInfoStatus: LoginValidateInfo = {
-  userId: false,
-  userPw: false,
+const InitialLoginInfoStatus: LoginValidation = {
+  [VALIDATION.USER_ID]: false,
+  [VALIDATION.USER_PW]: false,
 };
 
-const reducer = (state: LoginValidateInfo, { type }: LoginAction) => {
-  let newer: LoginValidateInfo;
+const reducer = (state: LoginValidation, { type }: LoginAction) => {
+  let newer: LoginValidation;
   switch (type) {
     case LOGIN_ACTION.ID_VALIDATE:
-      newer = { ...state, userId: true };
+      newer = { ...state, [VALIDATION.USER_ID]: true };
       break;
 
     case LOGIN_ACTION.PW_VALIDATE:
-      newer = { ...state, userPw: true };
+      newer = { ...state, [VALIDATION.USER_PW]: true };
       break;
 
     case LOGIN_ACTION.PW_RESET:
-      newer = { ...state, userPw: false };
+      newer = { ...state, [VALIDATION.USER_PW]: false };
       break;
 
     case LOGIN_ACTION.ID_RESET:
-      newer = { ...state, userId: false };
+      newer = { ...state, [VALIDATION.USER_ID]: false };
       break;
 
     case LOGIN_ACTION.RESET:
-      newer = { userId: false, userPw: false };
+      newer = { [VALIDATION.USER_ID]: false, [VALIDATION.USER_PW]: false };
       break;
 
     default:
@@ -80,7 +81,7 @@ const Login = () => {
       setPwErrMsg("유효하지 않은 비밀번호입니다");
     }
 
-    if (status.userId && status.userPw) {
+    if (status[VALIDATION.USER_ID] && status[VALIDATION.USER_PW]) {
       console.log("로그인 api");
     }
   };
@@ -127,7 +128,7 @@ const Login = () => {
             </button>
             <span className="w-[1px] h-[25px] bg-hanaSilver"> </span>
             <button type="button" onClick={() => navigation("/find/password")}>
-              비밀번호 찾기
+              비밀번호 재등록
             </button>
             <span className="w-[1px] h-[25px] bg-hanaSilver"> </span>
             <button type="button" onClick={() => navigation("/register")}>

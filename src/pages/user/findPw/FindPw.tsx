@@ -1,47 +1,73 @@
-import React, { useRef } from "react";
+import React, { useEffect, useReducer, useState } from "react";
+import UserWrapper from "../../../components/UserWrapper";
+import { FindPwVerification } from "../../../types/verification";
+import { VERIFICATION } from "../../../types/enums";
+import { FindPwAction } from "../../../types/actions";
+import VerifyEmail from "./subPages/VerifyEmail";
+import VerifyId from "./subPages/VerifyId";
+import VerifyCode from "./subPages/VerifyCode";
+import { FindAccountProvider } from "../../../components/context/find-account-context/find-account-context";
+import Verified from "../findId/Verified";
+import ResetPasswrod from "./subPages/ResetPassword";
 
-const FindId = () => {
-  const selectedRef = useRef<HTMLSelectElement | null>(null);
-  const emailRef = useRef<HTMLInputElement | null>(null);
+const InitialVerificationData: FindPwVerification = {
+  [VERIFICATION.CODE]: false,
+  [VERIFICATION.EMAIL]: false,
+  [VERIFICATION.USER_ID]: false,
+};
+
+const reducer = (list: FindPwVerification, { type }: FindPwAction) => {
+  let newer: FindPwVerification;
+  switch (type) {
+    case VERIFICATION.CODE:
+      newer = { ...list, [VERIFICATION.CODE]: true };
+      break;
+
+    case VERIFICATION.EMAIL:
+      newer = { ...list, [VERIFICATION.EMAIL]: true };
+      break;
+
+    case VERIFICATION.USER_ID:
+      newer = { ...list, [VERIFICATION.USER_ID]: true };
+      break;
+
+    default:
+      return list;
+  }
+
+  return newer;
+};
+
+const FindPw = () => {
+  const [checkList, dispatch] = useReducer(reducer, InitialVerificationData);
+  const [showVerified, setShowVerified] = useState(false);
+
+  useEffect(() => {
+    if (checkList.code && checkList.email && checkList.username) {
+      setShowVerified(true);
+      setTimeout(() => {
+        setShowVerified(false);
+      }, 2000);
+    }
+  }, [checkList]);
 
   return (
-    <section className="flex flex-col justify-evenly items-center h-[100vh] gap-9">
-      <div className="flex flex-col gap-10 w-80 h-full">
-        <div className="text-xl text-start">
-          이메일 주소를
-          <br />
-          입력해주세요
+    <FindAccountProvider>
+      <UserWrapper hasNav title="비밀번호 재설정" option logo>
+        <div className=" h-full">
+          {!checkList[VERIFICATION.USER_ID] && <VerifyId dispatch={dispatch} />}
+          {checkList[VERIFICATION.USER_ID] &&
+            !checkList[VERIFICATION.EMAIL] && (
+              <VerifyEmail dispatch={dispatch} />
+            )}
+          {checkList[VERIFICATION.EMAIL] && !checkList[VERIFICATION.CODE] && (
+            <VerifyCode dispatch={dispatch} />
+          )}
+          {checkList[VERIFICATION.CODE] && showVerified && <Verified />}
+          {checkList[VERIFICATION.CODE] && !showVerified && <ResetPasswrod />}
         </div>
-        <div className="grid grid-cols-12">
-          <span className="col-span-5">
-            <input
-              className="border-b-2 border-hanaGreen bg-transparent w-full"
-              placeholder="이메일주소"
-              ref={emailRef}
-            />
-          </span>
-          <span className="col-span-1">@</span>
-
-          <span className="col-span-6">
-            <select
-              className="border-b-2 border-hanaGreen bg-transparent focus:outline-none w-full"
-              ref={selectedRef}
-            >
-              <option value="naver.com" selected>
-                naver.com
-              </option>
-              <option value="gmail.com">gmail.com</option>
-            </select>
-          </span>
-        </div>
-        <button
-          type="button"
-          className="bg-white border border-hanaSilver rounded-lg text-hanaSilver w-80 py-2 under"
-        >
-          다음
-        </button>
-      </div>
-    </section>
+      </UserWrapper>
+    </FindAccountProvider>
   );
 };
-export default FindId;
+export default FindPw;

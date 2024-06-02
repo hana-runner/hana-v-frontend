@@ -1,18 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { INFO_TYPE } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/enums";
 import { Modal } from "../../../../components";
-import { Action } from "../../../../types/actions";
+import { RegisterAction, ActionProp } from "../../../../types/actions";
 
 interface Value {
   value: string;
   index: number;
 }
 
-interface Prop {
-  dispatch: React.Dispatch<Action>;
-}
-
-const VerifyCode = ({ dispatch }: Prop) => {
+const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
@@ -35,7 +31,7 @@ const VerifyCode = ({ dispatch }: Prop) => {
       openModal();
       return;
     }
-    dispatch({ type: INFO_TYPE.CODE_VERIFICATION });
+    dispatch({ type: VERIFICATION.CODE });
   }, [values, dispatch]);
 
   const moveToNext = (
@@ -77,7 +73,9 @@ const VerifyCode = ({ dispatch }: Prop) => {
   useEffect(() => {
     inputRefs.current[0]?.focus();
     inputRefs.current[0]?.click();
+  }, []);
 
+  useEffect(() => {
     if (values.length === 6) {
       onNext();
     }
