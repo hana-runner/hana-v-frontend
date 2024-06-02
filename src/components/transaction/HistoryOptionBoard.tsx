@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { IoCalendarOutline } from "react-icons/io5";
 import moment from "moment";
 import Calendar, { CalendarProps } from "react-calendar";
-import PeoridBtn from "../common/PeriodBtn";
 import "react-calendar/dist/Calendar.css";
+import PeriodBtn from "../common/PeriodBtn";
 import CalculateDate from "../../utils/CalculateDate";
 
 interface HistoryOptionBoardProps {
@@ -25,10 +25,12 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
 
   const handleStartToggleCalendar = () => {
     setStartCalendarOpen(!isStartCalendarOpen);
+    if (isEndCalendarOpen) setEndCalendarOpen(false); // Close end calendar if it's open
   };
 
   const handleEndToggleCalendar = () => {
     setEndCalendarOpen(!isEndCalendarOpen);
+    if (isStartCalendarOpen) setStartCalendarOpen(false); // Close start calendar if it's open
   };
 
   const handleStartDateChange: CalendarProps["onChange"] = (value) => {
@@ -65,12 +67,6 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
     setOrder(orderOption);
   };
 
-  useEffect(() => {
-    if (isStartDate && !selectedPeriod) {
-      setSelectedPeriod(undefined);
-    }
-  }, [isStartDate, selectedPeriod]);
-
   const periodOptions = [
     { month: 1, description: "1개월" },
     { month: 3, description: "3개월" },
@@ -99,7 +95,7 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
         <p className="py-[24px]">조회기간</p>
         <div id="btnGroup1" className="flex align-middle items-center">
           {periodOptions.map((option) => (
-            <PeoridBtn
+            <PeriodBtn
               key={option.month}
               month={option.month}
               description={option.description}
@@ -120,6 +116,8 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
                   onChange={handleStartDateChange}
                   value={isStartDate}
                   maxDate={isEndDate}
+                  locale="en-US" // 일요일부터 시작
+                  formatDay={(locale, date) => moment(date).format("DD")} // 숫자만 보여주기
                 />
               </div>
             )}
@@ -129,11 +127,13 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
             <p className="text-[12px]">{moment(isEndDate).format("YYYY-MM-DD")}</p>
             <IoCalendarOutline onClick={handleEndToggleCalendar} className="cursor-pointer" />
             {isEndCalendarOpen && (
-              <div className="absolute top-[50px] left-0 z-10 bg-white shadow-lg">
+              <div className="absolute top-[50px] left-auto right-0 z-10 bg-white shadow-lg">
                 <Calendar
                   onChange={handleEndDateChange}
                   value={isEndDate}
                   minDate={isStartDate}
+                  locale="en-US" // 일요일부터 시작
+                  formatDay={(locale, date) => moment(date).format("DD")} // 숫자만 보여주기
                 />
               </div>
             )}
@@ -144,7 +144,7 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
         <p className="py-[24px]">거래구분</p>
         <div className="flex align-middle items-center">
           {entireViewTexts.map((option) => (
-            <PeoridBtn
+            <PeriodBtn
               key={option.month}
               month={option.month}
               description={option.description}
@@ -160,7 +160,7 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
         <p className="py-[24px]">정렬순서</p>
         <div className="flex align-middle items-center">
           {orderTexts.map((option) => (
-            <PeoridBtn
+            <PeriodBtn
               key={option.month}
               month={option.month}
               description={option.description}
