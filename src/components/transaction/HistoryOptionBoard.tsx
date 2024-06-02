@@ -3,7 +3,7 @@ import { CgClose } from "react-icons/cg";
 import { IoCalendarOutline } from "react-icons/io5";
 import moment from "moment";
 import Calendar, { CalendarProps } from "react-calendar";
-import PeoridBtn from "../common/PeoridBtn";
+import PeoridBtn from "../common/PeriodBtn";
 import "react-calendar/dist/Calendar.css";
 import CalculateDate from "../../utils/CalculateDate";
 
