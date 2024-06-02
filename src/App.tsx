@@ -11,6 +11,7 @@ import {
   Login,
   Register,
   ResetPw,
+  Settings,
   Splash,
   Transaction,
 } from "./pages";
@@ -30,6 +31,7 @@ function App() {
       <Route path="/interests" element={<Interests />} />
       <Route path="/register" element={<Register />} />
       <Route path="/transaction" element={<Transaction />} />
+      <Route path="/settings" element={<Settings />} />
     </Routes>
   );
 }
