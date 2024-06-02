@@ -2,8 +2,11 @@ import axios from "axios";
 import userApi from "./interfaces/userApi";
 import { EmailType, RegisterType } from "../types/register";
 import interestApi from "./interfaces/interestApi";
+import transactionApi from "./interfaces/transactionApi";
+import { transactionType } from "../types/transaction";
+import { categoryType } from "../types/category";
 
-class ApiClient implements userApi, interestApi {
+class ApiClient implements userApi, interestApi, transactionApi {
   // 싱글톤 인스턴스
   private static instance: ApiClient;
 
@@ -146,6 +149,30 @@ class ApiClient implements userApi, interestApi {
     return response.data;
   }
 
+  public async getTransactions(): Promise<transactionType> {
+    // const accountId = 1;
+    const apiUrl = "/transactionListData.json"; // public 디렉토리의 JSON 파일 경로
+
+    const response = await this.axiosInstance.request<transactionType>(
+      {
+        method: "get",
+        url: apiUrl,
+        // url: `/accounts/${accountId}`
+      },
+    );
+    return response.data;
+  }
+
+  public async getCategories(): Promise<categoryType> {
+    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
+    const response = await this.axiosInstance.request<categoryType>(
+      {
+        method: "get",
+        url: apiUrl,
+      },
+    );
+    return response.data;
+  }
   /*
   #####################################################
     singleton pattern, creational patterns

@@ -340,7 +340,7 @@
       "id": 24,
       "account_id": 24,
       "user_id": 24,
-      "category_id": 24,
+      "category_id": null,
       "num": 78901,
       "type": true,
       "description": "용돈",

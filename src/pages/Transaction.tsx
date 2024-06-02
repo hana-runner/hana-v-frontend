@@ -6,7 +6,7 @@ import TransactionList from "../components/transaction/TransactionList";
 function Transaction() {
   return (
     <section className="flex flex-col items-center flex-wrap">
-      <Navbar title="거래내역조회" option={false} />
+      <Navbar title="거래내역조회" option={false} logo={false} />
       <AccountBoard />
       <HistoryOption />
       <TransactionList />
