@@ -14,3 +14,4 @@ export { default as validatePw } from "../components/validation/pw-validation";
 export { default as Transaction } from "./Transaction";
 export { default as Register } from "./user/register/Regstier";
 export { default as FindPw } from "./user/findPw/FindPw";
+export { default as Settings } from "./Settings";
