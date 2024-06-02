@@ -1,0 +1,147 @@
+{ "accounts":[
+    {
+        "id": 0,
+        "user_id": 1,
+        "account_number": "123-45-6789-0",
+        "balance": 1000000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "국민은행",
+        "account_name": "국민 SUPER 적금",
+        "account_type": "적금"
+    },
+    {
+        "id": 1,
+        "user_id": 2,
+        "account_number": "0987-65-4321",
+        "balance": 2500000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "우리은행",
+        "account_name": "우리 DREAM 입출금",
+        "account_type": "입출금"
+    },
+    {
+        "id": 2,
+        "user_id": 3,
+        "account_number": "1122-33-4455",
+        "balance": 500000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "SC제일은행",
+        "account_name": "SC 프라임 사업자",
+        "account_type": "사업자"
+    },
+    {
+        "id": 3,
+        "user_id": 4,
+        "account_number": "5566-77-8899",
+        "balance": 750000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "한국씨티은행",
+        "account_name": "씨티 퍼스널 통장",
+        "account_type": "개인"
+    },
+    {
+        "id": 4,
+        "user_id": 5,
+        "account_number": "6677-88-9900",
+        "balance": 1500000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "하나은행",
+        "account_name": "하나 PLUS 적금",
+        "account_type": "적금"
+    },
+    {
+        "id": 5,
+        "user_id": 6,
+        "account_number": "7788-99-0011",
+        "balance": 1750000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "신한은행",
+        "account_name": "신한 SMART 입출금",
+        "account_type": "입출금"
+    },
+    {
+        "id": 6,
+        "user_id": 7,
+        "account_number": "8899-00-1122",
+        "balance": 2000000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "케이뱅크",
+        "account_name": "케이뱅크 비즈니스 통장",
+        "account_type": "사업자"
+    },
+    {
+        "id": 7,
+        "user_id": 8,
+        "account_number": "9900-11-2233",
+        "balance": 300000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "카카오뱅크",
+        "account_name": "카카오 개인 통장",
+        "account_type": "개인"
+    },
+    {
+        "id": 8,
+        "user_id": 9,
+        "account_number": "0011-22-3344",
+        "balance": 900000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "토스뱅크",
+        "account_name": "토스 SAVE 적금",
+        "account_type": "적금"
+    },
+    {
+        "id": 9,
+        "user_id": 10,
+        "account_number": "1122-33-4456",
+        "balance": 1250000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "한국산업은행",
+        "account_name": "산은 PLUS 입출금",
+        "account_type": "입출금"
+    },
+    {
+        "id": 10,
+        "user_id": 1,
+        "account_number": "2233-44-5566",
+        "balance": 1100000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "중소기업은행",
+        "account_name": "중기은행 개인 통장",
+        "account_type": "개인"
+    },
+    {
+        "id": 11,
+        "user_id": 2,
+        "account_number": "3344-55-6677",
+        "balance": 2600000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "한국수출입은행",
+        "account_name": "수출입은행 비즈니스 통장",
+        "account_type": "사업자"
+    },
+    {
+        "id": 12,
+        "user_id": 3,
+        "account_number": "4455-66-7788",
+        "balance": 600000,
+        "registered_at": "2024-06-03T00:00:00",
+        "is_deleted": false,
+        "bank_name": "수협은행",
+        "account_name": "수협 DREAM 적금",
+        "account_type": "적금"
+    }
+]
+    
+}
