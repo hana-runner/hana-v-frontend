@@ -1,4 +1,5 @@
 export interface Transaction {
+  transactionHistory: Array;
   id: number;
   account_id: number;
   user_id: number;
