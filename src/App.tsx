@@ -17,6 +17,7 @@ import {
   Settings,
   Splash,
   Transaction,
+  TransactionDetail,
 } from "./pages";
 import Interests from "./pages/interest/Interests";
 
@@ -35,6 +36,7 @@ function App() {
       <Route path="/interest/add" element={<AddInterest />} />
       <Route path="/register" element={<Register />} />
       <Route path="/transaction" element={<Transaction />} />
+      <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
       <Route path="/settings" element={<Settings />} />
       <Route
         path="/interests/analysis/:interestId"

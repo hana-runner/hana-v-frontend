@@ -1,17 +1,20 @@
 import React from "react";
 
 interface TagProps {
-  id: number;
   title: string;
+  color: string;
 }
 
-function Tag({ id, title }: TagProps) {
-  const tagId = id;
+const Tag: React.FC<TagProps> = ({ title, color }) => {
   return (
-      <div className="text-[12px] bg-hanaGreen rounded-[8px] text-white px-[4px]">
-        {title}
-      </div>
+    <div
+      className="text-[12px] rounded-[8px] text-white px-[4px] justify-center content-center"
+      style={{ backgroundColor: color }}
+    >
+      #
+      {title}
+    </div>
   );
-}
+};
 
 export default Tag;
