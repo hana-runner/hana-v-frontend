@@ -5,7 +5,7 @@ interface UserInfoType {
   username: string;
   pw: string;
   name: string;
-  email: EmailType;
+  email: string;
   birthday: Date;
   gender: 0 | 1;
   created_at: Date;
@@ -45,4 +45,11 @@ interface UserRegisterInfoType {
 interface EmailType {
   emailId: string;
   domain: EMAIL_DOMAIN;
+}
+
+// EmailInput 타입 관련
+interface EmailRefHandler {
+  setMessage: (msg: string) => void;
+  emailRef: React.RefObject<HTMLInputElement | null>;
+  domainRef: React.RefObject<HTMLSelectElement | null>;
 }

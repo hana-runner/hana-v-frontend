@@ -1,12 +1,19 @@
 import axios from "axios";
 import userApi from "./interfaces/userApi";
-import { EmailType, RegisterType } from "../types/users/register";
 
 import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
 import { transactionType } from "../types/transaction";
 import { categoryType } from "../types/category";
 import accountInfoType from "../types/account";
+import {
+  EmailType,
+  FindIdType,
+  FindPwType,
+  LoginType,
+  RegisterType,
+  UserUpdateInfoType,
+} from "../types/users/users-type";
 
 class ApiClient implements userApi, interestApi, transactionApi {
   // 싱글톤 인스턴스
@@ -145,7 +152,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   public async getUserInterests() {
     const userId = 1;
     const response = await this.axiosInstance.request<
-      ApiResponseType<UserInterestType[]>
+      ApiResponseType<userInterestType[]>
     >({
       method: "get",
       url: `/user-interests/${userId}`,
