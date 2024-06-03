@@ -1,6 +1,6 @@
 import axios from "axios";
 import userApi from "./interfaces/userApi";
-import { EmailType, RegisterType } from "../types/users/register";
+import { EmailType } from "../types/users/register";
 import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
 import { transactionType } from "../types/transaction";
@@ -25,7 +25,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   */
 
   //  회원가입
-  public async register(registerInfo: BasicApiType) {
+  public async register(registerInfo: ApiResponseType) {
     const response = await this.axiosInstance.request({
       method: "post",
       url: "/users",
@@ -137,15 +137,44 @@ class ApiClient implements userApi, interestApi, transactionApi {
     return response.data;
   }
 
-  // 사용자별 관심사 목록
+  // 사용자별 관심사 목록 조회
   public async getUserInterests() {
     const userId = 1;
-    const response = await this.axiosInstance.request<userInterestResponseType>(
-      {
-        method: "get",
-        url: `/user-interests/${userId}`,
-      },
-    );
+    const response = await this.axiosInstance.request<
+      ApiResponseType<UserInterestType[]>
+    >({
+      method: "get",
+      url: `/user-interests/${userId}`,
+    });
+
+    return response.data;
+  }
+
+  // 사용자 관심사 별 거래 내역 조회
+  public async getUserInterestTransactions(
+    interestId: string,
+    year: number,
+    month: number,
+  ) {
+    const userId = 1;
+    const response = await this.axiosInstance.request<
+      ApiResponseType<UserInterestTransactionsType>
+    >({
+      method: "get",
+      url: `/interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
+    });
+
+    return response.data;
+  }
+
+  // 관심사 목록 가져오기
+  public async getInterestList() {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<InterestType[]>
+    >({
+      method: "get",
+      url: "/interests",
+    });
 
     return response.data;
   }
@@ -175,13 +204,11 @@ class ApiClient implements userApi, interestApi, transactionApi {
   public async getAccounts(): Promise<accountInfoType> {
     // const accountId = 1;
     const apiUrl = "/accountsData.json";
-    const response = await this.axiosInstance.request<accountInfoType>(
-      {
-        method: "get",
-        url: apiUrl,
-        // url: `/account/${accountId}`
-      },
-    );
+    const response = await this.axiosInstance.request<accountInfoType>({
+      method: "get",
+      url: apiUrl,
+      // url: `/account/${accountId}`
+    });
     return response.data;
   }
 
