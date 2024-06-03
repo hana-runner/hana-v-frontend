@@ -14,6 +14,9 @@ import {
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
+import { getCookie } from "../utils/cookie";
+
+const ACCESSTOKEN = getCookie("x-access-token");
 
 class ApiClient implements userApi, interestApi, transactionApi {
   // 싱글톤 인스턴스
@@ -149,12 +152,11 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // ------------------------------ interest
   // 사용자별 관심사 목록 조회
   public async getUserInterests() {
-    const userId = 1;
     const response = await this.axiosInstance.request<
-      BasicResultApiType<UserInterestType[]>
+      ApiResponseType<UserInterestType[]>
     >({
       method: "get",
-      url: `/user-interests/${userId}`,
+      url: "/user-interests",
     });
 
     return response.data;
@@ -168,7 +170,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   ) {
     const userId = 1;
     const response = await this.axiosInstance.request<
-      BasicResultApiType<UserInterestTransactionsType>
+      ApiResponseType<UserInterestTransactionsType>
     >({
       method: "get",
       url: `/user-interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
@@ -180,7 +182,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // 관심사 목록 가져오기
   public async getInterestList() {
     const response = await this.axiosInstance.request<
-      BasicResultApiType<InterestType[]>
+      ApiResponseType<InterestType[]>
     >({
       method: "get",
       url: "/interests",
@@ -254,7 +256,10 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
     newInstance.interceptors.request.use(
       (config) => {
-        // eslint-disable-next-line no-param-reassign
+        if (ACCESSTOKEN) {
+          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+        }
+
         config.headers["Content-Type"] = "application/json";
 
         return config;
