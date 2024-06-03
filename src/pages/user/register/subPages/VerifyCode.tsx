@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
+import ApiClient from "../../../../apis/apiClient";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 interface Value {
   value: string;
@@ -14,6 +16,9 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [values, setValues] = useState<Value[]>([]);
+  const {
+    userInfo: { userEmail },
+  } = useUserInfo();
 
   const openModal = () => {
     setModalOpened(true);
@@ -25,13 +30,24 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
     inputRefs.current[values.length]?.click();
   };
 
-  const onNext = useCallback(() => {
+  const onNext = useCallback(async () => {
     if (values.length < 6) {
       setMessage("인증 번호는 총 6자리입니다");
       openModal();
       return;
     }
-    dispatch({ type: VERIFICATION.CODE });
+
+    try {
+      const code = values.map((v) => v.value).join("");
+      const response: BaseResponseType =
+        await ApiClient.getInstance().emailVerificationCode(userEmail, code);
+
+      if (response.code) {
+        dispatch({ type: VERIFICATION.CODE });
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }, [values, dispatch]);
 
   const moveToNext = (

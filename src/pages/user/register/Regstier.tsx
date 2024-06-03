@@ -69,6 +69,7 @@ const Register = () => {
   const onRegister = async (dat: RegisterType) => {
     const res: BaseResponseType = await ApiClient.getInstance().register(dat);
     if (res.code) {
+      console.log("로그인 성공");
       reset();
     }
   };

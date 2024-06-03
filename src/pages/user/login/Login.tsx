@@ -8,7 +8,7 @@ import { LOGIN_ACTION, VALIDATION } from "../../../types/users/enums";
 import { LoginAction } from "../../../types/users/actions";
 import { LoginValidation } from "../../../types/users/validate-verify";
 import ApiClient from "../../../apis/apiClient";
-import { LoginType } from "../../../types/users/users-type";
+import { LoginResponseType, LoginType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
 
 const InitialLoginInfoStatus: LoginValidation = {
@@ -85,14 +85,15 @@ const Login = () => {
     }
 
     try {
-      const response: BaseResponseType = await ApiClient.getInstance().login({
+      const response: LoginResponseType = await ApiClient.getInstance().login({
         username: id,
         pw,
       });
 
-      if (response.success) {
+      if (response.code) {
+        setCookie("x-access-token", response.accessToken);
+        setCookie("x-auth-token", response.refreshToken);
         navigation("/");
-        setCookie("token", response.message);
       }
     } catch (err) {
       console.error(err);
