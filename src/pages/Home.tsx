@@ -16,7 +16,7 @@ const Home = () => {
         description="나의 관심사를 설정하여 비슷한 관심사를 가진 사람들과 소비를 비교해 보아요!"
         color="#BA75CC"
         // 관심사 페이지로 이동
-        clickHandler={() => navigate("/")}
+        clickHandler={() => navigate("/interests")}
       />
       <MenuCard
         title="나의 거래 이력"
