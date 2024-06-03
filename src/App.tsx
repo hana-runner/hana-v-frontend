@@ -13,6 +13,7 @@ import {
   Settings,
   Splash,
   Transaction,
+  TransactionDetail,
 } from "./pages";
 import { RegisterProvider } from "./components/context/register-context/register-context";
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/interests" element={<Interests />} />
         <Route path="/register" element={<Register />} />
         <Route path="/transaction" element={<Transaction />} />
+        <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </RegisterProvider>

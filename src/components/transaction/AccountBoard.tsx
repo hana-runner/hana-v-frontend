@@ -28,7 +28,10 @@ const AccountBoard: React.FC = () => {
           <img src="/img/logo3.png" alt="logo3" className="w-[32px] h-[32px]" />
           <p className="ml-[4px] text-[20px]">{account?.account_name}</p>
         </div>
-        <p className="mt-[4px] ml-[34px] text-[12px] text-hanaSilver">{account?.account_number}</p>
+        <p className="mt-[4px] ml-[4px] text-[12px] text-hanaSilver">
+          <span className="mr-[8px]">{account?.account_type}</span>
+          {account?.account_number}
+        </p>
       </div>
 
       <div className="text-right text-[20px] mt-[24px]">
