@@ -1,25 +1,40 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from "react";
 import { BiSolidDownArrow } from "react-icons/bi";
-import { IoIosArrowDown } from "react-icons/io";
 
-interface SelectBoxType {
-  items: string[];
-  placeholder?: string;
+interface SelectBoxType<T> {
+  items: T[];
+  placeholder: string;
+  getValue?: (item: string) => void;
 }
 
-const SelectBox = ({ items, placeholder }: SelectBoxType) => {
+const SelectBox = ({
+  items,
+  placeholder,
+  getValue,
+}: SelectBoxType<InterestType>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (getValue) {
+      getValue(e.target.value);
+    }
+  };
+
   return (
-    <div className="relative inline-block w-72">
+    <div className="relative inline-block w-full">
       <select
         className="block appearance-none w-full text-hanaSilver font-hanaRegular bg-[#F6F6F6] border border-hanaGreen hover:border-hanaGreen px-3 py-2 pr-4 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline text-sm"
-        defaultValue=""
+        defaultValue="1"
+        onChange={handleChange}
       >
-        <option value="" disabled selected className="text-base">
-          {placeholder || "Select an option"}
+        <option value="1" disabled className="text-base">
+          {placeholder}
         </option>
-        {items.map((item, index) => (
-          <option className="text-hanaBlack text-base" key={index} value={item}>
-            {item}
+        {items.map((item) => (
+          <option
+            className="text-hanaBlack text-base"
+            key={item.interestId}
+            value={`${item.interestId} ${item.title}`}
+          >
+            {item.title}
           </option>
         ))}
       </select>
