@@ -32,6 +32,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   #####################################################
   */
 
+  // ------------------------------ user
   //  회원가입
   public async register(registerInfo: RegisterType): Promise<BaseResponseType> {
     const response = await this.axiosInstance.request({
@@ -145,11 +146,12 @@ class ApiClient implements userApi, interestApi, transactionApi {
     return response.data;
   }
 
+  // ------------------------------ interest
   // 사용자별 관심사 목록 조회
   public async getUserInterests() {
     const userId = 1;
     const response = await this.axiosInstance.request<
-      ApiResponseType<userInterestType[]>
+      BasicResultApiType<UserInterestType[]>
     >({
       method: "get",
       url: `/user-interests/${userId}`,
@@ -158,7 +160,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
     return response.data;
   }
 
-  // 사용자 관심사 별 거래 내역 조회
+  // 사용자 관심사별 거래 내역 조회
   public async getUserInterestTransactions(
     interestId: string,
     year: number,
@@ -166,10 +168,10 @@ class ApiClient implements userApi, interestApi, transactionApi {
   ) {
     const userId = 1;
     const response = await this.axiosInstance.request<
-      ApiResponseType<UserInterestTransactionsType>
+      BasicResultApiType<UserInterestTransactionsType>
     >({
       method: "get",
-      url: `/interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
+      url: `/user-interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
     });
 
     return response.data;
@@ -178,7 +180,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // 관심사 목록 가져오기
   public async getInterestList() {
     const response = await this.axiosInstance.request<
-      ApiResponseType<InterestType[]>
+      BasicResultApiType<InterestType[]>
     >({
       method: "get",
       url: "/interests",
@@ -187,6 +189,9 @@ class ApiClient implements userApi, interestApi, transactionApi {
     return response.data;
   }
 
+  // ------------------------------ category
+
+  // ------------------------------ transaction
   public async getTransactions(): Promise<transactionType> {
     // const accountId = 1;
     const apiUrl = "/transactionListData.json"; // public 디렉토리의 JSON 파일 경로
@@ -208,6 +213,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
     return response.data;
   }
 
+  // ------------------------------ account
   // 계좌 id별 계좌 정보
   public async getAccounts(): Promise<accountInfoType> {
     // const accountId = 1;

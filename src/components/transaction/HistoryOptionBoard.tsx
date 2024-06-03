@@ -4,17 +4,31 @@ import { IoCalendarOutline } from "react-icons/io5";
 import moment from "moment";
 import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import calculateDate from "../../utils/calculateDate";
 import PeriodBtn from "../common/PeriodBtn";
-import CalculateDate from "../../utils/CalculateDate";
 
 interface HistoryOptionBoardProps {
   closeModal: () => void;
-  confirmDate: (start: Date | undefined, end: Date | undefined, period: number | undefined) => void;
-  confirmOption: (period: number | undefined, entireView: number, order: number) => void;
+  confirmDate: (
+    start: Date | undefined,
+    end: Date | undefined,
+    period: number | undefined,
+  ) => void;
+  confirmOption: (
+    period: number | undefined,
+    entireView: number,
+    order: number,
+  ) => void;
 }
 
-function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryOptionBoardProps) {
-  const [selectedPeriod, setSelectedPeriod] = useState<number | undefined>(undefined);
+function HistoryOptionBoard({
+  closeModal,
+  confirmDate,
+  confirmOption,
+}: HistoryOptionBoardProps) {
+  const [selectedPeriod, setSelectedPeriod] = useState<number | undefined>(
+    undefined,
+  );
   const today = new Date();
   const [isStartDate, setStartDate] = useState<Date | undefined>(undefined);
   const [isEndDate, setEndDate] = useState<Date>(today);
@@ -55,7 +69,7 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
   };
 
   const handlePeriod = (month: number) => {
-    setStartDate(CalculateDate(isEndDate, month));
+    setStartDate(calculateDate.monthAgo(isEndDate, month));
     setSelectedPeriod(month);
   };
 
@@ -107,9 +121,17 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
           ))}
         </div>
         <div className="flex items-center mt-[24px]">
-          <div id="btnGroup2" className="relative flex justify-between w-[151px] h-[48px] p-[14px] items-center align-middle border-2 border-hanaSilver rounded-[10px]">
-            <p className="text-[12px]">{moment(isStartDate).format("YYYY-MM-DD")}</p>
-            <IoCalendarOutline onClick={handleStartToggleCalendar} className="cursor-pointer" />
+          <div
+            id="btnGroup2"
+            className="relative flex justify-between w-[151px] h-[48px] p-[14px] items-center align-middle border-2 border-hanaSilver rounded-[10px]"
+          >
+            <p className="text-[12px]">
+              {moment(isStartDate).format("YYYY-MM-DD")}
+            </p>
+            <IoCalendarOutline
+              onClick={handleStartToggleCalendar}
+              className="cursor-pointer"
+            />
             {isStartCalendarOpen && (
               <div className="absolute top-[50px] left-0 z-10 bg-white shadow-lg">
                 <Calendar
@@ -124,8 +146,13 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
           </div>
           <div className="mx-[8px]">-</div>
           <div className="relative flex justify-between w-[151px] h-[48px] p-[14px] items-center align-middle border-2 border-hanaSilver rounded-[10px]">
-            <p className="text-[12px]">{moment(isEndDate).format("YYYY-MM-DD")}</p>
-            <IoCalendarOutline onClick={handleEndToggleCalendar} className="cursor-pointer" />
+            <p className="text-[12px]">
+              {moment(isEndDate).format("YYYY-MM-DD")}
+            </p>
+            <IoCalendarOutline
+              onClick={handleEndToggleCalendar}
+              className="cursor-pointer"
+            />
             {isEndCalendarOpen && (
               <div className="absolute top-[50px] left-auto right-0 z-10 bg-white shadow-lg">
                 <Calendar
@@ -173,8 +200,20 @@ function HistoryOptionBoard({ closeModal, confirmDate, confirmOption }: HistoryO
         </div>
       </div>
       <div className="mt-[32px] flex justify-center">
-        <button type="button" onClick={closeModal} className="w-[85px] h-[53px] mr-[16px] bg-hanaSilver text-white rounded-[15px] shadow-xl">취소</button>
-        <button type="button" onClick={handleConfirm} className="w-[225px] h-[53px] bg-hanaGreen text-white rounded-[15px] shadow-xl">확인</button>
+        <button
+          type="button"
+          onClick={closeModal}
+          className="w-[85px] h-[53px] mr-[16px] bg-hanaSilver text-white rounded-[15px] shadow-xl"
+        >
+          취소
+        </button>
+        <button
+          type="button"
+          onClick={handleConfirm}
+          className="w-[225px] h-[53px] bg-hanaGreen text-white rounded-[15px] shadow-xl"
+        >
+          확인
+        </button>
       </div>
     </div>
   );

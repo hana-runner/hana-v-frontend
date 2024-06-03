@@ -40,5 +40,12 @@ module.exports = {
     "react/jsx-boolean-value": "off",
     "import/no-extraneous-dependencies": "off",
     "react/jsx-indent": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        labelAttributes: ["htmlFor"],
+      },
+    ],
   },
 };
