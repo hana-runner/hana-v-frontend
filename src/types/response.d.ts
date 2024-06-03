@@ -1,16 +1,10 @@
-enum STATUS {
-  OK = "ok",
-  FAIL = "fail",
-}
-
-interface BasicApiType {
+interface BaseResponseType {
   code: string;
   message: string;
   status: number;
   success: boolean;
   timestamp: string;
 }
-
-interface BasicResultApiType<T> extends Required<BasicApiType> {
+interface ApiResponseType<T> extends Required<BasicApiType> {
   data: T;
 }
