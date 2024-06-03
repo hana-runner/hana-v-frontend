@@ -6,7 +6,7 @@ import validatePw from "../../../components/validation/pw-validation";
 import UserWrapper from "../../../components/UserWrapper";
 import { LOGIN_ACTION, VALIDATION } from "../../../types/users/enums";
 import { LoginAction } from "../../../types/users/actions";
-import { LoginValidation } from "../../../types/users/validation";
+import { LoginValidation } from "../../../types/users/validate-verify";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
