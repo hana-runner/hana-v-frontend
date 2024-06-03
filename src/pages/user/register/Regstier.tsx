@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
@@ -9,13 +9,13 @@ import RegisterSSN from "./subPages/RegisterSSN";
 import RegisterName from "./subPages/RegisterName";
 import RegisterEmail from "./subPages/RegisterEmail";
 import VerifyCode from "./subPages/VerifyCode";
-import Verified from "./subPages/Verified";
 
 import { VERIFICATION } from "../../../types/users/enums";
-import { RegisterVerification } from "../../../types/users/verification";
 import { RegisterAction } from "../../../types/users/actions";
 import ApiClient from "../../../apis/apiClient";
-import { RegisterType } from "../../../types/users/register";
+import { RegisterType } from "../../../types/users/users-type";
+import { RegisterVerification } from "../../../types/users/validate-verify";
+import VerifiedWithPath from "../../../components/users/VerifiedWithPath";
 
 const defaultCheckList: RegisterVerification = {
   [VERIFICATION.CODE]: false,
@@ -114,7 +114,7 @@ const Register = () => {
       {userInfo.userEmail.emailId && !infoList[VERIFICATION.CODE] && (
         <VerifyCode dispatch={dispatch} />
       )}
-      {infoList[VERIFICATION.CODE] && <Verified path="/login" />}
+      {infoList[VERIFICATION.CODE] && <VerifiedWithPath path="/login" />}
     </UserWrapper>
   );
 };
