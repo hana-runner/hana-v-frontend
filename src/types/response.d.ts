@@ -13,14 +13,11 @@ interface ResultResponse<T> extends Required<CommonResponse> {
   result?: T;
 }
 
-interface BasicApiType {
+interface BasicApiType<T> {
   code: string;
   message: string;
+  data?: T;
   status: number;
   success: boolean;
   timestamp: string;
-}
-
-interface BasicResultApiType<T> extends Required<BasicApiType> {
-  data: T;
 }
