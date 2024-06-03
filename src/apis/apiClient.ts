@@ -1,6 +1,7 @@
 import axios from "axios";
 import userApi from "./interfaces/userApi";
-import { EmailType } from "../types/users/register";
+import { EmailType, RegisterType } from "../types/users/register";
+
 import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
 import { transactionType } from "../types/transaction";
@@ -25,13 +26,16 @@ class ApiClient implements userApi, interestApi, transactionApi {
   */
 
   //  회원가입
-  public async register(registerInfo: ApiResponseType) {
+  public async register(registerInfo: RegisterType): Promise<BasicApiType> {
     const response = await this.axiosInstance.request({
       method: "post",
       url: "/users",
       data: registerInfo,
     });
 
+    if (!response.data.code) {
+      console.log("에러");
+    }
     return response.data;
   }
 

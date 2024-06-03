@@ -1,10 +1,10 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
 import RegisterId from "./subPages/RegisterId";
 import RegisterPw from "./subPages/RegisterPw";
-import { RegisterProvider } from "../../../components/context/register-context/register-context";
+import { useUserInfo } from "../../../components/context/register-context/register-context";
 import RegisterSSN from "./subPages/RegisterSSN";
 import RegisterName from "./subPages/RegisterName";
 import RegisterEmail from "./subPages/RegisterEmail";
@@ -14,6 +14,8 @@ import Verified from "./subPages/Verified";
 import { VERIFICATION } from "../../../types/users/enums";
 import { RegisterVerification } from "../../../types/users/verification";
 import { RegisterAction } from "../../../types/users/actions";
+import ApiClient from "../../../apis/apiClient";
+import { RegisterType } from "../../../types/users/register";
 
 const defaultCheckList: RegisterVerification = {
   [VERIFICATION.CODE]: false,
@@ -62,35 +64,58 @@ const reducer = (list: RegisterVerification, { type }: RegisterAction) => {
 const Register = () => {
   const navigate = useNavigate();
   const [infoList, dispatch] = useReducer(reducer, defaultCheckList);
+  const { userInfo } = useUserInfo();
+
+  const onRegister = async (dat: RegisterType) => {
+    const res: BasicApiType = await ApiClient.getInstance().register(dat);
+    return res.success;
+  };
+
   useEffect(() => {
-    console.log(infoList);
-  }, [infoList]);
+    const dat: RegisterType = {
+      username: userInfo.username,
+      name: userInfo.name,
+      pw: userInfo.userPw,
+      gender: Number(userInfo.userSSN.at(-1)) % 2 === 0 ? 0 : 1,
+      email: `${userInfo.userEmail.emailId}@${userInfo.userEmail.domain}`,
+    };
+
+    if (
+      infoList.code &&
+      infoList.email &&
+      infoList.name &&
+      infoList.pw &&
+      infoList.ssn &&
+      infoList.username
+    ) {
+      console.log(dat);
+      onRegister(dat);
+    }
+  }, [infoList.code]);
 
   return (
-    <RegisterProvider>
-      <UserWrapper hasNav={false}>
-        <div className="flex justify-start h-14" onClick={() => navigate(-1)}>
-          <IoIosArrowBack size={20} />
-        </div>
-        {!infoList[VERIFICATION.USER_ID] && <RegisterId dispatch={dispatch} />}
-        {infoList[VERIFICATION.USER_ID] && !infoList[VERIFICATION.USER_PW] && (
-          <RegisterPw dispatch={dispatch} />
-        )}
-        {infoList[VERIFICATION.USER_PW] && !infoList[VERIFICATION.NAME] && (
-          <RegisterName dispatch={dispatch} />
-        )}
-        {infoList[VERIFICATION.NAME] && !infoList[VERIFICATION.USER_SSN] && (
-          <RegisterSSN dispatch={dispatch} />
-        )}
-        {infoList[VERIFICATION.USER_SSN] && !infoList[VERIFICATION.EMAIL] && (
-          <RegisterEmail dispatch={dispatch} />
-        )}
-        {infoList[VERIFICATION.EMAIL] && !infoList[VERIFICATION.CODE] && (
-          <VerifyCode dispatch={dispatch} />
-        )}
-        {infoList[VERIFICATION.CODE] && <Verified path="/login" />}
-      </UserWrapper>
-    </RegisterProvider>
+    <UserWrapper hasNav={false}>
+      <div className="flex justify-start h-14" onClick={() => navigate(-1)}>
+        <IoIosArrowBack size={20} />
+      </div>
+      {!infoList[VERIFICATION.USER_ID] && <RegisterId dispatch={dispatch} />}
+      {infoList[VERIFICATION.USER_ID] && !infoList[VERIFICATION.USER_PW] && (
+        <RegisterPw dispatch={dispatch} />
+      )}
+      {infoList[VERIFICATION.USER_PW] && !infoList[VERIFICATION.NAME] && (
+        <RegisterName dispatch={dispatch} />
+      )}
+      {infoList[VERIFICATION.NAME] && !infoList[VERIFICATION.USER_SSN] && (
+        <RegisterSSN dispatch={dispatch} />
+      )}
+      {infoList[VERIFICATION.USER_SSN] && !userInfo.userEmail.emailId && (
+        <RegisterEmail dispatch={dispatch} />
+      )}
+      {userInfo.userEmail.emailId && !infoList[VERIFICATION.CODE] && (
+        <VerifyCode dispatch={dispatch} />
+      )}
+      {infoList[VERIFICATION.CODE] && <Verified path="/login" />}
+    </UserWrapper>
   );
 };
 
