@@ -1,36 +1,40 @@
-import React from "react";
-import { AccountBoardInfo } from "../../types/accountBoardInfo";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import ApiClient from "../../apis/apiClient";
+import accountInfoType from "../../types/account";
 
 const AccountBoard: React.FC = () => {
-  const account: AccountBoardInfo = {
-    balance: 1200000,
-    totalBalance: 120000,
-    accountName: "마이 통장",
-    accountNumber: "123-45678-98765",
-  };
+  const [account, setAccount] = useState<accountInfoType>();
+  const { data: userAccount } = useQuery({
+    queryKey: ["accounts"],
+    queryFn: async () => {
+      const response = await ApiClient.getInstance().getAccounts();
+      return response;
+    },
+  });
 
-  const formattedBalance = account.balance.toLocaleString();
-  const formattedTotalBalance = account.totalBalance.toLocaleString();
+  useEffect(() => {
+    if (userAccount && Array.isArray(userAccount.accounts)) {
+      setAccount(userAccount.accounts[0]); // account id별 정보 가져오기
+    }
+  }, [account, userAccount]);
+
+  const formattedBalance = account?.balance.toLocaleString();
 
   return (
     <div className="w-[326px] h-[145px] m-[20px] p-[18px] text-left shadow-md rounded-[20px] bg-white">
       <div>
         <div className="flex items-center">
           <img src="/img/logo3.png" alt="logo3" className="w-[32px] h-[32px]" />
-          <p className="ml-[4px] text-[20px]">{account.accountName}</p>
+          <p className="ml-[4px] text-[20px]">{account?.account_name}</p>
         </div>
-        <p className="mt-[4px] ml-[34px] text-[12px] text-hanaSilver">{account.accountNumber}</p>
+        <p className="mt-[4px] ml-[34px] text-[12px] text-hanaSilver">{account?.account_number}</p>
       </div>
 
-      <div className="text-right text-[20px]">
+      <div className="text-right text-[20px] mt-[24px]">
         <div>
           <span>{formattedBalance}</span>
-          {" "}
           원
-        </div>
-        <div className="text-[12px] text-hanaSilver">
-          출금가능잔액
-          <span className="ml-[4px]">{formattedTotalBalance}</span>
         </div>
       </div>
     </div>
