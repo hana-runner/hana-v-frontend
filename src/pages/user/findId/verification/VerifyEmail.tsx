@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 
 import { FindIdAction, ActionProp } from "../../../../types/users/actions";
-import { EmailType } from "../../../../types/users/register";
+import { EmailType } from "../../../../types/users/users-type";
 
 const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
   const selectedRef = useRef<HTMLSelectElement | null>(null);
