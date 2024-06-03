@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActionProp, FindIdAction } from "../../../../types/actions";
-import { VERIFICATION } from "../../../../types/enums";
+import { ActionProp, FindIdAction } from "../../../../types/users/actions";
+import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
 
 interface Value {

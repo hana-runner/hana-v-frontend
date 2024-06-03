@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
-import { VERIFICATION } from "../../../../types/enums";
-import { RegisterAction, ActionProp } from "../../../../types/actions";
+import { VERIFICATION } from "../../../../types/users/enums";
+import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 
 interface Value {
   value: string;

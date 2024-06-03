@@ -1,13 +1,5 @@
 import { VERIFICATION } from "./enums";
 
-// interface VerificatioList<T extends VERIFICATION[keyof typeof VERIFICATION]> {
-//   [K in T]: boolean;
-//   [key: string]: boolean;
-// }
-
-// interface FindIdVerificationList
-//   extends VerificatioList<VERIFICATION.EMAIL | VERIFICATION.CODE> {}
-
 interface VerificationList {
   [VERIFICATION.CODE]: boolean;
   [VERIFICATION.EMAIL]: boolean;
