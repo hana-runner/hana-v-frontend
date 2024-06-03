@@ -34,10 +34,10 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
   // ------------------------------ user
   //  회원가입
-  public async register(registerInfo: RegisterType): Promise<BasicApiType> {
+  public async register(registerInfo: RegisterType): Promise<BaseResponseType> {
     const response = await this.axiosInstance.request({
       method: "post",
-      url: "/users",
+      url: "/users/join",
       data: registerInfo,
     });
 
@@ -59,26 +59,23 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
   //  회원가입 - 이메일 인증
   public async emailVerification(emailInfo: EmailType) {
-    const emailData = { email: `${emailInfo.emailId}@${emailInfo.domain}` };
+    const emailAddress = `${emailInfo.emailId}@${emailInfo.domain}`;
 
+    console.log("emailadd", emailAddress);
     const response = await this.axiosInstance.request({
       method: "post",
-      url: "/users/email",
-      data: emailData,
+      url: `/emails/authcode?email=${emailAddress}`,
     });
 
     return response.data;
   }
 
   //  회원가입 - 인증코드 verification
-  public async emailVerificationCode(inputCode: string) {
-    const codeData = {
-      code: inputCode,
-    };
+  public async emailVerificationCode(email: EmailType, inputCode: string) {
+    const emailAddress = `${email.emailId}@${email.domain}`;
     const response = await this.axiosInstance.request({
-      method: "post",
-      url: "/users/email/code",
-      data: codeData,
+      method: "get",
+      url: `/emails/check/authcode?email=${emailAddress}&code=${inputCode}`,
     });
 
     return response.data;

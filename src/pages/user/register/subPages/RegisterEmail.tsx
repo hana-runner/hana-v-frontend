@@ -5,6 +5,7 @@ import { Modal } from "../../../../components";
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 import { EmailType } from "../../../../types/users/users-type";
+import ApiClient from "../../../../apis/apiClient";
 
 const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();
@@ -28,13 +29,17 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
     setEmail(email);
   };
 
+  const onEmailSubmit = async () => {
+    if (userInfo.userEmail.emailId) {
+      ApiClient.getInstance().emailVerification(userInfo.userEmail);
+      dispatch({ type: VERIFICATION.EMAIL });
+    }
+  };
+
   useEffect(() => {
     emailRef.current?.focus();
     emailRef.current?.click();
-
-    if (userInfo.userEmail) {
-      dispatch({ type: VERIFICATION.EMAIL });
-    }
+    onEmailSubmit();
   }, [userInfo.userEmail, dispatch]);
 
   return (
