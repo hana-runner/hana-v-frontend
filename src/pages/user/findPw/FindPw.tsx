@@ -1,14 +1,14 @@
 import React, { useEffect, useReducer, useState } from "react";
 import UserWrapper from "../../../components/UserWrapper";
-import { FindPwVerification } from "../../../types/users/verification";
 import { VERIFICATION } from "../../../types/users/enums";
 import { FindPwAction } from "../../../types/users/actions";
 import VerifyEmail from "./subPages/VerifyEmail";
 import VerifyId from "./subPages/VerifyId";
 import VerifyCode from "./subPages/VerifyCode";
 import { FindAccountProvider } from "../../../components/context/find-account-context/find-account-context";
-import Verified from "../findId/Verified";
 import ResetPasswrod from "./subPages/ResetPassword";
+import { FindPwVerification } from "../../../types/users/validate-verify";
+import Verified from "../../../components/users/Verified";
 
 const InitialVerificationData: FindPwVerification = {
   [VERIFICATION.CODE]: false,

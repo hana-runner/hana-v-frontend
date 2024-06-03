@@ -5,7 +5,7 @@ interface Prop {
   path: string;
 }
 
-const Verified = ({ path = "/login" }: Prop) => {
+const VerifiedWithPath = ({ path = "/login" }: Prop) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,4 +19,4 @@ const Verified = ({ path = "/login" }: Prop) => {
   );
 };
 
-export default Verified;
+export default VerifiedWithPath;
