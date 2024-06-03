@@ -46,3 +46,10 @@ interface EmailType {
   emailId: string;
   domain: EMAIL_DOMAIN;
 }
+
+// EmailInput 타입 관련
+interface EmailRefHandler {
+  setMessage: (msg: string) => void;
+  emailRef: React.RefObject<HTMLInputElement | null>;
+  domainRef: React.RefObject<HTMLSelectElement | null>;
+}
