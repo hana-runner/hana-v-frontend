@@ -1,8 +1,8 @@
 import { RegisterType } from "../../types/users/register";
 
 interface userApi {
-  register(registerInfo: RegisterType): Promise<CommonResponse>;
-  login(loginInfo: LoginType): Promise<CommonResponse>;
+  register(registerInfo: RegisterType): Promise<BasicApiType>;
+  login(loginInfo: LoginType): Promise<BasicApiType>;
 }
 
 export default userApi;

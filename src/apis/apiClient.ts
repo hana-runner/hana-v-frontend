@@ -24,7 +24,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   */
 
   //  회원가입
-  public async register(registerInfo: RegisterType) {
+  public async register(registerInfo: BasicApiType) {
     const response = await this.axiosInstance.request({
       method: "post",
       url: "/users",
