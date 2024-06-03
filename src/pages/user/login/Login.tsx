@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import validateId from "../../../components/validation/id-validation";
 import validatePw from "../../../components/validation/pw-validation";
 import UserWrapper from "../../../components/UserWrapper";
-import { LOGIN_ACTION, VALIDATION } from "../../../types/enums";
-import { LoginAction } from "../../../types/actions";
-import { LoginValidation } from "../../../types/validation";
+import { LOGIN_ACTION, VALIDATION } from "../../../types/users/enums";
+import { LoginAction } from "../../../types/users/actions";
+import { LoginValidation } from "../../../types/users/validation";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,

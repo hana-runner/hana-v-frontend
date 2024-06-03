@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
-import { VERIFICATION } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/users/enums";
 
-import { RegisterAction, ActionProp } from "../../../../types/actions";
+import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 
 const RegisterName = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setName, userInfo } = useUserInfo();

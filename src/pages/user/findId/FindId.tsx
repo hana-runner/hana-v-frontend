@@ -3,9 +3,9 @@ import VerifyEmail from "./verification/VerifyEmail";
 import VerifyCode from "./verification/VerifyCode";
 import ShowId from "./ShowId";
 import UserWrapper from "../../../components/UserWrapper";
-import { FindIdAction } from "../../../types/actions";
-import { FindIdVerification } from "../../../types/verification";
-import { VERIFICATION } from "../../../types/enums";
+import { FindIdAction } from "../../../types/users/actions";
+import { FindIdVerification } from "../../../types/users/verification";
+import { VERIFICATION } from "../../../types/users/enums";
 
 const InitialVerificationList: FindIdVerification = {
   [VERIFICATION.EMAIL]: false,

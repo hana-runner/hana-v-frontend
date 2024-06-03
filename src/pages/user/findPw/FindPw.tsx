@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useState } from "react";
 import UserWrapper from "../../../components/UserWrapper";
-import { FindPwVerification } from "../../../types/verification";
-import { VERIFICATION } from "../../../types/enums";
-import { FindPwAction } from "../../../types/actions";
+import { FindPwVerification } from "../../../types/users/verification";
+import { VERIFICATION } from "../../../types/users/enums";
+import { FindPwAction } from "../../../types/users/actions";
 import VerifyEmail from "./subPages/VerifyEmail";
 import VerifyId from "./subPages/VerifyId";
 import VerifyCode from "./subPages/VerifyCode";

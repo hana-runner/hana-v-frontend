@@ -11,9 +11,9 @@ import RegisterEmail from "./subPages/RegisterEmail";
 import VerifyCode from "./subPages/VerifyCode";
 import Verified from "./subPages/Verified";
 
-import { VERIFICATION } from "../../../types/enums";
-import { RegisterVerification } from "../../../types/verification";
-import { RegisterAction } from "../../../types/actions";
+import { VERIFICATION } from "../../../types/users/enums";
+import { RegisterVerification } from "../../../types/users/verification";
+import { RegisterAction } from "../../../types/users/actions";
 
 const defaultCheckList: RegisterVerification = {
   [VERIFICATION.CODE]: false,

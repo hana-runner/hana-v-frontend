@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActionProp, FindPwAction } from "../../../../types/actions";
-import { VERIFICATION } from "../../../../types/enums";
+import { ActionProp, FindPwAction } from "../../../../types/users/actions";
+import { VERIFICATION } from "../../../../types/users/enums";
 import validateId from "../../login/validation/id-validation";
 import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
 

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import validateId from "../../../../components/validation/id-validation";
 
-import { VERIFICATION } from "../../../../types/enums";
-import { ActionProp, RegisterAction } from "../../../../types/actions";
+import { VERIFICATION } from "../../../../types/users/enums";
+import { ActionProp, RegisterAction } from "../../../../types/users/actions";
 
 const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
   const idRef = useRef<HTMLInputElement | null>(null);

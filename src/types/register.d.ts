@@ -1,4 +1,4 @@
-import { EMAIL_DOMAIN } from "./enums";
+import { EMAIL_DOMAIN } from "./users/enums";
 
 interface RegisterType
   extends Pick<UserInfoType, "username" | "pw" | "name" | "email"> {}

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { VERIFICATION } from "../../../../types/enums";
+import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
-import { RegisterAction, ActionProp } from "../../../../types/actions";
+import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 
 interface Value {
   value: string;

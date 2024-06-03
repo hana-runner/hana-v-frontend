@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/enums";
+import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 
-import { FindIdAction, ActionProp } from "../../../../types/actions";
+import { FindIdAction, ActionProp } from "../../../../types/users/actions";
 import { EmailType } from "../../../../types/register";
 
 const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
