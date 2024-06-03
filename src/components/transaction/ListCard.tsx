@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { BsPencil } from "react-icons/bs";
 import { transactionType } from "../../types/transaction";
 import ApiClient from "../../apis/apiClient";
 import Tag from "../common/Tag";
@@ -55,7 +56,7 @@ function ListCard({ id }: ListCardProps) {
   );
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center">
       {list ? (
         <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
           <div className="text-hanaSilver text-[8px] mb-[8px]">{new Date(list.created_at).toLocaleString()}</div>
@@ -63,7 +64,7 @@ function ListCard({ id }: ListCardProps) {
           <div className="flex justify-between mt-[20px] items-center">
             <Tag title={category?.title || ""} color={category?.color || ""} />
             <p>
-              {list.amount}
+              {list.amount.toLocaleString()}
               원
             </p>
           </div>
@@ -71,6 +72,38 @@ function ListCard({ id }: ListCardProps) {
       ) : (
         <div>No transaction found</div>
       )}
+      <div className="bg-white rounded-[20px] shadow-md px-[16px] py-[28px] mt-[24px] w-[326px] h-[298px] flex flex-col">
+        <div className="flex justify-between my-[8px]">
+          <div className="flex">
+            <p>카테고리</p>
+            <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver" />
+          </div>
+          <Tag title={category?.title || ""} color={category?.color || ""} />
+        </div>
+        <div className="flex justify-between my-[8px]">
+            <div className="flex">
+              <p>관심사</p>
+              <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver" />
+            </div>
+
+        </div>
+        <div className="flex justify-between my-[8px]">
+            <p>승인번호</p>
+            {list?.num}
+        </div>
+        <div className="flex justify-between my-[8px]">
+            <p>거래유형</p>
+            {list?.action}
+        </div>
+        <div className="flex justify-between my-[8px]">
+            <p>일시</p>
+            {list?.created_at.toLocaleString()}
+        </div>
+        <div className="flex justify-between my-[8px]">
+            <p>거래 후 잔액</p>
+            {list?.balance.toLocaleString()}
+        </div>
+      </div>
     </div>
   );
 }
