@@ -74,41 +74,40 @@ const reducer = (userInfo: UserRegisterInfoType, action: Action) => {
 };
 
 export const RegisterProvider = ({ children }: RegisterProviderProp) => {
-  const [userRegisterInfo, dispatch] = useReducer(reducer, defaultUserInfo);
+  const [userInfo, dispatch] = useReducer(reducer, defaultUserInfo);
 
-  const value = useMemo(() => {
-    const setUsername = (username: string) => {
-      dispatch({ type: ACTION.SET_ID, payload: username });
-    };
+  const setUsername = (username: string) => {
+    dispatch({ type: ACTION.SET_ID, payload: username });
+  };
 
-    const setUserPw = (userPw: string) => {
-      dispatch({ type: ACTION.SET_PW, payload: userPw });
-    };
+  const setUserPw = (userPw: string) => {
+    dispatch({ type: ACTION.SET_PW, payload: userPw });
+  };
 
-    const setUserSSN = (userSSN: string) => {
-      dispatch({ type: ACTION.SET_SSN, payload: userSSN });
-    };
+  const setUserSSN = (userSSN: string) => {
+    dispatch({ type: ACTION.SET_SSN, payload: userSSN });
+  };
 
-    const setName = (name: string) => {
-      dispatch({ type: ACTION.SET_NAME, payload: name });
-    };
+  const setName = (name: string) => {
+    dispatch({ type: ACTION.SET_NAME, payload: name });
+  };
 
-    const setEmail = (email: EmailType) => {
-      dispatch({ type: ACTION.SET_EMAIL, payload: email });
-    };
-
-    return {
-      userInfo: userRegisterInfo,
-      setUsername,
-      setUserPw,
-      setUserSSN,
-      setName,
-      setEmail,
-    };
-  }, [userRegisterInfo]);
+  const setEmail = (email: EmailType) => {
+    dispatch({ type: ACTION.SET_EMAIL, payload: email });
+  };
 
   return (
-    <RegisterContext.Provider value={value}>
+    <RegisterContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
+      value={{
+        userInfo,
+        setUsername,
+        setUserPw,
+        setUserSSN,
+        setName,
+        setEmail,
+      }}
+    >
       {children}
     </RegisterContext.Provider>
   );

@@ -24,13 +24,16 @@ class ApiClient implements userApi, interestApi, transactionApi {
   */
 
   //  회원가입
-  public async register(registerInfo: RegisterType) {
+  public async register(registerInfo: RegisterType): Promise<BasicApiType> {
     const response = await this.axiosInstance.request({
       method: "post",
       url: "/users",
       data: registerInfo,
     });
 
+    if (!response.data.code) {
+      console.log("에러");
+    }
     return response.data;
   }
 
