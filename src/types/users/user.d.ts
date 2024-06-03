@@ -1,4 +1,4 @@
-import { EmailType } from "../register";
+import { EmailType } from "./register";
 
 interface UserInfoType {
   username: string;

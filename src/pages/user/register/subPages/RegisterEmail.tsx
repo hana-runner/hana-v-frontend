@@ -3,7 +3,7 @@ import { useUserInfo } from "../../../../components/context/register-context/reg
 import { Modal } from "../../../../components";
 
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
-import { EmailType } from "../../../../types/register";
+import { EmailType } from "../../../../types/users/register";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 
 const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {

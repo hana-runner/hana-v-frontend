@@ -1,4 +1,4 @@
-import { RegisterType } from "../../types/register";
+import { RegisterType } from "../../types/users/register";
 
 interface userApi {
   register(registerInfo: RegisterType): Promise<CommonResponse>;

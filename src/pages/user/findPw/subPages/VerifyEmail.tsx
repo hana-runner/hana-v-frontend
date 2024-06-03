@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 
 import { FindPwAction, ActionProp } from "../../../../types/users/actions";
-import { EmailType } from "../../../../types/register";
+import { EmailType } from "../../../../types/users/register";
 import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
 
 const VerifyEmail = ({ dispatch }: ActionProp<FindPwAction>) => {

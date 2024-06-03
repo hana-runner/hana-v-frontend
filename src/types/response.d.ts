@@ -6,8 +6,18 @@ enum STATUS {
 interface CommonResponse {
   status: STATUS;
   message: string;
+  success: boolean;
 }
 
 interface ResultResponse<T> extends Required<CommonResponse> {
-  result: T;
+  result?: T;
+}
+
+interface BasicApiType<T> {
+  code: string;
+  data: T;
+  message: string;
+  status: number;
+  success: boolean;
+  timestamp: string;
 }
