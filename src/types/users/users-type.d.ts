@@ -5,7 +5,7 @@ interface UserInfoType {
   username: string;
   pw: string;
   name: string;
-  email: EmailType;
+  email: string;
   birthday: Date;
   gender: 0 | 1;
   created_at: Date;

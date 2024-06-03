@@ -64,11 +64,13 @@ const reducer = (list: RegisterVerification, { type }: RegisterAction) => {
 const Register = () => {
   const navigate = useNavigate();
   const [infoList, dispatch] = useReducer(reducer, defaultCheckList);
-  const { userInfo } = useUserInfo();
+  const { userInfo, reset } = useUserInfo();
 
   const onRegister = async (dat: RegisterType) => {
     const res: BasicApiType = await ApiClient.getInstance().register(dat);
-    return res.success;
+    if (res.code) {
+      reset();
+    }
   };
 
   useEffect(() => {
@@ -89,6 +91,7 @@ const Register = () => {
       infoList.username
     ) {
       console.log(dat);
+
       onRegister(dat);
     }
   }, [infoList.code]);
@@ -108,10 +111,10 @@ const Register = () => {
       {infoList[VERIFICATION.NAME] && !infoList[VERIFICATION.USER_SSN] && (
         <RegisterSSN dispatch={dispatch} />
       )}
-      {infoList[VERIFICATION.USER_SSN] && !userInfo.userEmail.emailId && (
+      {infoList[VERIFICATION.USER_SSN] && !infoList[VERIFICATION.EMAIL] && (
         <RegisterEmail dispatch={dispatch} />
       )}
-      {userInfo.userEmail.emailId && !infoList[VERIFICATION.CODE] && (
+      {infoList[VERIFICATION.EMAIL] && !infoList[VERIFICATION.CODE] && (
         <VerifyCode dispatch={dispatch} />
       )}
       {infoList[VERIFICATION.CODE] && <VerifiedWithPath path="/login" />}

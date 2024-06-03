@@ -1,7 +1,10 @@
 import React, { ReactNode, createContext, useContext, useReducer } from "react";
 
 import { EMAIL_DOMAIN } from "../../../types/users/enums";
-import { UserRegisterInfoType, EmailType } from "../../../types/users/register";
+import {
+  EmailType,
+  UserRegisterInfoType,
+} from "../../../types/users/users-type";
 
 interface RegisterContextProp {
   userInfo: UserRegisterInfoType;
@@ -10,6 +13,7 @@ interface RegisterContextProp {
   setUserSSN: (ssn: string) => void;
   setName: (name: string) => void;
   setEmail: (email: EmailType) => void;
+  reset: () => void;
 }
 
 interface RegisterProviderProp {
@@ -22,6 +26,7 @@ enum ACTION {
   SET_PW,
   SET_SSN,
   SET_EMAIL,
+  RESET,
 }
 
 type Action =
@@ -29,7 +34,8 @@ type Action =
       type: ACTION;
       payload: string;
     }
-  | { type: ACTION; payload: EmailType };
+  | { type: ACTION; payload: EmailType }
+  | { type: ACTION; payload: null };
 
 const defaultUserInfo: UserRegisterInfoType = {
   username: "",
@@ -46,6 +52,7 @@ const defaultContext: RegisterContextProp = {
   setUserSSN: (ssn: string) => {},
   setName: (name: string) => {},
   setEmail: (email: EmailType) => {},
+  reset: () => {},
 };
 
 const RegisterContext = createContext<RegisterContextProp>(defaultContext);
@@ -62,6 +69,9 @@ const reducer = (userInfo: UserRegisterInfoType, action: Action) => {
       return { ...userInfo, userSSN: action.payload as string };
     case ACTION.SET_EMAIL:
       return { ...userInfo, userEmail: action.payload as EmailType };
+    case ACTION.RESET:
+      return defaultUserInfo;
+
     default:
       return userInfo;
   }
@@ -90,6 +100,10 @@ export const RegisterProvider = ({ children }: RegisterProviderProp) => {
     dispatch({ type: ACTION.SET_EMAIL, payload: email });
   };
 
+  const reset = () => {
+    dispatch({ type: ACTION.RESET, payload: null });
+  };
+
   return (
     <RegisterContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
@@ -100,6 +114,7 @@ export const RegisterProvider = ({ children }: RegisterProviderProp) => {
         setUserSSN,
         setName,
         setEmail,
+        reset,
       }}
     >
       {children}
