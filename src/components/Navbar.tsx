@@ -6,25 +6,34 @@ import NavIcon from "./common/NavIcon";
 type NavbarType = {
   title: string;
   option: boolean;
-  logo: boolean;
+  path?: string;
+  logo?: boolean;
 };
 
-const Navbar = ({ title, option, logo }: NavbarType) => {
+const Navbar = ({ title, option, path, logo }: NavbarType) => {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (path) {
+      navigate(path);
+    }
+  };
 
   return (
     <div className="relative flex items-center w-full h-14 bg-white">
       {option && (
         <div
           className="absolute left-5 flex justify-center"
-          onClick={() => navigate(-1)}
+          onClick={handleClick}
         >
           <IoIosArrowBack size={20} />
         </div>
       )}
       <div className="flex-grow flex justify-center items-center text-center font-hanaMedium">
         {title}
-        {logo && <img src="/img/logo1.png" className="size-4 ml-1" />}
+        {logo && (
+          <img src="/img/logo1.png" className="size-4 ml-1" alt="logo" />
+        )}
       </div>
       <NavIcon />
     </div>
