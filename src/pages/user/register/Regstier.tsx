@@ -67,7 +67,7 @@ const Register = () => {
   const { userInfo, reset } = useUserInfo();
 
   const onRegister = async (dat: RegisterType) => {
-    const res: BasicApiType = await ApiClient.getInstance().register(dat);
+    const res: BaseResponseType = await ApiClient.getInstance().register(dat);
     if (res.code) {
       reset();
     }

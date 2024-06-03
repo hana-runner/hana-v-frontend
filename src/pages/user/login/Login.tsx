@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import validateId from "../../../components/validation/id-validation";
@@ -7,6 +7,9 @@ import UserWrapper from "../../../components/UserWrapper";
 import { LOGIN_ACTION, VALIDATION } from "../../../types/users/enums";
 import { LoginAction } from "../../../types/users/actions";
 import { LoginValidation } from "../../../types/users/validate-verify";
+import ApiClient from "../../../apis/apiClient";
+import { LoginType } from "../../../types/users/users-type";
+import { setCookie } from "../../../utils/cookie";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
@@ -52,7 +55,7 @@ const Login = () => {
 
   const [status, dispatch] = useReducer(reducer, InitialLoginInfoStatus);
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
     const id = idRef.current?.value;
     const pw = pwRef.current?.value;
 
@@ -81,8 +84,18 @@ const Login = () => {
       setPwErrMsg("유효하지 않은 비밀번호입니다");
     }
 
-    if (status[VALIDATION.USER_ID] && status[VALIDATION.USER_PW]) {
-      console.log("로그인 api");
+    try {
+      const response: BaseResponseType = await ApiClient.getInstance().login({
+        username: id,
+        pw,
+      });
+
+      if (response.success) {
+        navigation("/");
+        setCookie("token", response.message);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
