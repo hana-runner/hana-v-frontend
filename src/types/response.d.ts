@@ -15,7 +15,7 @@ interface ResultResponse<T> extends Required<CommonResponse> {
 
 interface BasicApiType<T> {
   code: string;
-  data: T;
+  data?: T;
   message: string;
   status: number;
   success: boolean;
