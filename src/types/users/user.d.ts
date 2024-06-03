@@ -6,7 +6,7 @@ interface UserInfoType {
   name: string;
   email: EmailType;
   birthday: Date;
-  gender: number;
+  gender: 0 | 1;
   created_at: Date;
   updated_at: Date;
   is_deleted: boolean;
