@@ -1,21 +1,26 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
 
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
-import { EmailType } from "../../../../types/users/users-type";
+import { EmailRefHandler, EmailType } from "../../../../types/users/users-type";
 import ApiClient from "../../../../apis/apiClient";
+import EmailInput from "../../../../components/users/EmailInput";
 
 const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();
-  const emailRef = useRef<HTMLInputElement | null>(null);
   const selectedRef = useRef<HTMLSelectElement | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
   const [message, setMessage] = useState<string>("");
 
+  const emailRefHandler = useRef<EmailRefHandler>(null);
+
   const onNext = () => {
-    const inputEmail = emailRef.current?.value;
+    const emailRef = emailRefHandler.current;
+    const inputEmail = emailRef?.emailRef.current?.value;
+    const inputDomain = emailRef?.domainRef.current?.value;
+
     if (!inputEmail) {
       setMessage("이름을 입력해주세요");
       setModalOpened(true);
@@ -24,23 +29,26 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
 
     const email: EmailType = {
       emailId: inputEmail,
-      domain: selectedRef.current?.value as EMAIL_DOMAIN,
+      domain: inputDomain as EMAIL_DOMAIN,
     };
     setEmail(email);
   };
 
-  const onEmailSubmit = async () => {
+  const onEmailSubmit = useCallback(async () => {
     if (userInfo.userEmail.emailId) {
       ApiClient.getInstance().emailVerification(userInfo.userEmail);
       dispatch({ type: VERIFICATION.EMAIL });
     }
-  };
+  }, [userInfo, dispatch]);
 
   useEffect(() => {
-    emailRef.current?.focus();
-    emailRef.current?.click();
+    emailRefHandler.current?.emailRef.current?.focus();
+    emailRefHandler.current?.emailRef.current?.click();
+  }, []);
+
+  useEffect(() => {
     onEmailSubmit();
-  }, [userInfo.userEmail, dispatch]);
+  }, [userInfo.userEmail, dispatch, onEmailSubmit]);
 
   return (
     <section className="flex flex-col justify-between h-full">
@@ -50,29 +58,7 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
           <br />
           입력해주세요
         </h1>
-        <div className="grid grid-cols-12 ">
-          <span className="col-span-5 py-1 px-1 border-b-2 border-hanaGreen">
-            <input
-              className="px-2 bg-transparent focus:outline-none w-full"
-              placeholder="이메일주소"
-              maxLength={20}
-              ref={emailRef}
-            />
-          </span>
-          <span className="col-span-1 py-1">@</span>
-
-          <span className="col-span-6 py-1 px-1 border-b-2 border-hanaGreen">
-            <select
-              className="bg-transparent focus:outline-none w-full"
-              ref={selectedRef}
-            >
-              <option value={EMAIL_DOMAIN.NAVER} defaultChecked>
-                naver.com
-              </option>
-              <option value={EMAIL_DOMAIN.GOOGLE}>gmail.com</option>
-            </select>
-          </span>
-        </div>
+        <EmailInput ref={emailRefHandler} />
         <div className="flex gap-3 py-1 text-start">
           <span className="border-b-2 border-b-hanaSilver  text-hanaSilver font-extralight px-2">
             {userInfo.userSSN.split("").map((item) => {
