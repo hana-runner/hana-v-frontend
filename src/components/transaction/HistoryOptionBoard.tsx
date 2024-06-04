@@ -4,7 +4,6 @@ import { IoCalendarOutline } from "react-icons/io5";
 import moment from "moment";
 import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import calculateDate from "../../utils/calculateDate";
 import PeriodBtn from "../common/PeriodBtn";
 
 interface HistoryOptionBoardProps {

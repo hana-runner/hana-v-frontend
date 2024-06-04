@@ -14,6 +14,9 @@ import {
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
+import { getCookie } from "../utils/cookie";
+
+const ACCESSTOKEN = getCookie("x-access-token");
 
 class ApiClient implements userApi, interestApi, transactionApi {
   // 싱글톤 인스턴스
@@ -34,10 +37,10 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
   // ------------------------------ user
   //  회원가입
-  public async register(registerInfo: RegisterType): Promise<BasicApiType> {
+  public async register(registerInfo: RegisterType): Promise<BaseResponseType> {
     const response = await this.axiosInstance.request({
       method: "post",
-      url: "/users",
+      url: "/users/join",
       data: registerInfo,
     });
 
@@ -59,26 +62,23 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
   //  회원가입 - 이메일 인증
   public async emailVerification(emailInfo: EmailType) {
-    const emailData = { email: `${emailInfo.emailId}@${emailInfo.domain}` };
+    const emailAddress = `${emailInfo.emailId}@${emailInfo.domain}`;
 
+    console.log("emailadd", emailAddress);
     const response = await this.axiosInstance.request({
       method: "post",
-      url: "/users/email",
-      data: emailData,
+      url: `/emails/authcode?email=${emailAddress}`,
     });
 
     return response.data;
   }
 
   //  회원가입 - 인증코드 verification
-  public async emailVerificationCode(inputCode: string) {
-    const codeData = {
-      code: inputCode,
-    };
+  public async emailVerificationCode(email: EmailType, inputCode: string) {
+    const emailAddress = `${email.emailId}@${email.domain}`;
     const response = await this.axiosInstance.request({
-      method: "post",
-      url: "/users/email/code",
-      data: codeData,
+      method: "get",
+      url: `/emails/check/authcode?email=${emailAddress}&code=${inputCode}`,
     });
 
     return response.data;
@@ -152,12 +152,11 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // ------------------------------ interest
   // 사용자별 관심사 목록 조회
   public async getUserInterests() {
-    const userId = 1;
     const response = await this.axiosInstance.request<
-      BasicResultApiType<UserInterestType[]>
+      ApiResponseType<UserInterestType[]>
     >({
       method: "get",
-      url: `/user-interests/${userId}`,
+      url: "/user-interests",
     });
 
     return response.data;
@@ -171,7 +170,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   ) {
     const userId = 1;
     const response = await this.axiosInstance.request<
-      BasicResultApiType<UserInterestTransactionsType>
+      ApiResponseType<UserInterestTransactionsType>
     >({
       method: "get",
       url: `/user-interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
@@ -183,7 +182,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // 관심사 목록 가져오기
   public async getInterestList() {
     const response = await this.axiosInstance.request<
-      BasicResultApiType<InterestType[]>
+      ApiResponseType<InterestType[]>
     >({
       method: "get",
       url: "/interests",
@@ -257,7 +256,10 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
     newInstance.interceptors.request.use(
       (config) => {
-        // eslint-disable-next-line no-param-reassign
+        if (ACCESSTOKEN) {
+          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+        }
+
         config.headers["Content-Type"] = "application/json";
 
         return config;

@@ -5,6 +5,7 @@ interface BaseResponseType {
   success: boolean;
   timestamp: string;
 }
-interface ApiResponseType<T> extends Required<BasicApiType> {
+
+interface ApiResponseType<T> extends Required<BaseResponseType> {
   data: T;
 }

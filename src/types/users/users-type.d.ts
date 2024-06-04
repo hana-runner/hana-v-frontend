@@ -53,3 +53,8 @@ interface EmailRefHandler {
   emailRef: React.RefObject<HTMLInputElement | null>;
   domainRef: React.RefObject<HTMLSelectElement | null>;
 }
+
+interface LoginResponseType extends Required<BaseResponseType> {
+  accessToken: string;
+  refreshToken: string;
+}
