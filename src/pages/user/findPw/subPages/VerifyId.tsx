@@ -1,23 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { ActionProp, FindPwAction } from "../../../../types/users/actions";
 import { VERIFICATION } from "../../../../types/users/enums";
 import validateId from "../../login/validation/id-validation";
 import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
+import SimpleInput from "../../../../components/users/SimpleInput";
+import { SimpleInputRefHandler } from "../../../../types/users/users-type";
 
 const VerifyId = ({ dispatch }: ActionProp<FindPwAction>) => {
   const { userInfo, setUsername } = useFindAccount();
-  const idRef = useRef<HTMLInputElement | null>(null);
-  const [errorMsg, setErrorMsg] = useState("");
+
+  const inputRef = useRef<SimpleInputRefHandler>(null);
 
   const onNext = () => {
-    const inputId = idRef.current?.value;
+    const inputId = inputRef.current?.inputRef.current?.value;
     if (!inputId) {
-      setErrorMsg("아이디를 입력해주세요");
+      inputRef.current?.setMessage("아이디를 입력해주세요");
       return;
     }
 
     if (!validateId(inputId)) {
-      setErrorMsg("아이디는 한글, 영문자만 사용하여 작성해주세요");
+      inputRef.current.setMessage(
+        "아이디는 한글, 영문자만 사용하여 작성해주세요",
+      );
       return;
     }
 
@@ -39,15 +43,7 @@ const VerifyId = ({ dispatch }: ActionProp<FindPwAction>) => {
           입력해주세요
         </h1>
         <div>
-          <div className="grid grid-cols-10 border-b-2 border-hanaGreen w-full">
-            <input
-              className=" col-span-9 px-2 py-1 bg-transparent focus:outline-none"
-              placeholder="아이디"
-              ref={idRef}
-            />
-            <div className="col-span-1">x</div>
-          </div>
-          <div className="text-hanaRed text-sm text-start pt-1">{errorMsg}</div>
+          <SimpleInput ref={inputRef} placeHolder="아이디" />
         </div>
       </div>
       <button

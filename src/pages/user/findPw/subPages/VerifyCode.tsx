@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { ActionProp, FindPwAction } from "../../../../types/users/actions";
 import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
+import ApiClient from "../../../../apis/apiClient";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 interface Value {
   value: string;
@@ -14,6 +16,7 @@ const VerifyCode = ({ dispatch }: ActionProp<FindPwAction>) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [values, setValues] = useState<Value[]>([]);
+  const { userInfo } = useUserInfo();
 
   const openModal = (msg: string) => {
     setMessage(msg);
@@ -26,10 +29,28 @@ const VerifyCode = ({ dispatch }: ActionProp<FindPwAction>) => {
     inputRefs.current[values.length]?.click();
   };
 
+  const onSubmitCode = async () => {
+    try {
+      const code = values.map((v) => v.value).join("");
+      const response = await ApiClient.getInstance().emailVerificationCode(
+        userInfo.userEmail,
+        code,
+      );
+      if (response.data !== "인증 번호가 틀렸습니다.") {
+        dispatch({ type: VERIFICATION.CODE });
+      }
+    } catch (err) {
+      openModal("인증 코드가 틀렸습니다");
+      setValues([]);
+    }
+  };
+
   const onNext = () => {
     if (values.length < 6) {
       openModal("인증코드는 6자리입니다");
+      return;
     }
+    onSubmitCode();
   };
 
   const moveToNext = (
@@ -75,7 +96,7 @@ const VerifyCode = ({ dispatch }: ActionProp<FindPwAction>) => {
 
   useEffect(() => {
     if (values.length === 6) {
-      dispatch({ type: VERIFICATION.CODE });
+      onSubmitCode();
     }
   }, [values, dispatch]);
 
@@ -95,6 +116,7 @@ const VerifyCode = ({ dispatch }: ActionProp<FindPwAction>) => {
                 key={index}
                 className="focus:outline-1 focus:outline-hanaGreen bg-hanaSilver w-10 h-10 rounded-lg px-2 text-center"
                 type="text"
+                value={values[index]?.value || ""}
                 ref={(el) => {
                   inputRefs.current[index] = el;
                 }}
