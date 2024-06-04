@@ -7,4 +7,12 @@ interface accountInfoType {
   account_type: string;
 }
 
-export default accountInfoType;
+interface AccountType {
+  id: number;
+  accountNumber: string;
+  balance: number;
+  accountName: string;
+  accountType: string;
+}
+
+

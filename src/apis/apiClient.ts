@@ -5,7 +5,7 @@ import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
 import { transactionType } from "../types/transaction";
 import { categoryType } from "../types/category";
-import accountInfoType from "../types/account";
+
 import {
   EmailType,
   FindPwType,
@@ -14,8 +14,12 @@ import {
   UserUpdateInfoType,
 } from "../types/users/users-type";
 import EmailConvert from "../components/emailConvert";
+import { getCookie } from "../utils/cookie";
+import accountApi from "./interfaces/accountApi";
 
-class ApiClient implements userApi, interestApi, transactionApi {
+const ACCESSTOKEN = getCookie("x-access-token");
+
+class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 싱글톤 인스턴스
   private static instance: ApiClient;
 
@@ -73,7 +77,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   //  회원가입 - 인증코드 verification
   public async emailVerificationCode(email: EmailType, inputCode: string) {
     const emailAddress = `${email.emailId}@${email.domain}`;
-    console.log("email Address", emailAddress);
+
     const response = await this.axiosInstance.request({
       method: "get",
       url: `/emails/check/authcode?email=${emailAddress}&code=${inputCode}`,
@@ -150,12 +154,11 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // ------------------------------ interest
   // 사용자별 관심사 목록 조회
   public async getUserInterests() {
-    const userId = 1;
     const response = await this.axiosInstance.request<
-      BasicResultApiType<UserInterestType[]>
+      ApiResponseType<UserInterestType[]>
     >({
       method: "get",
-      url: `/user-interests/${userId}`,
+      url: "/user-interests",
     });
 
     return response.data;
@@ -169,7 +172,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   ) {
     const userId = 1;
     const response = await this.axiosInstance.request<
-      BasicResultApiType<UserInterestTransactionsType>
+      ApiResponseType<UserInterestTransactionsType>
     >({
       method: "get",
       url: `/user-interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
@@ -181,7 +184,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // 관심사 목록 가져오기
   public async getInterestList() {
     const response = await this.axiosInstance.request<
-      BasicResultApiType<InterestType[]>
+      ApiResponseType<InterestType[]>
     >({
       method: "get",
       url: "/interests",
@@ -215,17 +218,18 @@ class ApiClient implements userApi, interestApi, transactionApi {
   }
 
   // ------------------------------ account
-  // 계좌 id별 계좌 정보
-  public async getAccounts(): Promise<accountInfoType> {
-    // const accountId = 1;
-    const apiUrl = "/accountsData.json";
-    const response = await this.axiosInstance.request<accountInfoType>({
+  // 사용자 전체 계좌 목록 조회
+  public async getAccounts() {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<AccountType[]>
+    >({
       method: "get",
-      url: apiUrl,
-      // url: `/account/${accountId}`
+      url: "/accounts",
     });
     return response.data;
   }
+
+
 
   /*
   #####################################################
@@ -255,7 +259,10 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
     newInstance.interceptors.request.use(
       (config) => {
-        // eslint-disable-next-line no-param-reassign
+        if (ACCESSTOKEN) {
+          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+        }
+
         config.headers["Content-Type"] = "application/json";
 
         return config;

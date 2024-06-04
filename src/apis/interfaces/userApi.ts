@@ -1,6 +1,5 @@
 import {
   EmailType,
-  FindIdType,
   LoginResponseType,
   LoginType,
   RegisterType,
