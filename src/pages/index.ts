@@ -17,6 +17,7 @@ export { default as validateId } from "../components/validation/id-validation";
 export { default as validatePw } from "../components/validation/pw-validation";
 export { default as Transaction } from "./transaction/Transaction";
 export { default as TransactionDetail } from "./transaction/TransactionDetail";
+export { default as ModifyCategory } from "./transaction/ModifyCategory";
 export { default as Register } from "./user/register/Regstier";
 export { default as FindPw } from "./user/findPw/FindPw";
 export { default as Settings } from "./Settings";

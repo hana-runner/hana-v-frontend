@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface CategoryBtnProps {
   text: string;
+  id: number;
+  selected: boolean;
+  onClick: (id: number) => void;
 }
-
-function CategoryBtn({ text }: CategoryBtnProps) {
-  const [clicked, setClicked] = useState(false);
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
-
+function CategoryBtn({
+  text, id, selected, onClick,
+}: CategoryBtnProps) {
   return (
     <button
       type="button"
-      className={`w-[px] h-[px] rounded-[px] bg-white shadow-md ${clicked ? "bg-hanaGreen-300" : "bg-white"}`}
-      onClick={handleClick}
+      className={`w-[326px] h-[46px] rounded-[20px] text-left mt-[12px] pl-[24px] shadow-md ${selected ? "bg-hanaGreen bg-opacity-35" : "bg-white"}`}
+      onClick={() => onClick(id)}
     >
       {text}
     </button>
