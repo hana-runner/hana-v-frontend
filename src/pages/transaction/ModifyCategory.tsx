@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 import { CancleBtn, CategoryBtn, Navbar } from "../../components";
 import { categoryType } from "../../types/category";
 import ApiClient from "../../apis/apiClient";
@@ -7,6 +8,9 @@ import ApiClient from "../../apis/apiClient";
 const ModifyCategory: React.FC = () => {
   const [categories, setCategories] = useState<categoryType[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const location = useLocation();
+  const previousUrl = location.state?.from;
+  console.log(previousUrl);
 
   const { data: categoryList } = useQuery({
     queryKey: ["categoryList"],
@@ -28,7 +32,7 @@ const ModifyCategory: React.FC = () => {
 
   return (
     <section>
-      <Navbar title="카테고리" option={true} logo={false} path="/transaction/detail/0" />
+      <Navbar title="카테고리" option={true} logo={false} path={previousUrl} />
       <div className="mt-[20px] pb-[10px] h-[520px] overflow-y-scroll scrollbar-hide">
         {categories.map((c: categoryType) => (
           <CategoryBtn

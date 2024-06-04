@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BsPencil } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { transactionType } from "../../types/transaction";
 import ApiClient from "../../apis/apiClient";
 import Tag from "../common/Tag";
 import { categoryType } from "../../types/category";
+import Loading from "../common/Loading";
 
 type ListCardProps = {
   id: string;
@@ -12,6 +14,7 @@ type ListCardProps = {
 
 function ListCard({ id }: ListCardProps) {
   const [list, setList] = useState<transactionType | null>(null);
+  const navigate = useNavigate();
 
   // 거래 내역
   const {
@@ -44,7 +47,7 @@ function ListCard({ id }: ListCardProps) {
   }, [userTransaction, id]);
 
   if (isTransactionLoading || isCategoryLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (transactionError || categoryError) {
@@ -54,6 +57,10 @@ function ListCard({ id }: ListCardProps) {
   const category = categories?.categories.find(
     (c: categoryType) => c.id === list?.category_id,
   );
+
+  const handleCategoryClick = (idx: string) => {
+    navigate(`/transaction/detail/${idx}/category`, { state: { from: window.location.pathname } });
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -76,7 +83,10 @@ function ListCard({ id }: ListCardProps) {
         <div className="flex justify-between my-[8px]">
           <div className="flex">
             <p>카테고리</p>
-            <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver" />
+            <BsPencil
+              className="ml-[6px] mt-[3px] text-hanaSilver"
+              onClick={() => handleCategoryClick(id)}
+            />
           </div>
           <Tag title={category?.title || ""} color={category?.color || ""} />
         </div>

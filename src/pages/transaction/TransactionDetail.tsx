@@ -7,7 +7,7 @@ function TransactionDetail() {
 
   return (
     <section>
-      <Navbar option={true} title="거래내역상세" logo={false} />
+      <Navbar option={true} title="거래내역상세" logo={false} path="/transaction" />
       <ListCard id={id!} />
     </section>
   );
