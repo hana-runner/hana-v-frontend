@@ -8,6 +8,7 @@ import {
 interface userApi {
   register(registerInfo: RegisterType): Promise<BaseResponseType>;
   login(loginInfo: LoginType): Promise<ApiResponseType<LoginResponseType>>;
+  findId(email: EmailType): Promise<ApiResponseType<string>>;
   emailVerification(emailInfo: EmailType): Promise<BaseResponseType>;
   emailVerificationCode(
     email: EmailType,

@@ -23,7 +23,7 @@ interface UserFindAccountType
 
 interface LoginType extends Pick<UserInfoType, "username" | "pw"> {}
 
-interface FindIdType extends pick<UserInfoType, "email" | "name"> {}
+interface FindIdType extends pick<UserInfoType, "email"> {}
 
 interface FindPwType
   extends Pick<UserInfoType, "email" | "username" | "name"> {}
