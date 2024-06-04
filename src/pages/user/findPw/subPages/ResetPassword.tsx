@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import validatePw from "../../../../components/validation/pw-validation";
+import validatePw from "../../../../components/users/validation/pw-validation";
 import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
 
 const ResetPasswrod = () => {

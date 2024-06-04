@@ -13,7 +13,8 @@ import {
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
-import EmailConvert from "../components/emailConvert";
+import EmailConvert from "../components/users/emailConverter";
+
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 
@@ -65,7 +66,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   public async emailVerification(emailInfo: EmailType) {
     const emailAddress = `${emailInfo.emailId}@${emailInfo.domain}`;
 
-    console.log("emailadd", emailAddress);
     const response = await this.axiosInstance.request({
       method: "post",
       url: `/emails/authcode?email=${emailAddress}`,
@@ -228,8 +228,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     });
     return response.data;
   }
-
-
 
   /*
   #####################################################

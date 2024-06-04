@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 
 import { FindIdAction, ActionProp } from "../../../../types/users/actions";
