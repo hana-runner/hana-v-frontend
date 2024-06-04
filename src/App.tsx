@@ -22,6 +22,7 @@ import {
 import Interests from "./pages/interest/Interests";
 import { RegisterProvider } from "./components/context/register-context/register-context";
 
+
 function App() {
   return (
     <RegisterProvider>
@@ -53,6 +54,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+
     </RegisterProvider>
   );
 }

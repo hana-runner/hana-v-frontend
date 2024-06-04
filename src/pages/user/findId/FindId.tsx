@@ -38,6 +38,7 @@ const FindId = () => {
     reset();
   }, []);
 
+
   return (
     <UserWrapper hasNav title="아이디 찾기" option logo>
       <div className="h-full">
