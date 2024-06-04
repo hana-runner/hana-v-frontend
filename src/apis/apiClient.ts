@@ -65,7 +65,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   public async emailVerification(emailInfo: EmailType) {
     const emailAddress = `${emailInfo.emailId}@${emailInfo.domain}`;
 
-    console.log("emailadd", emailAddress);
     const response = await this.axiosInstance.request({
       method: "post",
       url: `/emails/authcode?email=${emailAddress}`,

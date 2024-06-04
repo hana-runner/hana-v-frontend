@@ -70,6 +70,7 @@ const Register = () => {
     const res: BaseResponseType = await ApiClient.getInstance().register(dat);
     if (res.code) {
       reset();
+    } else {
     }
   };
 
@@ -119,7 +120,9 @@ const Register = () => {
       {infoList[VERIFICATION.EMAIL] && !infoList[VERIFICATION.CODE] && (
         <VerifyCode dispatch={dispatch} />
       )}
-      {infoList[VERIFICATION.CODE] && <VerifiedWithPath path="/login" />}
+      {infoList[VERIFICATION.CODE] && (
+        <VerifiedWithPath message="가입 성공" path="/login" />
+      )}
     </UserWrapper>
   );
 };

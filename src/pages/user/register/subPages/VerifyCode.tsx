@@ -39,14 +39,21 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
 
     try {
       const code = values.map((v) => v.value).join("");
-      const response: BaseResponseType =
+      const response: ApiResponseType<string> =
         await ApiClient.getInstance().emailVerificationCode(userEmail, code);
 
-      if (response.code) {
+      console.log(response);
+      if (response.data != "인증 번호가 틀렸습니다.") {
         dispatch({ type: VERIFICATION.CODE });
+      } else {
+        setMessage("인증 번호가 틀렸습니다");
+        setValues([]);
       }
     } catch (err) {
-      console.error(err);
+      setMessage("인증 번호가 틀렸습니다");
+
+      openModal();
+      setValues([]);
     }
   }, [values, dispatch]);
 
@@ -95,7 +102,7 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
     if (values.length === 6) {
       onNext();
     }
-  }, [onNext, values]);
+  }, [onNext, values.length]);
 
   return (
     <section className="flex flex-col w-80 h-full justify-between py-10">
@@ -116,6 +123,7 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
                 ref={(el) => {
                   inputRefs.current[index] = el;
                 }}
+                value={values[index]?.value || ""}
                 onChange={(e) => moveToNext(e, index)}
                 onKeyDown={(e) => handleRemove(e, index)}
                 maxLength={1}
