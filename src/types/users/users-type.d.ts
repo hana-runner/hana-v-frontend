@@ -54,6 +54,11 @@ interface EmailRefHandler {
   domainRef: React.RefObject<HTMLSelectElement | null>;
 }
 
+interface SimpleInputRefHandler {
+  setMessage: (msg: string) => void;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+}
+
 interface LoginResponseType extends Required<BaseResponseType> {
   accessToken: string;
   refreshToken: string;

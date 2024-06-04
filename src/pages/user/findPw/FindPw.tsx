@@ -63,7 +63,9 @@ const FindPw = () => {
           {checkList[VERIFICATION.EMAIL] && !checkList[VERIFICATION.CODE] && (
             <VerifyCode dispatch={dispatch} />
           )}
-          {checkList[VERIFICATION.CODE] && showVerified && <Verified />}
+          {checkList[VERIFICATION.CODE] && showVerified && (
+            <Verified message="인증 완료" />
+          )}
           {checkList[VERIFICATION.CODE] && !showVerified && <ResetPasswrod />}
         </div>
       </UserWrapper>
