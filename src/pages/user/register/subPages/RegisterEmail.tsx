@@ -7,7 +7,7 @@ import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 import { EmailRefHandler, EmailType } from "../../../../types/users/users-type";
 import ApiClient from "../../../../apis/apiClient";
 import EmailInput from "../../../../components/users/EmailInput";
-import BlindedInput from "../../../../components/users/\bblindedInput";
+import BlindedInput from "../../../../components/users/BlindedInput";
 
 const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();

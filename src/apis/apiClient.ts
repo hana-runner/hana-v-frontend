@@ -8,15 +8,14 @@ import { categoryType } from "../types/category";
 
 import {
   EmailType,
-  FindPwType,
   LoginType,
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
-import EmailConvert from "../components/users/emailConverter";
 
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
+import EmailConverter from "../components/users/emailConverter";
 
 const ACCESSTOKEN = getCookie("x-access-token");
 
@@ -99,7 +98,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
   //  로그인 - 아이디 찾기
   public async findId(email: EmailType) {
-    const emailAddress = EmailConvert(email);
+    const emailAddress = EmailConverter(email);
     const response = await this.axiosInstance.request({
       method: "get",
       url: `/users/find/username?email=${emailAddress}`,

@@ -8,9 +8,10 @@ import { LOGIN_ACTION, VALIDATION } from "../../../types/users/enums";
 import { LoginAction } from "../../../types/users/actions";
 import { LoginValidation } from "../../../types/users/validate-verify";
 import ApiClient from "../../../apis/apiClient";
-import { LoginResponseType, LoginType } from "../../../types/users/users-type";
+import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
 import { useUserInfo } from "../../../components/context/register-context/register-context";
+import AlarmCard from "../../../components/users/alarmCard";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,

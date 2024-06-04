@@ -4,7 +4,7 @@ import { useUserInfo } from "../../../../components/context/register-context/reg
 import { Modal } from "../../../../components";
 import { VERIFICATION } from "../../../../types/users/enums";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
-import BlindedInput from "../../../../components/users/\bblindedInput";
+import BlindedInput from "../../../../components/users/BlindedInput";
 
 interface Value {
   value: string;
