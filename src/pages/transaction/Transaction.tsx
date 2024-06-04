@@ -1,7 +1,6 @@
 import React from "react";
-import { AccountBoard, Navbar } from "../components";
-import HistoryOption from "../components/transaction/HistoryOption";
-import TransactionList from "../components/transaction/TransactionList";
+import HistoryOption from "../../components/transaction/HistoryOption";
+import { TransactionList, Navbar, AccountBoard } from "../../components";
 
 function Transaction() {
   return (
