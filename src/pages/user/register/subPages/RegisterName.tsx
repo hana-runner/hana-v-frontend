@@ -3,6 +3,8 @@ import { useUserInfo } from "../../../../components/context/register-context/reg
 import { VERIFICATION } from "../../../../types/users/enums";
 
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
+import BlindedInput from "../../../../components/users/\bblindedInput";
+import { FaCircle } from "react-icons/fa";
 
 const RegisterName = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setName, userInfo } = useUserInfo();
@@ -49,11 +51,7 @@ const RegisterName = ({ dispatch }: ActionProp<RegisterAction>) => {
         </div>
 
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
-          {Array(userInfo.userPw.length)
-            .fill(null)
-            .map((item) => {
-              return "*";
-            })}
+          <BlindedInput character="*" length={userInfo.userPw.length} />
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
           {userInfo.username}

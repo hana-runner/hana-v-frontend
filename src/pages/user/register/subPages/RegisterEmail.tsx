@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
+import { FaCircle } from "react-icons/fa";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
@@ -6,6 +7,7 @@ import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 import { EmailRefHandler, EmailType } from "../../../../types/users/users-type";
 import ApiClient from "../../../../apis/apiClient";
 import EmailInput from "../../../../components/users/EmailInput";
+import BlindedInput from "../../../../components/users/\bblindedInput";
 
 const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();
@@ -62,30 +64,15 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
           </span>
           <span> - </span>
           <span className="flex items-center gap-2 border-b-2 border-b-hanaSilver  text-hanaSilver font-extralight px-2">
-            {userInfo.userSSN.at(-1)}{" "}
-            {Array(6)
-              .fill(null)
-              .map((_, index) => {
-                return (
-                  <div
-                    key={index}
-                    className=" bg-hanaBlack rounded-full w-3 h-3 "
-                  >
-                    {" "}
-                  </div>
-                );
-              })}
+            {userInfo.userSSN.at(-1)}
+            <BlindedInput length={6} character={<FaCircle />} />
           </span>
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
           {userInfo.name}
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
-          {Array(userInfo.userPw.length)
-            .fill(null)
-            .map((item) => {
-              return "*";
-            })}
+          <BlindedInput length={userInfo.userPw.length} character="*" />
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
           {userInfo.username}
