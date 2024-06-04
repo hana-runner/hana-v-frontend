@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
-import { Modal } from "../../../../components";
 
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
@@ -10,9 +9,6 @@ import EmailInput from "../../../../components/users/EmailInput";
 
 const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();
-  const selectedRef = useRef<HTMLSelectElement | null>(null);
-  const [modalOpened, setModalOpened] = useState(false);
-  const [message, setMessage] = useState<string>("");
 
   const emailRefHandler = useRef<EmailRefHandler>(null);
 
@@ -22,8 +18,7 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
     const inputDomain = emailRef?.domainRef.current?.value;
 
     if (!inputEmail) {
-      setMessage("이름을 입력해주세요");
-      setModalOpened(true);
+      emailRef?.setMessage("이메일을 입력해주세요");
       return;
     }
 
@@ -104,16 +99,6 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
       >
         다음
       </button>
-
-      {modalOpened && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <Modal
-            message={message}
-            option={false}
-            modalToggle={() => setModalOpened(false)}
-          />
-        </div>
-      )}
     </section>
   );
 };
