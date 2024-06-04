@@ -59,7 +59,9 @@ function ListCard({ id }: ListCardProps) {
   );
 
   const handleCategoryClick = (idx: string) => {
-    navigate(`/transaction/detail/${idx}/category`, { state: { from: window.location.pathname } });
+    navigate(`/transaction/detail/${idx}/category`, {
+      state: { from: window.location.pathname, transactionId: idx },
+    });
   };
 
   return (

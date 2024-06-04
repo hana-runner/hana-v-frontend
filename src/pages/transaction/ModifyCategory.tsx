@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CancleBtn, CategoryBtn, Navbar } from "../../components";
 import { categoryType } from "../../types/category";
 import ApiClient from "../../apis/apiClient";
@@ -9,14 +9,26 @@ const ModifyCategory: React.FC = () => {
   const [categories, setCategories] = useState<categoryType[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const previousUrl = location.state?.from;
-  console.log(previousUrl);
+  const transactionId = location.state?.transactionId;
 
   const { data: categoryList } = useQuery({
     queryKey: ["categoryList"],
     queryFn: async () => {
       const response = await ApiClient.getInstance().getCategories();
       return response;
+    },
+  });
+
+  const updateCategory = useMutation({
+    mutationFn: async () => {
+      if (transactionId !== undefined && selectedCategoryId !== null) {
+        await ApiClient.getInstance().updateTransactionCategory(transactionId, selectedCategoryId);
+      }
+    },
+    onSuccess: () => {
+      navigate(previousUrl);
     },
   });
 
@@ -28,6 +40,10 @@ const ModifyCategory: React.FC = () => {
 
   const handleCategoryClick = (id: number) => {
     setSelectedCategoryId(id);
+  };
+
+  const handleSaveClick = () => {
+    updateCategory.mutate();
   };
 
   return (
@@ -46,8 +62,12 @@ const ModifyCategory: React.FC = () => {
       </div>
       <div className="flex justify-between mx-[45px] mt-[60px]">
         <CancleBtn />
-        <button type="button" className="w-[210px] h-[48px] rounded-[15px] text-white bg-hanaGreen shadow-md">
-          저장
+        <button
+          type="button"
+          className="w-[144px] h-[48px] rounded-[15px] text-white bg-hanaGreen"
+          onClick={handleSaveClick}
+        >
+          수정
         </button>
       </div>
     </section>

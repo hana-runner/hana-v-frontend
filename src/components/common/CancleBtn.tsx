@@ -8,7 +8,7 @@ function CancelBtn() {
   return (
     <button
       type="button"
-      className="w-[76px] h-[48px] rounded-[15px] text-white bg-hanaSilver shadow-md"
+      className="w-[144px] h-[48px] rounded-[15px] text-white bg-hanaSilver"
       onClick={handleCancelClick}
     >
       취소

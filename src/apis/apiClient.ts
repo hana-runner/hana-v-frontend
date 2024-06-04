@@ -153,7 +153,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // 사용자별 관심사 목록 조회
   public async getUserInterests() {
     const response = await this.axiosInstance.request<
-      ApiResponseType<UserInterestType[]>
+    ApiResponseType<UserInterestType[]>
     >({
       method: "get",
       url: "/user-interests",
@@ -170,7 +170,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   ) {
     const userId = 1;
     const response = await this.axiosInstance.request<
-      ApiResponseType<UserInterestTransactionsType>
+    ApiResponseType<UserInterestTransactionsType>
     >({
       method: "get",
       url: `/user-interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
@@ -182,7 +182,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // 관심사 목록 가져오기
   public async getInterestList() {
     const response = await this.axiosInstance.request<
-      ApiResponseType<InterestType[]>
+    ApiResponseType<InterestType[]>
     >({
       method: "get",
       url: "/interests",
@@ -192,6 +192,14 @@ class ApiClient implements userApi, interestApi, transactionApi {
   }
 
   // ------------------------------ category
+  public async updateTransactionCategory(transactionId: string, categoryId: number): Promise<void> {
+    const response = await this.axiosInstance.request({
+      method: "put",
+      url: `/transaction/detail/${transactionId}/category`,
+      data: JSON.stringify({ categoryId }),
+    });
+    return response.data;
+  }
 
   // ------------------------------ transaction
   public async getTransactions(): Promise<transactionType> {
@@ -257,7 +265,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
     newInstance.interceptors.request.use(
       (config) => {
         if (ACCESSTOKEN) {
-          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+          config.headers.Authorization = `Bearer ${ACCESSTOKEN}`;
         }
 
         config.headers["Content-Type"] = "application/json";
