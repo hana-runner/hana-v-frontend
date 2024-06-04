@@ -1,66 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React from "react";
+// import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { transactionType } from "../../types/transaction";
-import ApiClient from "../../apis/apiClient";
-import { categoryType } from "../../types/category";
+// import ApiClient from "../../apis/apiClient";
+// import { categoryType } from "../../types/category";
 import Tag from "../common/Tag";
+import { categoryType } from "../../types/category";
 
-const TransactionHistoryList: React.FC = () => {
-  const [categories, setCategories] = useState<categoryType[]>([]);
-  const [transactions, setTransactions] = useState<transactionType[]>([]);
-  const [visibleCount, setVisibleCount] = useState<number>(20); // 처음에 보여줄 데이터 수
+interface TransactionListProps {
+  transactions: transactionType[];
+  categories: categoryType[];
+  loadMore: () => void;
+  hasMore: boolean;
+}
+
+const TransactionHistoryList: React.FC<TransactionListProps> = ({
+  transactions,
+  categories,
+  loadMore,
+  hasMore,
+}) => {
   const navigate = useNavigate();
-
-  // 거래내역 가져오기
-  const { data: userTransactions, isLoading, error } = useQuery({
-    queryKey: ["userTransactions"],
-    queryFn: async () => {
-      const response = await ApiClient.getInstance()
-        .getTransactions(accountId, option, sort, start, end);
-      return response;
-    },
-  });
-
-  // 일반 카테고리 가져오기
-  const { data: categoryList } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const response = await ApiClient.getInstance().getCategories();
-      return response;
-    },
-  });
-
-  useEffect(() => {
-    if (userTransactions && Array.isArray(userTransactions.data.transactionHistory)) {
-      const slicedTransactions = userTransactions.data.transactionHistory.slice(0, visibleCount);
-      setTransactions(slicedTransactions);
-      console.log("Sliced transactions:", slicedTransactions); // 데이터 로그
-    }
-  }, [userTransactions, visibleCount]);
-
-  useEffect(() => {
-    if (categoryList && Array.isArray(categoryList.categories)) {
-      setCategories(categoryList.categories);
-    }
-  }, [categoryList]);
-
-  const loadMore = () => {
-    setVisibleCount((prevCount) => prevCount + 20);
-  };
 
   const handleClick = (id: number) => {
     navigate(`/transaction/detail/${id}`);
   };
-
-  // 로딩 중
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching data</div>;
-  }
 
   return (
     <div>
@@ -82,8 +46,8 @@ const TransactionHistoryList: React.FC = () => {
                 }
               >
                 {transaction.amount.toLocaleString()}
-                  {" "}
-                  원
+                {" "}
+                원
               </div>
             </div>
             <div className="flex justify-between">
@@ -105,7 +69,7 @@ const TransactionHistoryList: React.FC = () => {
             </div>
           </div>
         ))}
-        {transactions.length < (userTransactions?.data.transactionHistory.length || 0) && (
+        {hasMore && (
           <button
             type="button"
             onClick={loadMore}

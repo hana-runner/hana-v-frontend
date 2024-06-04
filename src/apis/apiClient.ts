@@ -196,7 +196,8 @@ class ApiClient implements userApi, interestApi, transactionApi {
     : Promise<BaseResponseType> {
     const response = await this.axiosInstance.request({
       method: "put",
-      url: `/transaction-histories/${transactionId}`,
+      // url: `/transaction-histories/${transactionId}`,
+      url: "/categoriesData.json",
       data: JSON.stringify(categoryId),
     });
     return response.data;
@@ -204,12 +205,19 @@ class ApiClient implements userApi, interestApi, transactionApi {
 
   // ------------------------------ transaction
   // 전체 거래 내역 조회
-  public async getTransactions(accountId: number, option: number, sort: string, start: number, end: number): Promise<ApiResponseType<transactionType>> {
-    // const accountId = 1;
-    const response = await this.axiosInstance.request<transactionType>({
+  public async getTransactions(
+    accountId: number,
+    option: number,
+    sort: boolean,
+    start: Date,
+    end: Date,
+  ): Promise<ApiResponseType<transactionType>> {
+    const startDateString = start.toISOString().slice(0, 10);
+    const endDateString = end.toISOString().slice(0, 10);
+    const response = await this.axiosInstance.request<ApiResponseType<transactionType>>({
       method: "get",
-      url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${start}&end=${end}`,
-      // url: `/accounts/${accountId}`
+      url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${startDateString}&end=${endDateString}`,
+      // url: "/transactionListData.json",
     });
     return response.data;
   }
@@ -227,11 +235,9 @@ class ApiClient implements userApi, interestApi, transactionApi {
   // 계좌 id별 계좌 정보
   public async getAccounts(): Promise<accountInfoType> {
     // const accountId = 1;
-    const apiUrl = "/accountsData.json";
     const response = await this.axiosInstance.request<accountInfoType>({
       method: "get",
-      url: apiUrl,
-      // url: `/account/${accountId}`
+      url: "/accounts",
     });
     return response.data;
   }

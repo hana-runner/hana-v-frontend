@@ -39,8 +39,8 @@ function ListCard({ id }: ListCardProps) {
   });
 
   useEffect(() => {
-    if (userTransaction && Array.isArray(userTransaction.transactionHistory)) {
-      const transaction = userTransaction.transactionHistory
+    if (userTransaction && Array.isArray(userTransaction.data.transactionHistory)) {
+      const transaction = userTransaction.data.transactionHistory
         .find((t: transactionType) => t.id === parseInt(id, 10));
       setList(transaction || null);
     }
