@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { ActionProp, FindIdAction } from "../../../../types/users/actions";
 import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
+import ApiClient from "../../../../apis/apiClient";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 interface Value {
   value: string;
@@ -14,6 +16,7 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [values, setValues] = useState<Value[]>([]);
+  const { userInfo, setUsername } = useUserInfo();
 
   const openModal = (msg: string) => {
     setMessage(msg);
@@ -26,9 +29,56 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
     inputRefs.current[values.length]?.click();
   };
 
-  const onNext = () => {
+  const onNext = async () => {
     if (values.length < 6) {
       openModal("인증코드는 6자리입니다");
+    }
+
+    try {
+      const code = values.map((v) => v.value).join("");
+      const response: ApiResponseType<string> =
+        await ApiClient.getInstance().emailVerificationCode(
+          userInfo.userEmail,
+          code,
+        );
+
+      if (response.status) {
+        console.log("res", response);
+        setUsername(response.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchUsername = async () => {
+    try {
+      const response: ApiResponseType<string> =
+        await ApiClient.getInstance().findId(userInfo.userEmail);
+      if (response.status) {
+        setUsername(response.data);
+        dispatch({ type: VERIFICATION.CODE });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onSetUsername = async () => {
+    try {
+      const code = values.map((v) => v.value).join("");
+      const response: ApiResponseType<string> =
+        await ApiClient.getInstance().emailVerificationCode(
+          userInfo.userEmail,
+          code,
+        );
+
+      if (response.status) {
+        console.log("res", response);
+        fetchUsername();
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -75,9 +125,9 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
 
   useEffect(() => {
     if (values.length === 6) {
-      dispatch({ type: VERIFICATION.CODE });
+      onSetUsername();
     }
-  }, [values, dispatch]);
+  }, [values, dispatch, userInfo]);
 
   return (
     <section className="flex flex-col h-full justify-between py-10">

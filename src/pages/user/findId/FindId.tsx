@@ -6,7 +6,6 @@ import UserWrapper from "../../../components/UserWrapper";
 import { FindIdAction } from "../../../types/users/actions";
 import { FindIdVerification } from "../../../types/users/verification";
 import { VERIFICATION } from "../../../types/users/enums";
-import { useUserInfo } from "../../../components/context/register-context/register-context";
 
 const InitialVerificationList: FindIdVerification = {
   [VERIFICATION.EMAIL]: false,
@@ -32,10 +31,6 @@ const reducer = (list: FindIdVerification, { type }: FindIdAction) => {
 };
 const FindId = () => {
   const [checkList, dispatch] = useReducer(reducer, InitialVerificationList);
-
-  const onCodeVerify = async () => {
-    return;
-  };
 
   return (
     <UserWrapper hasNav title="아이디 찾기" option logo>
