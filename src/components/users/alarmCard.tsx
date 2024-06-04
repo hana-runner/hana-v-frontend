@@ -6,7 +6,7 @@ interface Prop {
 }
 const AlarmCard = ({ title, date, content }: Prop) => {
   return (
-    <section className="bg-white rounded-2xl drop-shadow-md px-6 py-2 max-h-28 overflow-hidden">
+    <section className="bg-white rounded-2xl drop-shadow-md px-6 py-2 h-[112px] min-h-[90px] ">
       {/* 상단 알람 제목과 시간 */}
       <div className="flex justify-between items-center pt-3 pb-1 max-h-8">
         <div className="font-bold">{title}</div>
