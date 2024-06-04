@@ -16,7 +16,8 @@ const TransactionHistoryList: React.FC = () => {
   const { data: userTransactions, isLoading, error } = useQuery({
     queryKey: ["userTransactions"],
     queryFn: async () => {
-      const response = await ApiClient.getInstance().getTransactions();
+      const response = await ApiClient.getInstance()
+        .getTransactions(accountId, option, sort, start, end);
       return response;
     },
   });
@@ -31,8 +32,8 @@ const TransactionHistoryList: React.FC = () => {
   });
 
   useEffect(() => {
-    if (userTransactions && Array.isArray(userTransactions.transactionHistory)) {
-      const slicedTransactions = userTransactions.transactionHistory.slice(0, visibleCount);
+    if (userTransactions && Array.isArray(userTransactions.data.transactionHistory)) {
+      const slicedTransactions = userTransactions.data.transactionHistory.slice(0, visibleCount);
       setTransactions(slicedTransactions);
       console.log("Sliced transactions:", slicedTransactions); // 데이터 로그
     }
@@ -104,7 +105,7 @@ const TransactionHistoryList: React.FC = () => {
             </div>
           </div>
         ))}
-        {transactions.length < (userTransactions?.transactionHistory.length || 0) && (
+        {transactions.length < (userTransactions?.data.transactionHistory.length || 0) && (
           <button
             type="button"
             onClick={loadMore}

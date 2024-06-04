@@ -24,7 +24,9 @@ const ModifyCategory: React.FC = () => {
   const updateCategory = useMutation({
     mutationFn: async () => {
       if (transactionId !== undefined && selectedCategoryId !== null) {
-        await ApiClient.getInstance().updateTransactionCategory(transactionId, selectedCategoryId);
+        const response = ApiClient.getInstance()
+          .updateTransactionCategory(transactionId, selectedCategoryId);
+        console.log(response);
       }
     },
     onSuccess: () => {

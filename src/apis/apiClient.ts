@@ -192,23 +192,23 @@ class ApiClient implements userApi, interestApi, transactionApi {
   }
 
   // ------------------------------ category
-  public async updateTransactionCategory(transactionId: string, categoryId: number): Promise<void> {
+  public async updateTransactionCategory(transactionId: string, categoryId: number)
+    : Promise<BaseResponseType> {
     const response = await this.axiosInstance.request({
       method: "put",
-      url: `/transaction/detail/${transactionId}/category`,
-      data: JSON.stringify({ categoryId }),
+      url: `/transaction-histories/${transactionId}`,
+      data: JSON.stringify(categoryId),
     });
     return response.data;
   }
 
   // ------------------------------ transaction
-  public async getTransactions(): Promise<transactionType> {
+  // 전체 거래 내역 조회
+  public async getTransactions(accountId: number, option: number, sort: string, start: number, end: number): Promise<ApiResponseType<transactionType>> {
     // const accountId = 1;
-    const apiUrl = "/transactionListData.json"; // public 디렉토리의 JSON 파일 경로
-
     const response = await this.axiosInstance.request<transactionType>({
       method: "get",
-      url: apiUrl,
+      url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${start}&end=${end}`,
       // url: `/accounts/${accountId}`
     });
     return response.data;
