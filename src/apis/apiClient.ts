@@ -13,7 +13,7 @@ import {
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
-import EmailConvert from "../components/emailConvert";
+import EmailConvert from "../components/users/emailConverter";
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 
@@ -228,8 +228,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     });
     return response.data;
   }
-
-
 
   /*
   #####################################################

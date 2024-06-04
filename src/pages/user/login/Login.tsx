@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import validateId from "../../../components/validation/id-validation";
-import validatePw from "../../../components/validation/pw-validation";
+import validateId from "../../../components/users/validation/id-validation";
+import validatePw from "../../../components/users/validation/pw-validation";
 import UserWrapper from "../../../components/UserWrapper";
 import { LOGIN_ACTION, VALIDATION } from "../../../types/users/enums";
 import { LoginAction } from "../../../types/users/actions";
