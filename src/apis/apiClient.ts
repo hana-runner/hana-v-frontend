@@ -5,7 +5,7 @@ import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
 import { transactionType } from "../types/transaction";
 import { categoryType } from "../types/category";
-import accountInfoType from "../types/account";
+
 import {
   EmailType,
   FindIdType,
@@ -15,10 +15,11 @@ import {
   UserUpdateInfoType,
 } from "../types/users/users-type";
 import { getCookie } from "../utils/cookie";
+import accountApi from "./interfaces/accountApi";
 
 const ACCESSTOKEN = getCookie("x-access-token");
 
-class ApiClient implements userApi, interestApi, transactionApi {
+class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 싱글톤 인스턴스
   private static instance: ApiClient;
 
@@ -216,17 +217,18 @@ class ApiClient implements userApi, interestApi, transactionApi {
   }
 
   // ------------------------------ account
-  // 계좌 id별 계좌 정보
-  public async getAccounts(): Promise<accountInfoType> {
-    // const accountId = 1;
-    const apiUrl = "/accountsData.json";
-    const response = await this.axiosInstance.request<accountInfoType>({
+  // 사용자 전체 계좌 목록 조회
+  public async getAccounts() {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<AccountType[]>
+    >({
       method: "get",
-      url: apiUrl,
-      // url: `/account/${accountId}`
+      url: "/accounts",
     });
     return response.data;
   }
+
+
 
   /*
   #####################################################
