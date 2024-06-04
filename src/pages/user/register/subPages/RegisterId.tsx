@@ -4,13 +4,27 @@ import validateId from "../../../../components/users/validation/id-validation";
 
 import { VERIFICATION } from "../../../../types/users/enums";
 import { ActionProp, RegisterAction } from "../../../../types/users/actions";
+import ApiClient from "../../../../apis/apiClient";
 
 const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
   const idRef = useRef<HTMLInputElement | null>(null);
   const { setUsername, userInfo } = useUserInfo();
   const [errorMsg, setErrorMsg] = useState("");
 
-  const onNext = () => {
+  const checkIdDupl = async (id: string) => {
+    try {
+      const response: BaseResponseType =
+        await ApiClient.getInstance().idDuplicationCheck(id);
+      if (response.success) {
+        return true;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    return false;
+  };
+  const onNext = async () => {
     const inputId = idRef.current?.value;
     if (!inputId) {
       setErrorMsg("아이디를 입력해주세요");
@@ -22,14 +36,13 @@ const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
       return;
     }
 
-    setUsername(inputId);
-  };
-
-  useEffect(() => {
-    if (userInfo.username) {
-      dispatch({ type: VERIFICATION.USER_ID });
+    if (!(await checkIdDupl(inputId))) {
+      setErrorMsg("이미 존재하는 회원입니다");
+      return;
     }
-  }, [userInfo.username, dispatch]);
+    setUsername(inputId);
+    dispatch({ type: VERIFICATION.USER_ID });
+  };
 
   return (
     <section className="flex flex-col justify-between h-full">

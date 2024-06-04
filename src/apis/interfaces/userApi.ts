@@ -11,6 +11,7 @@ interface userApi {
   login(loginInfo: LoginType): Promise<ApiResponseType<LoginResponseType>>;
   findId(email: EmailType): Promise<ApiResponseType<string>>;
   updatePw(updatePwInfo: UpdatePwType): Promise<ApiResponseType<string>>;
+  idDuplicationCheck(id: string): Promise<BaseResponseType>;
   emailVerification(emailInfo: EmailType): Promise<BaseResponseType>;
   emailVerificationCode(
     email: EmailType,

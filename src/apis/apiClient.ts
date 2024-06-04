@@ -56,7 +56,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   public async idDuplicationCheck(id: string) {
     const response = await this.axiosInstance.request({
       method: "get",
-      url: `/users?userId=${id}`,
+      url: `users/check_dup?username=${id}`,
     });
 
     return response.data;
