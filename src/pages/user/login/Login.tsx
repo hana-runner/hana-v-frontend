@@ -10,6 +10,7 @@ import { LoginValidation } from "../../../types/users/validate-verify";
 import ApiClient from "../../../apis/apiClient";
 import { LoginResponseType, LoginType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
+import { useUserInfo } from "../../../components/context/register-context/register-context";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
@@ -52,6 +53,7 @@ const Login = () => {
   const [IdErrMsg, setIdErrMsg] = useState<string>("");
   const [PwErrMsg, setPwErrMsg] = useState<string>("");
   const navigation = useNavigate();
+  const { reset } = useUserInfo();
 
   const [status, dispatch] = useReducer(reducer, InitialLoginInfoStatus);
 
@@ -99,6 +101,10 @@ const Login = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    reset;
+  }, []);
 
   return (
     <UserWrapper hasNav title="로그인" option>

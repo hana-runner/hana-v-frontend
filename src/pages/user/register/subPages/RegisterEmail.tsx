@@ -57,6 +57,7 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
         </h1>
         <EmailInput ref={emailRefHandler} />
         <div className="flex gap-3 py-1 text-start">
+          {/* 회원 주민번호 */}
           <span className="border-b-2 border-b-hanaSilver  text-hanaSilver font-extralight px-2">
             {userInfo.userSSN.split("").map((item) => {
               return `${item} `;
@@ -69,12 +70,15 @@ const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
           </span>
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
+          {/* 회원 이름 */}
           {userInfo.name}
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
+          {/* 회원 비밀번호 */}
           <BlindedInput length={userInfo.userPw.length} character="*" />
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
+          {/* 회원 이름 */}
           {userInfo.username}
         </div>
       </div>

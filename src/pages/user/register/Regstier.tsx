@@ -69,7 +69,6 @@ const Register = () => {
   const onRegister = async (dat: RegisterType) => {
     const res: BaseResponseType = await ApiClient.getInstance().register(dat);
     if (res.code) {
-      console.log("로그인 성공");
       reset();
     }
   };
@@ -91,11 +90,13 @@ const Register = () => {
       infoList.ssn &&
       infoList.username
     ) {
-      console.log(dat);
-
       onRegister(dat);
     }
   }, [infoList.code]);
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   return (
     <UserWrapper hasNav={false}>

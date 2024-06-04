@@ -28,7 +28,6 @@ const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
   useEffect(() => {
     if (userInfo.username) {
       dispatch({ type: VERIFICATION.USER_ID });
-      console.log("hi", userInfo);
     }
   }, [userInfo.username, dispatch]);
 
