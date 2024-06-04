@@ -108,12 +108,12 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
-  //  로그인 - 비밀번호 찾기
-  public async findPw(findPwInfo: FindPwType) {
+  //  로그인 - 비밀번호 재설정
+  public async updatePw(updatePwInfo: FindPwType) {
     const response = await this.axiosInstance.request({
       method: "post",
-      url: "/users/find/pw",
-      data: findPwInfo,
+      url: "/users/update/pw",
+      data: updatePwInfo,
     });
 
     return response.data;

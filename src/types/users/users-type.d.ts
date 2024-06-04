@@ -25,8 +25,7 @@ interface LoginType extends Pick<UserInfoType, "username" | "pw"> {}
 
 interface FindIdType extends pick<UserInfoType, "email"> {}
 
-interface FindPwType
-  extends Pick<UserInfoType, "email" | "username" | "name"> {}
+interface UpdatePwType extends Pick<UserInfoType, "email" | "pw"> {}
 
 // 회원가입 api에 사용
 interface RegisterType

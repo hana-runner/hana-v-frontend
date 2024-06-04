@@ -5,10 +5,20 @@ import React, {
   useRef,
   useState,
 } from "react";
+import clsx from "clsx";
 import { SimpleInputRefHandler } from "../../types/users/users-type";
 
+interface Prop {
+  faded?: boolean;
+  placeHolder?: string;
+  readOnly?: boolean;
+}
+
 const SimpleInput = forwardRef(
-  (_, ref: ForwardedRef<SimpleInputRefHandler>) => {
+  (
+    { faded = false, readOnly = false, placeHolder }: Prop,
+    ref: ForwardedRef<SimpleInputRefHandler>,
+  ) => {
     const [message, setMessage] = useState<string>("");
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -21,11 +31,22 @@ const SimpleInput = forwardRef(
 
     return (
       <section>
-        <div className="grid grid-cols-10 border-b-2 border-hanaGreen w-full ">
+        <div
+          className={clsx(
+            "grid grid-cols-10 border-b-2 border-hanaGreen w-full ",
+            {
+              "border-hanaSilver": faded,
+            },
+          )}
+        >
           <input
-            className=" col-span-9 px-2 py-1 bg-transparent focus:outline-none"
-            placeholder="이름"
+            className={clsx(
+              "col-span-9 px-2 py-1 bg-transparent focus:outline-none",
+              { "text-hanaSilver": faded },
+            )}
+            placeholder={placeHolder || ""}
             type="string"
+            readOnly={readOnly}
             ref={inputRef}
           />
           <div className="col-span-1">x</div>

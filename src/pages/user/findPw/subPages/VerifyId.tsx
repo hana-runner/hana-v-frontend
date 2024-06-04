@@ -43,7 +43,7 @@ const VerifyId = ({ dispatch }: ActionProp<FindPwAction>) => {
           입력해주세요
         </h1>
         <div>
-          <SimpleInput ref={inputRef} />
+          <SimpleInput ref={inputRef} placeHolder="아이디" />
         </div>
       </div>
       <button

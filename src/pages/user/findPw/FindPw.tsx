@@ -9,11 +9,13 @@ import { FindAccountProvider } from "../../../components/context/find-account-co
 import ResetPasswrod from "./subPages/ResetPassword";
 import { FindPwVerification } from "../../../types/users/validate-verify";
 import Verified from "../../../components/users/Verified";
+import { useUserInfo } from "../../../components/context/register-context/register-context";
 
 const InitialVerificationData: FindPwVerification = {
   [VERIFICATION.CODE]: false,
   [VERIFICATION.EMAIL]: false,
   [VERIFICATION.USER_ID]: false,
+  [VERIFICATION.USER_PW]: false,
 };
 
 const reducer = (list: FindPwVerification, { type }: FindPwAction) => {
@@ -31,6 +33,10 @@ const reducer = (list: FindPwVerification, { type }: FindPwAction) => {
       newer = { ...list, [VERIFICATION.USER_ID]: true };
       break;
 
+    case VERIFICATION.USER_PW:
+      newer = { ...list, [VERIFICATION.USER_PW]: true };
+      break;
+
     default:
       return list;
   }
@@ -41,6 +47,11 @@ const reducer = (list: FindPwVerification, { type }: FindPwAction) => {
 const FindPw = () => {
   const [checkList, dispatch] = useReducer(reducer, InitialVerificationData);
   const [showVerified, setShowVerified] = useState(false);
+  const { reset } = useUserInfo();
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   useEffect(() => {
     if (checkList.code && checkList.email && checkList.username) {
@@ -66,7 +77,9 @@ const FindPw = () => {
           {checkList[VERIFICATION.CODE] && showVerified && (
             <Verified message="인증 완료" />
           )}
-          {checkList[VERIFICATION.CODE] && !showVerified && <ResetPasswrod />}
+          {checkList[VERIFICATION.CODE] && !showVerified && (
+            <ResetPasswrod dispatch={dispatch} />
+          )}
         </div>
       </UserWrapper>
     </FindAccountProvider>
