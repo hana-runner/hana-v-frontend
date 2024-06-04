@@ -8,12 +8,12 @@ import { categoryType } from "../types/category";
 
 import {
   EmailType,
-  FindIdType,
   FindPwType,
   LoginType,
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
+import EmailConvert from "../components/emailConvert";
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 
@@ -77,6 +77,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   //  회원가입 - 인증코드 verification
   public async emailVerificationCode(email: EmailType, inputCode: string) {
     const emailAddress = `${email.emailId}@${email.domain}`;
+
     const response = await this.axiosInstance.request({
       method: "get",
       url: `/emails/check/authcode?email=${emailAddress}&code=${inputCode}`,
@@ -97,11 +98,11 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   //  로그인 - 아이디 찾기
-  public async findId(findIdInfo: FindIdType) {
+  public async findId(email: EmailType) {
+    const emailAddress = EmailConvert(email);
     const response = await this.axiosInstance.request({
-      method: "post",
-      url: "/users/find/id",
-      data: findIdInfo,
+      method: "get",
+      url: `/users/find/username?email=${emailAddress}`,
     });
 
     return response.data;
