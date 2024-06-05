@@ -13,6 +13,7 @@ import {
   InterestTransaction,
   Login,
   NotFound,
+  Notification,
   Register,
   Settings,
   Splash,
@@ -21,7 +22,6 @@ import {
 } from "./pages";
 import Interests from "./pages/interest/Interests";
 import { RegisterProvider } from "./components/context/register-context/register-context";
-import Alarm from "./pages/alarm/Alarm";
 import PersonalInformation from "./pages/personalInformation/PersonalInformation";
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
         <Route path="/interests" element={<Interests />} />
         <Route path="/interest/add" element={<AddInterest />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/alarm" element={<Alarm />} />
+        <Route path="/notification" element={<Notification />} />
         <Route path="/users/info" element={<PersonalInformation />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/transaction/detail/:id" element={<TransactionDetail />} />

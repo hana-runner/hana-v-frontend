@@ -4,7 +4,7 @@ interface Prop {
   date: Date;
   content: string;
 }
-const AlarmCard = ({ title, date, content }: Prop) => {
+const NotificationCard = ({ title, date, content }: Prop) => {
   return (
     <section className="bg-white rounded-2xl drop-shadow-md px-6 py-1">
       {/* 상단 알람 제목과 시간 */}
@@ -23,4 +23,4 @@ const AlarmCard = ({ title, date, content }: Prop) => {
   );
 };
 
-export default AlarmCard;
+export default NotificationCard;
