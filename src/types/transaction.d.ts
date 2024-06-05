@@ -6,8 +6,9 @@ interface TransactionType {
   user_id: number;
   categoryTitle: string;
   categoryColor: string;
+  approvalNumber: number;
   num: number;
-  type: boolean;
+  type: string;
   description: string;
   action: number;
   amount: number;
