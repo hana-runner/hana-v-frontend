@@ -1,31 +1,54 @@
 import React, { useEffect, useRef, useState } from "react";
-import clsx from "clsx";
-import validatePw from "../../../../components/validation/pw-validation";
-import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
+import validatePw from "../../../../components/users/validation/pw-validation";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
+import {
+  SimpleInputRefHandler,
+  UpdatePwType,
+} from "../../../../types/users/users-type";
+import SimpleInput from "../../../../components/users/SimpleInput";
+import ApiClient from "../../../../apis/apiClient";
+import { ActionProp, FindPwAction } from "../../../../types/users/actions";
+import { VERIFICATION } from "../../../../types/users/enums";
+import EmailConverter from "../../../../components/users/emailConverter";
 
-const ResetPasswrod = () => {
-  const [message, setMessage] = useState<string>("");
-  const [confirmMessage, setConfirmMessage] = useState<string>("");
-
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const inputConfirmRef = useRef<HTMLInputElement | null>(null);
+const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
+  const newPwRef = useRef<SimpleInputRefHandler>(null);
+  const newPwConfirmRef = useRef<SimpleInputRefHandler>(null);
 
   const [newPw, setNewPw] = useState<string>("");
   const [newPwConfirm, setPwConfirm] = useState<string>("");
 
-  const { userInfo } = useFindAccount();
+  const { userInfo } = useUserInfo();
+
+  const onSubmitNewPw = async (pw: string) => {
+    try {
+      const updateData: UpdatePwType = {
+        email: EmailConverter(userInfo.userEmail),
+        pw,
+      };
+      const response: ApiResponseType<string> =
+        await ApiClient.getInstance().updatePw(updateData);
+
+      console.log(response);
+      if (response.success) {
+        dispatch({ type: VERIFICATION.USER_PW });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const onNext = () => {
-    const inputPw = inputRef.current?.value;
-    const inputConfirm = inputConfirmRef.current?.value;
+    const inputPw = newPwRef.current?.inputRef.current?.value;
+    const inputConfirm = newPwConfirmRef.current?.inputRef.current?.value;
 
     if (!inputPw) {
-      setMessage("비밀번호를 입력해주세요");
+      newPwRef.current?.setMessage("비밀번호를 입력해주세요");
       return;
     }
 
     if (!validatePw(inputPw)) {
-      setMessage("유효하지 않은 비밀번호입니다");
+      newPwRef.current?.setMessage("유효하지 않은 비밀번호입니다");
       return;
     }
 
@@ -35,16 +58,17 @@ const ResetPasswrod = () => {
     setPwConfirm(inputConfirm);
 
     if (inputPw !== newPwConfirm) {
-      setConfirmMessage("비밀번호가 일치하지 않습니다");
-      return;
+      console.log("newPw", newPwConfirm);
+      newPwConfirmRef.current.setMessage(
+        `비밀번호가 일치하지 않습니다  ${newPwConfirm}`,
+      );
     }
-
-    console.log("재등록");
+    onSubmitNewPw(inputPw);
   };
 
   useEffect(() => {
-    inputRef.current?.focus();
-    inputRef.current?.click();
+    newPwRef.current?.inputRef.current?.focus();
+    newPwRef.current?.inputRef.current?.click();
   }, []);
 
   return (
@@ -56,23 +80,24 @@ const ResetPasswrod = () => {
           입력해주세요
         </h1>
         {newPw && (
-          <div>
-            <div className="grid grid-cols-10 border-b-2 border-hanaGreen w-full ">
-              <input
-                className=" col-span-9 px-2 py-1 bg-transparent focus:outline-none"
-                placeholder="비밀번호 확인"
-                type="string"
-                ref={inputConfirmRef}
-              />
-              <div className="col-span-1">x</div>
-            </div>
-            <div className="text-start text-hanaRed  text-sm pt-1">
-              {confirmMessage}
-            </div>
-          </div>
+          // <div>
+          //   <div className="grid grid-cols-10 border-b-2 border-hanaGreen w-full ">
+          //     <input
+          //       className=" col-span-9 px-2 py-1 bg-transparent focus:outline-none"
+          //       placeholder="비밀번호 확인"
+          //       type="string"
+          //       ref={inputConfirmRef}
+          //     />
+          //     <div className="col-span-1">x</div>
+          //   </div>
+          //   <div className="text-start text-hanaRed  text-sm pt-1">
+          //     {confirmMessage}
+          //   </div>
+          // </div>
+          <SimpleInput ref={newPwConfirmRef} placeHolder="비밀번호 확인" />
         )}
 
-        <div>
+        {/* <div>
           <div
             className={clsx("grid grid-cols-10 border-b-2 w-full", {
               "border-b-hanaGreen": !newPw,
@@ -94,15 +119,21 @@ const ResetPasswrod = () => {
             {!newPw && <div className="col-span-1">x</div>}
           </div>
           <div className="text-start text-hanaRed  text-sm pt-1">{message}</div>
-        </div>
+        </div> */}
+        <SimpleInput
+          ref={newPwRef}
+          placeHolder="새로운 비밀번호"
+          readOnly={!!newPw}
+          faded={!!newPw}
+        />
 
         <div className="grid grid-cols-11 py-1 text-start text-hanaSilver font-extralight">
           <span className="col-span-5 border-b-2 px-2 border-hanaSilver">
-            {userInfo.email.emailId}
+            {userInfo.userEmail.emailId}
           </span>
           <span className="col-span-1">@</span>
           <span className="col-span-5 border-b-2 px-2 border-hanaSilver">
-            {userInfo.email.domain}
+            {userInfo.userEmail.domain}
           </span>
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">

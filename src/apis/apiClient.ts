@@ -5,11 +5,9 @@ import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
 import { transactionType } from "../types/transaction";
 import { categoryType } from "../types/category";
-import accountInfoType from "../types/account";
+
 import {
   EmailType,
-  FindIdType,
-  FindPwType,
   LoginType,
   RegisterType,
   UserUpdateInfoType,
@@ -18,7 +16,13 @@ import { getCookie } from "../utils/cookie";
 
 const ACCESSTOKEN = getCookie("x-access-token");
 
-class ApiClient implements userApi, interestApi, transactionApi {
+import { getCookie } from "../utils/cookie";
+import accountApi from "./interfaces/accountApi";
+import EmailConverter from "../components/users/emailConverter";
+
+const ACCESSTOKEN = getCookie("x-access-token");
+
+class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 싱글톤 인스턴스
   private static instance: ApiClient;
 
@@ -54,7 +58,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   public async idDuplicationCheck(id: string) {
     const response = await this.axiosInstance.request({
       method: "get",
-      url: `/users?userId=${id}`,
+      url: `users/check_dup?username=${id}`,
     });
 
     return response.data;
@@ -64,7 +68,6 @@ class ApiClient implements userApi, interestApi, transactionApi {
   public async emailVerification(emailInfo: EmailType) {
     const emailAddress = `${emailInfo.emailId}@${emailInfo.domain}`;
 
-    console.log("emailadd", emailAddress);
     const response = await this.axiosInstance.request({
       method: "post",
       url: `/emails/authcode?email=${emailAddress}`,
@@ -76,6 +79,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   //  회원가입 - 인증코드 verification
   public async emailVerificationCode(email: EmailType, inputCode: string) {
     const emailAddress = `${email.emailId}@${email.domain}`;
+
     const response = await this.axiosInstance.request({
       method: "get",
       url: `/emails/check/authcode?email=${emailAddress}&code=${inputCode}`,
@@ -96,22 +100,22 @@ class ApiClient implements userApi, interestApi, transactionApi {
   }
 
   //  로그인 - 아이디 찾기
-  public async findId(findIdInfo: FindIdType) {
+  public async findId(email: EmailType) {
+    const emailAddress = EmailConverter(email);
     const response = await this.axiosInstance.request({
-      method: "post",
-      url: "/users/find/id",
-      data: findIdInfo,
+      method: "get",
+      url: `/users/find/username?email=${emailAddress}`,
     });
 
     return response.data;
   }
 
-  //  로그인 - 비밀번호 찾기
-  public async findPw(findPwInfo: FindPwType) {
+  //  로그인 - 비밀번호 재설정
+  public async updatePw(updatePwInfo: FindPwType) {
     const response = await this.axiosInstance.request({
       method: "post",
-      url: "/users/find/pw",
-      data: findPwInfo,
+      url: "/users/update/pw",
+      data: updatePwInfo,
     });
 
     return response.data;
@@ -132,7 +136,7 @@ class ApiClient implements userApi, interestApi, transactionApi {
   public async updateUserInfo(userInfo: UserUpdateInfoType) {
     const response = await this.axiosInstance.request({
       method: "put",
-      url: `/users/${userInfo.username}`,
+      url: "users/update/email",
       data: userInfo,
     });
 
@@ -144,6 +148,15 @@ class ApiClient implements userApi, interestApi, transactionApi {
     const response = await this.axiosInstance.request({
       method: "delete",
       url: `/users/${userId}`,
+    });
+
+    return response.data;
+  }
+
+  public async getUserInfo() {
+    const response = await this.axiosInstance.request({
+      method: "get",
+      url: "users/info",
     });
 
     return response.data;
@@ -216,14 +229,13 @@ class ApiClient implements userApi, interestApi, transactionApi {
   }
 
   // ------------------------------ account
-  // 계좌 id별 계좌 정보
-  public async getAccounts(): Promise<accountInfoType> {
-    // const accountId = 1;
-    const apiUrl = "/accountsData.json";
-    const response = await this.axiosInstance.request<accountInfoType>({
+  // 사용자 전체 계좌 목록 조회
+  public async getAccounts() {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<AccountType[]>
+    >({
       method: "get",
-      url: apiUrl,
-      // url: `/account/${accountId}`
+      url: "/accounts",
     });
     return response.data;
   }

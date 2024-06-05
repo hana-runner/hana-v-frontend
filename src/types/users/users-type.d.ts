@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { EMAIL_DOMAIN } from "./enums";
 
 // User 관련 정보 전체
@@ -13,20 +14,19 @@ interface UserInfoType {
   is_deleted: boolean;
   is_receive_email;
   is_receive_alarm;
+  ssn: string;
 }
 
-interface UserUpdateInfoType
-  extends Pick<UserInfoType, "username" | "pw" | "email"> {}
+interface UserUpdateInfoType extends Pick<UserInfoType, "email"> {}
 
 interface UserFindAccountType
   extends Pick<UserInfoType, "username" | "pw" | "email"> {}
 
 interface LoginType extends Pick<UserInfoType, "username" | "pw"> {}
 
-interface FindIdType extends pick<UserInfoType, "email" | "name"> {}
+interface FindIdType extends pick<UserInfoType, "email"> {}
 
-interface FindPwType
-  extends Pick<UserInfoType, "email" | "username" | "name"> {}
+interface UpdatePwType extends Pick<UserInfoType, "email" | "pw"> {}
 
 // 회원가입 api에 사용
 interface RegisterType
@@ -54,7 +54,25 @@ interface EmailRefHandler {
   domainRef: React.RefObject<HTMLSelectElement | null>;
 }
 
+interface SimpleInputRefHandler {
+  setMessage: (msg: string) => void;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+}
+
 interface LoginResponseType extends Required<BaseResponseType> {
   accessToken: string;
   refreshToken: string;
+}
+
+interface UserInfoResponseType extends BaseResponseType {
+  birthday: Date;
+  email: string;
+  gender: number;
+  username: string;
+}
+
+interface PersonalInfoRefHandler {
+  emailIdRef: RefObject<HTMLInputElement>;
+  domainRef: RefObject<HTMLSelectElement>;
+  edit: () => void;
 }

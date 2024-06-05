@@ -1,25 +1,14 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import AccountCard, { AccountType } from "./AccountCard";
+import AccountCard from "./AccountCard";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { useNavigate } from "react-router";
 
-const accounts: AccountType[] = [
-  {
-    title: "영하나플러스통장",
-    type: "입출금",
-    balance: 20000000,
-    accountNumber: "756-910521-21207",
-  },
-  {
-    title: "영하나플러스통장",
-    type: "입출금",
-    balance: 20000000,
-    accountNumber: "756-910521-21208",
-  },
-];
+interface MyAccountProps {
+  accounts: AccountType[];
+}
 
-const MyAccount = () => {
+const MyAccount: React.FC<MyAccountProps> = ({ accounts }) => {
   const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -96,8 +85,8 @@ const MyAccount = () => {
             onMouseLeave={handleMouseLeave}
             style={{ transform: `translateX(${currentIndex * -100}%)` }}
           >
-            {accounts.map((account, index) => (
-              <div key={index} className="min-w-full">
+            {accounts.map((account: AccountType) => (
+              <div key={account.id} className="min-w-full">
                 <AccountCard {...account} />
               </div>
             ))}

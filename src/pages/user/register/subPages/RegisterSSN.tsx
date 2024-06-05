@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FaCircle } from "react-icons/fa";
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
 import { VERIFICATION } from "../../../../types/users/enums";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
+import BlindedInput from "../../../../components/users/BlindedInput";
 
 interface Value {
   value: string;
@@ -107,6 +109,7 @@ const RegisterSSN = ({ dispatch }: ActionProp<RegisterAction>) => {
           입력해주세요
         </h1>
         <div className="grid grid-cols-12 w-full">
+          {/* 주민번호 앞자리 입력 */}
           <span className="col-span-6 flex justify-between border-b-2 px-1 py-1 border-b-hanaGreen ">
             {Array(6)
               .fill(null)
@@ -127,6 +130,7 @@ const RegisterSSN = ({ dispatch }: ActionProp<RegisterAction>) => {
               })}
           </span>
           <span className="col-span-1 text-hanaGreen">-</span>
+          {/* 주민번호 뒷자리 입력 */}
           <span className="col-span-1 border-b-2 py-1 px-1 border-b-hanaGreen ">
             <input
               className=" w-6 bg-transparent text-center focus:outline-none"
@@ -139,31 +143,19 @@ const RegisterSSN = ({ dispatch }: ActionProp<RegisterAction>) => {
             />
           </span>
           <span className="col-span-4 flex justify-between items-center py-1 px-1">
-            {Array(6)
-              .fill(null)
-              .map((_, index) => {
-                return (
-                  <div
-                    key={index}
-                    className=" bg-hanaBlack rounded-full w-3 h-3 "
-                  >
-                    {" "}
-                  </div>
-                );
-              })}
+            <BlindedInput character={<FaCircle />} length={6} />
           </span>
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
+          {/* 회원 이름 */}
           {userInfo.name}
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
-          {Array(userInfo.userPw.length)
-            .fill(null)
-            .map((item) => {
-              return "*";
-            })}
+          {/* 비밀번호 */}
+          <BlindedInput character="*" length={userInfo.userPw.length} />
         </div>
         <div className="border-b-2 border-b-hanaSilver px-2 py-1 text-start text-hanaSilver font-extralight">
+          {/* 아이디 */}
           {userInfo.username}
         </div>
       </div>
