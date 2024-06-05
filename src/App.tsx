@@ -19,10 +19,10 @@ import {
   Transaction,
   TransactionDetail,
   ModifyCategory,
+  Notification,
 } from "./pages";
 import Interests from "./pages/interest/Interests";
 import { RegisterProvider } from "./components/context/register-context/register-context";
-import Alarm from "./pages/alarm/Alarm";
 
 function App() {
   return (
@@ -39,10 +39,13 @@ function App() {
         <Route path="/interests" element={<Interests />} />
         <Route path="/interest/add" element={<AddInterest />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/alarm" element={<Alarm />} />
+        <Route path="/notification" element={<Notification />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
-        <Route path="/transaction/detail/:id/category" element={<ModifyCategory />} />
+        <Route
+          path="/transaction/detail/:id/category"
+          element={<ModifyCategory />}
+        />
 
         <Route path="/settings" element={<Settings />} />
         <Route
