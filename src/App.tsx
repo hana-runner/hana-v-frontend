@@ -18,14 +18,11 @@ import {
   Splash,
   Transaction,
   TransactionDetail,
-<<<<<<< Updated upstream
-=======
-  ModifyCategory,
-  Notification,
->>>>>>> Stashed changes
 } from "./pages";
 import Interests from "./pages/interest/Interests";
 import { RegisterProvider } from "./components/context/register-context/register-context";
+import Alarm from "./pages/alarm/Alarm";
+import PersonalInformation from "./pages/personalInformation/PersonalInformation";
 
 function App() {
   return (
@@ -42,17 +39,10 @@ function App() {
         <Route path="/interests" element={<Interests />} />
         <Route path="/interest/add" element={<AddInterest />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/notification" element={<Notification />} />
+        <Route path="/alarm" element={<Alarm />} />
+        <Route path="/users/info" element={<PersonalInformation />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
-<<<<<<< Updated upstream
-=======
-        <Route
-          path="/transaction/detail/:id/category"
-          element={<ModifyCategory />}
-        />
-
->>>>>>> Stashed changes
         <Route path="/settings" element={<Settings />} />
         <Route
           path="/interests/analysis/:interestId"
