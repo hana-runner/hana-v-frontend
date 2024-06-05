@@ -7,14 +7,9 @@ import "react-calendar/dist/Calendar.css";
 import PeriodBtn from "../common/PeriodBtn";
 import calculateDate from "../../utils/calculateDate";
 
-// 매개변수 타입 정의
 interface HistoryOptionBoardProps {
   closeModal: () => void;
-  confirmDate: (
-    start: Date,
-    end: Date,
-    period: number | undefined,
-  ) => void;
+  confirmDate: (start: Date, end: Date, period: number | undefined) => void;
   confirmOption: (
     period: number | undefined,
     option: number,
@@ -43,52 +38,64 @@ function HistoryOptionBoard({
   setOption,
   setSort,
 }: HistoryOptionBoardProps) {
-  const [selectedPeriod, setSelectedPeriod] = useState<number | undefined>(undefined);
+  const [selectedPeriod, setSelectedPeriod] = useState<number | undefined>(
+    undefined,
+  );
   const [isStartCalendarOpen, setStartCalendarOpen] = useState(false);
   const [isEndCalendarOpen, setEndCalendarOpen] = useState(false);
 
+  // 현재 board의 state 관리
+  const [selectStartDate, setSelectStartDate] = useState<Date>(startDate);
+  const [selectEndDate, setSelectEndDate] = useState<Date>(endDate);
+  const [selectOption, setSelectOption] = useState<number>(option);
+  const [selectSort, setSelectSort] = useState<boolean>(sort);
+
   const handleStartToggleCalendar = () => {
     setStartCalendarOpen(!isStartCalendarOpen);
-    if (isEndCalendarOpen) setEndCalendarOpen(false); // Close end calendar if it's open
+    if (isEndCalendarOpen) setEndCalendarOpen(false);
   };
 
   const handleEndToggleCalendar = () => {
     setEndCalendarOpen(!isEndCalendarOpen);
-    if (isStartCalendarOpen) setStartCalendarOpen(false); // Close start calendar if it's open
+    if (isStartCalendarOpen) setStartCalendarOpen(false);
   };
 
   const handleStartDateChange: CalendarProps["onChange"] = (value) => {
     if (value instanceof Date) {
-      setStartDate(value);
-      setSelectedPeriod(undefined); // Clear the period
+      setSelectStartDate(value);
+      setSelectedPeriod(undefined);
       setStartCalendarOpen(false);
     }
   };
 
   const handleEndDateChange: CalendarProps["onChange"] = (value) => {
     if (value instanceof Date) {
-      setEndDate(value);
+      setSelectEndDate(value);
       setEndCalendarOpen(false);
     }
   };
 
   const handleConfirm = () => {
-    confirmDate(startDate, endDate, selectedPeriod);
-    confirmOption(selectedPeriod, option, sort);
+    setStartDate(selectStartDate);
+    setEndDate(selectEndDate);
+    setOption(selectOption);
+    setSort(selectSort);
+    confirmDate(selectStartDate, selectEndDate, selectedPeriod);
+    confirmOption(selectedPeriod, selectOption, selectSort);
     closeModal();
   };
 
   const handlePeriod = (month: number) => {
-    setStartDate(calculateDate.monthAgo(endDate, month));
+    setSelectStartDate(calculateDate.monthAgo(selectEndDate, month));
     setSelectedPeriod(month);
   };
 
   const handleEntireViewOption = (entireView: number) => {
-    setOption(entireView);
+    setSelectOption(entireView);
   };
 
   const handleOrder = (orderOption: boolean) => {
-    setSort(orderOption);
+    setSelectSort(orderOption);
   };
 
   const periodOptions = [
@@ -136,7 +143,7 @@ function HistoryOptionBoard({
             className="relative flex justify-between w-[151px] h-[48px] p-[14px] items-center align-middle border-2 border-hanaSilver rounded-[10px]"
           >
             <p className="text-[12px]">
-              {moment(startDate).format("YYYY-MM-DD")}
+              {moment(selectStartDate).format("YYYY-MM-DD")}
             </p>
             <IoCalendarOutline
               onClick={handleStartToggleCalendar}
@@ -146,10 +153,10 @@ function HistoryOptionBoard({
               <div className="absolute top-[50px] left-0 z-10 bg-white shadow-lg">
                 <Calendar
                   onChange={handleStartDateChange}
-                  value={startDate}
-                  maxDate={endDate}
-                  locale="en-US" // 일요일부터 시작
-                  formatDay={(locale, date) => moment(date).format("DD")} // 숫자만 보여주기
+                  value={selectStartDate}
+                  maxDate={selectEndDate}
+                  locale="en-US"
+                  formatDay={(locale, date) => moment(date).format("DD")}
                 />
               </div>
             )}
@@ -157,7 +164,7 @@ function HistoryOptionBoard({
           <div className="mx-[8px]">-</div>
           <div className="relative flex justify-between w-[151px] h-[48px] p-[14px] items-center align-middle border-2 border-hanaSilver rounded-[10px]">
             <p className="text-[12px]">
-              {moment(endDate).format("YYYY-MM-DD")}
+              {moment(selectEndDate).format("YYYY-MM-DD")}
             </p>
             <IoCalendarOutline
               onClick={handleEndToggleCalendar}
@@ -167,10 +174,10 @@ function HistoryOptionBoard({
               <div className="absolute top-[50px] left-auto right-0 z-10 bg-white shadow-lg">
                 <Calendar
                   onChange={handleEndDateChange}
-                  value={endDate}
-                  minDate={startDate}
-                  locale="en-US" // 일요일부터 시작
-                  formatDay={(locale, date) => moment(date).format("DD")} // 숫자만 보여주기
+                  value={selectEndDate}
+                  minDate={selectStartDate}
+                  locale="en-US"
+                  formatDay={(locale, date) => moment(date).format("DD")}
                 />
               </div>
             )}
@@ -187,7 +194,7 @@ function HistoryOptionBoard({
               description={opt.description}
               width="w-[103px]"
               height="h-[30px]"
-              selected={option === opt.month}
+              selected={selectOption === opt.month}
               onClick={() => handleEntireViewOption(opt.month)}
             />
           ))}
@@ -203,7 +210,7 @@ function HistoryOptionBoard({
               description={opt.description}
               width="w-[159px]"
               height="h-[30px]"
-              selected={Number(sort) === opt.month}
+              selected={Number(selectSort) === opt.month}
               onClick={() => handleOrder(Boolean(opt.month))}
             />
           ))}

@@ -1,4 +1,4 @@
-export interface transactionType {
+interface TransactionType {
   transactionHistory: Array;
   id: number;
   account_id: number;
@@ -12,4 +12,8 @@ export interface transactionType {
   balance: number;
   created_at: string;
   updated_at: string;
+}
+
+interface TransactionDataType {
+  transactionHistory: TransactionType[];
 }

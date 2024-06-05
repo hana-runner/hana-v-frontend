@@ -1,13 +1,12 @@
 import React from "react";
 import { BsPencil } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { transactionType } from "../../types/transaction";
 import Tag from "../common/Tag";
 import { categoryType } from "../../types/category";
 
 type ListCardProps = {
   id: string;
-  data: transactionType;
+  data: TransactionType;
   category: categoryType;
 };
 
@@ -69,14 +68,13 @@ function ListCard({ id, data, category }: ListCardProps) {
     <div className="flex flex-col items-center">
       {data ? (
         <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
-          <div className="text-hanaSilver text-[8px] mb-[8px]">{new Date(data.created_at).toLocaleString()}</div>
+          <div className="text-hanaSilver text-[8px] mb-[8px]">
+            {new Date(data.created_at).toLocaleString()}
+          </div>
           <div>{data.description}</div>
           <div className="flex justify-between mt-[20px] items-center">
             <Tag title={category?.title || ""} color={category?.color || ""} />
-            <p>
-              {data.amount.toLocaleString()}
-              원
-            </p>
+            <p>{`${data.amount.toLocaleString()}원`}</p>
           </div>
         </div>
       ) : (
@@ -94,27 +92,26 @@ function ListCard({ id, data, category }: ListCardProps) {
           <Tag title={category?.title || ""} color={category?.color || ""} />
         </div>
         <div className="flex justify-between my-[8px]">
-            <div className="flex">
-              <p>관심사</p>
-              <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver" />
-            </div>
-
+          <div className="flex">
+            <p>관심사</p>
+            <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver" />
+          </div>
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>승인번호</p>
-            {data?.num}
+          <p>승인번호</p>
+          {data?.num}
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>거래유형</p>
-            {data?.action}
+          <p>거래유형</p>
+          {data?.action}
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>일시</p>
-            {data?.created_at.toLocaleString()}
+          <p>일시</p>
+          {data?.created_at.toLocaleString()}
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>거래 후 잔액</p>
-            {data?.balance.toLocaleString()}
+          <p>거래 후 잔액</p>
+          {data?.balance.toLocaleString()}
         </div>
       </div>
     </div>

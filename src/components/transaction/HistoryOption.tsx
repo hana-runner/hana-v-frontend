@@ -34,16 +34,17 @@ const HistoryOption: React.FC<HistoryOptionProps> = ({
   const handleDate = (start: Date, end: Date) => {
     setStartDate(start);
     setEndDate(end);
-    setStartDate(start);
-    setEndDate(end);
     setIsModalOpen(false);
   };
 
-  const handleOption = (periodName: number | undefined, entireView: number, orderBy: boolean) => {
+  const handleOption = (
+    periodName: number | undefined,
+    entireView: number,
+    orderBy: boolean,
+  ) => {
     setPeriod(periodName);
     setTransaction(entireView);
     setSort(orderBy);
-    setSort(orderBy === true);
     setOption(entireView);
   };
 
@@ -88,10 +89,7 @@ const HistoryOption: React.FC<HistoryOptionProps> = ({
         <div className="flex items-center">
           <span className="text-[8px] font-bold">기간 : </span>
           <span className="text-[8px] ml-[4px]">
-            {startDate ? moment(startDate).format("YYYY-MM-DD") : ""}
-            {" "}
-            ~
-            {" "}
+            {startDate ? moment(startDate).format("YYYY-MM-DD") : ""} ~{" "}
             {endDate ? moment(endDate).format("YYYY-MM-DD") : ""}
           </span>
         </div>

@@ -46,7 +46,6 @@ function App() {
           path="/transaction/detail/:id/category"
           element={<ModifyCategory />}
         />
-
         <Route path="/settings" element={<Settings />} />
         <Route
           path="/interests/analysis/:interestId"
@@ -58,11 +57,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/settings" element={<Settings />} />
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </RegisterProvider>
   );
 }
-
 export default App;

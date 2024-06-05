@@ -193,6 +193,26 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   // ------------------------------ category
+
+  // public async getCategories(): Promise<categoryType> {
+  //   const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
+  //   const response = await this.axiosInstance.request<categoryType>({
+  //     method: "get",
+  //     url: apiUrl,
+  //   });
+  //   return response.data;
+  // }
+
+  public static async getCategories(): Promise<CategoryType> {
+    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  }
+
   public async updateTransactionCategory(
     transactionId: string,
     categoryId: number,
@@ -223,15 +243,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
       method: "get",
       url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${startDateString}&end=${endDateString}`,
       // url: "/transactionListData.json",
-    });
-    return response.data;
-  }
-
-  public async getCategories(): Promise<categoryType> {
-    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
-    const response = await this.axiosInstance.request<categoryType>({
-      method: "get",
-      url: apiUrl,
     });
     return response.data;
   }

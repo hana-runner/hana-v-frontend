@@ -2,25 +2,41 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import HistoryOption from "../../components/transaction/HistoryOption";
 import {
-  TransactionList, Navbar, AccountBoard, Loading,
+  TransactionList,
+  Navbar,
+  AccountBoard,
+  Loading,
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
+import calculateDate from "../../utils/calculateDate"; // 유틸리티 함수를 가져옵니다
 
 function Transaction() {
-  const accountId = 0;
+  const accountId = 1;
   const today = new Date();
   const [option, setOption] = useState<number>(0);
   const [sort, setSort] = useState<boolean>(false);
-  const [startDate, setStartDate] = useState<Date>(today);
-  const [endDate, setEndDate] = useState<Date>(today);
+  const [endDate, setEndDate] = useState<Date>(today); // default 종료일 오늘 날짜
   const [visibleCount, setVisibleCount] = useState<number>(20); // 처음에 보여줄 데이터 수
 
+  // 시작일 계산
+  const result = calculateDate.monthAgo(endDate, 6); // 시작일은 종료일로부터 6개월 전입니다
+  const [startDate, setStartDate] = useState<Date>(result);
+
   // 거래내역 가져오기
-  const { data: userTransactions, isLoading, error } = useQuery({
-    queryKey: ["userTransactions"],
+  const {
+    data: userTransactions,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["userTransactions", accountId, option, sort, startDate, endDate],
     queryFn: async () => {
-      const response = await ApiClient.getInstance()
-        .getTransactions(accountId, option, sort, startDate, endDate);
+      const response = await ApiClient.getInstance().getTransactions(
+        accountId,
+        option,
+        sort,
+        startDate,
+        endDate,
+      );
       return response;
     },
   });
@@ -29,12 +45,14 @@ function Transaction() {
   const { data: categoryList } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const response = await ApiClient.getInstance().getCategories();
+      const response = await ApiClient.getCategories();
       return response;
     },
   });
 
-  const transactions = userTransactions?.data.transactionHistory.slice(0, visibleCount) || [];
+  const transactions = userTransactions?.data || [];
+  const useTransactionData = transactions.slice(0, visibleCount); // 배열 잘라서 새로운 배열 생성
+
   const categories = categoryList?.categories || [];
 
   const loadMore = () => {
@@ -46,7 +64,7 @@ function Transaction() {
   }
 
   if (error) {
-    return <div>Error fetching data</div>;
+    return <div>데이터를 불러오는 중 오류가 발생했습니다</div>;
   }
 
   return (
@@ -64,10 +82,10 @@ function Transaction() {
         setEndDate={setEndDate}
       />
       <TransactionList
-        transactions={transactions}
+        transactions={useTransactionData}
         categories={categories}
         loadMore={loadMore}
-        hasMore={transactions.length < (userTransactions?.data.transactionHistory.length || 0)}
+        hasMore={useTransactionData.length < transactions.length}
       />
     </section>
   );
