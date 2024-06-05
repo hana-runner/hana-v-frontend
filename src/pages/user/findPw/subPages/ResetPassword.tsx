@@ -7,9 +7,9 @@ import {
 } from "../../../../types/users/users-type";
 import SimpleInput from "../../../../components/users/SimpleInput";
 import ApiClient from "../../../../apis/apiClient";
-import EmailConvert from "../../../../components/emailConvert";
 import { ActionProp, FindPwAction } from "../../../../types/users/actions";
 import { VERIFICATION } from "../../../../types/users/enums";
+import EmailConverter from "../../../../components/users/emailConverter";
 
 const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
   const newPwRef = useRef<SimpleInputRefHandler>(null);
@@ -23,7 +23,7 @@ const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
   const onSubmitNewPw = async (pw: string) => {
     try {
       const updateData: UpdatePwType = {
-        email: EmailConvert(userInfo.userEmail),
+        email: EmailConverter(userInfo.userEmail),
         pw,
       };
       const response: ApiResponseType<string> =
