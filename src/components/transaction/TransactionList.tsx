@@ -43,8 +43,18 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                 </div>
               </div>
               <div className="flex justify-between">
-                <Tag title={data.categoryTitle} color={data.categoryColor} />
-                <div className="text-[12px] mt-[2px]">
+                <div className="flex flex-row items-center justify-center mt-[8px]">
+                  <Tag title={data.categoryTitle} color={data.categoryColor} />
+                  {data.transactionHistoryDetails?.map((detail, index) => (
+                    <div key={index} className="flex">
+                      <Tag
+                        title={detail.interest.title}
+                        color={detail.interest.color}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="text-[12px] mt-[8px]">
                   {`잔액 ${data.balance.toLocaleString()} 원`}
                 </div>
               </div>

@@ -54,6 +54,8 @@ function Transaction() {
   const useTransactionData = transactions.slice(0, visibleCount); // 배열 잘라서 새로운 배열 생성
   const userAccounts = accounts?.data || [];
 
+  console.log("확인용", userTransactions);
+
   const loadMore = () => {
     setVisibleCount((prevCount) => prevCount + 20);
   };
