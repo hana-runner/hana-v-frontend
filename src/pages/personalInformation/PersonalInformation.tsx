@@ -87,6 +87,18 @@ const PersonalInformation = () => {
       console.error(err);
     }
   };
+
+  const submitResign = async () => {
+    try {
+      const response: BaseResponseType =
+        await ApiClient.getInstance().deleteUser();
+
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getInfo();
   }, []);
@@ -101,6 +113,10 @@ const PersonalInformation = () => {
         birthday={userInfo?.birthday}
         onEdit={() => onEdit()}
       />
+      <button type="button" onClick={() => submitResign()}>
+        {" "}
+        회원 탈퇴
+      </button>
       {title === TITLE.EDIT && (
         <button
           type="button"
