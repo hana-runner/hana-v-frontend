@@ -5,7 +5,7 @@ import moment from "moment";
 import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import PeriodBtn from "../common/PeriodBtn";
-import calculateDate from "../../utils/CalculateDate";
+import calculateDate from "../../utils/calculateDate";
 
 interface HistoryOptionBoardProps {
   closeModal: () => void;
@@ -112,8 +112,8 @@ function HistoryOptionBoard({
   ];
 
   const orderTexts = [
-    { month: 0, description: "최신순" },
-    { month: 1, description: "과거순" },
+    { month: 1, description: "최신순" },
+    { month: 0, description: "과거순" },
   ];
 
   return (

@@ -1,17 +1,19 @@
 interface TransactionType {
   transactionHistory: Array;
+  transactionHistoryDetails: Array;
   id: number;
   account_id: number;
   user_id: number;
-  category_id: number;
+  categoryTitle: string;
+  categoryColor: string;
   num: number;
   type: boolean;
   description: string;
   action: number;
   amount: number;
   balance: number;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface TransactionDataType {

@@ -5,7 +5,7 @@ interface transactionApi {
     sort: boolean,
     start: Date,
     end: Date,
-  ): Promise<ApiResponseType<TransactionType>>;
+  ): Promise<ApiResponseType<TransactionType[]>>;
 }
 
 export default transactionApi;
