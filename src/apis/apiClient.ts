@@ -229,15 +229,14 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     sort: boolean,
     start: Date,
     end: Date,
-  ): Promise<ApiResponseType<transactionType>> {
+  ): Promise<ApiResponseType<TransactionType[]>> {
     const startDateString = start.toISOString().slice(0, 10);
     const endDateString = end.toISOString().slice(0, 10);
     const response = await this.axiosInstance.request<
-      ApiResponseType<transactionType>
+      ApiResponseType<TransactionType[]>
     >({
       method: "get",
       url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${startDateString}&end=${endDateString}`,
-      // url: "/transactionListData.json",
     });
     return response.data;
   }

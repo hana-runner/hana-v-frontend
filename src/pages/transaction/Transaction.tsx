@@ -22,6 +22,15 @@ function Transaction() {
   const result = calculateDate.monthAgo(endDate, 6); // 시작일은 종료일로부터 6개월 전입니다
   const [startDate, setStartDate] = useState<Date>(result);
 
+  // accounts 가져오기
+  const { data: accounts } = useQuery({
+    queryKey: ["userAccounts", accountId],
+    queryFn: async () => {
+      const response = await ApiClient.getInstance().getAccounts();
+      return response;
+    },
+  });
+
   // 거래내역 가져오기
   const {
     data: userTransactions,
@@ -53,8 +62,6 @@ function Transaction() {
   const transactions = userTransactions?.data || [];
   const useTransactionData = transactions.slice(0, visibleCount); // 배열 잘라서 새로운 배열 생성
 
-  const categories = categoryList?.categories || [];
-
   const loadMore = () => {
     setVisibleCount((prevCount) => prevCount + 20);
   };
@@ -83,7 +90,6 @@ function Transaction() {
       />
       <TransactionList
         transactions={useTransactionData}
-        categories={categories}
         loadMore={loadMore}
         hasMore={useTransactionData.length < transactions.length}
       />

@@ -4,14 +4,12 @@ import Tag from "../common/Tag";
 
 interface TransactionListProps {
   transactions: TransactionType[];
-  categories: CategoryType[];
   loadMore: () => void;
   hasMore: boolean;
 }
 
 const TransactionHistoryList: React.FC<TransactionListProps> = ({
   transactions,
-  categories,
   loadMore,
   hasMore,
 }) => {
@@ -25,12 +23,6 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
     <div>
       <div className="w-[326px] h-[446px] border-2 rounded-[20px] bg-white mt-[8px] px-[12px] py-[6px] overflow-y-scroll scrollbar-hide">
         {transactions.map((data: TransactionType) => {
-          // 카테고리 검색해서 일반 카테고리 태그 띄워주기
-          const category = categories.find((c) => c.id === data.category_id);
-
-          console.log("Transaction:", data);
-          console.log("Category found:", category);
-
           return (
             <div
               key={data.id} // 고유한 key 추가
@@ -38,7 +30,7 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
               onClick={() => handleClick(data.id)}
             >
               <div className="text-hanaSilver text-[12px] text-left">
-                {new Date(data.created_at).toLocaleString()}
+                {new Date(data.createdAt).toLocaleString()}
               </div>
               <div className="flex justify-between">
                 <div className="text-[16px]">{data.description}</div>
@@ -51,9 +43,7 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                 </div>
               </div>
               <div className="flex justify-between">
-                {category && (
-                  <Tag title={category.title} color={category.color} />
-                )}
+                <Tag title={data.categoryTitle} color={data.categoryColor} />
                 <div className="text-[12px] mt-[2px]">
                   {`잔액 ${data.balance.toLocaleString()} 원`}
                 </div>
