@@ -1,21 +1,16 @@
 import axios from "axios";
 import userApi from "./interfaces/userApi";
-
 import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
-import { transactionType } from "../types/transaction";
-import { categoryType } from "../types/category";
-
 import {
   EmailType,
   LoginType,
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
-
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
-import EmailConverter from "../utils/emailConverter";
+import EmailConverter from "../components/users/emailConverter";
 
 const ACCESSTOKEN = getCookie("x-access-token");
 
@@ -133,7 +128,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   public async updateUserInfo(userInfo: UserUpdateInfoType) {
     const response = await this.axiosInstance.request({
       method: "put",
-      url: `/users/${userInfo.username}`,
+      url: "users/update/email",
       data: userInfo,
     });
 
@@ -145,6 +140,15 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     const response = await this.axiosInstance.request({
       method: "delete",
       url: `/users/${userId}`,
+    });
+
+    return response.data;
+  }
+
+  public async getUserInfo() {
+    const response = await this.axiosInstance.request({
+      method: "get",
+      url: "users/info",
     });
 
     return response.data;
@@ -193,15 +197,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   // ------------------------------ category
-
-  // public async getCategories(): Promise<categoryType> {
-  //   const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
-  //   const response = await this.axiosInstance.request<categoryType>({
-  //     method: "get",
-  //     url: apiUrl,
-  //   });
-  //   return response.data;
-  // }
 
   public static async getCategories(): Promise<CategoryType> {
     const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로

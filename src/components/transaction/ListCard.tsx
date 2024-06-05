@@ -2,12 +2,11 @@ import React from "react";
 import { BsPencil } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Tag from "../common/Tag";
-import { categoryType } from "../../types/category";
 
 type ListCardProps = {
   id: string;
   data: TransactionType;
-  category: categoryType;
+  category: CategoryType;
 };
 
 function ListCard({ id, data, category }: ListCardProps) {

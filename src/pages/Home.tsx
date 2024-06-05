@@ -1,15 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MenuCard, MonthlyConsumption, MyAccount, Navbar } from "../components";
+import { useQuery } from "@tanstack/react-query";
+import ApiClient from "../apis/apiClient";
 
 const Home = () => {
+  const { data, isLoading } = useQuery<ApiResponseType<AccountType[]>>({
+    queryKey: ["accounts"],
+    queryFn: async () => {
+      const response = await ApiClient.getInstance().getAccounts();
+      return response;
+    },
+  });
+  const accounts: AccountType[] = data?.data || [];
+
   const navigate = useNavigate();
 
   return (
     <section>
       <Navbar option={false} title="HANA" logo={true} />
       {/* 나의 계좌 */}
-      <MyAccount />
+      {isLoading ? <div>is Loading...</div> : <MyAccount accounts={accounts} />}
       <MonthlyConsumption />
       <MenuCard
         title="나의 관심사"
