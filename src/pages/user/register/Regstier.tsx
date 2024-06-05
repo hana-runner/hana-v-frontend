@@ -69,8 +69,8 @@ const Register = () => {
   const onRegister = async (dat: RegisterType) => {
     const res: BaseResponseType = await ApiClient.getInstance().register(dat);
     if (res.code) {
-      console.log("로그인 성공");
       reset();
+    } else {
     }
   };
 
@@ -91,11 +91,13 @@ const Register = () => {
       infoList.ssn &&
       infoList.username
     ) {
-      console.log(dat);
-
       onRegister(dat);
     }
   }, [infoList.code]);
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   return (
     <UserWrapper hasNav={false}>
@@ -118,7 +120,9 @@ const Register = () => {
       {infoList[VERIFICATION.EMAIL] && !infoList[VERIFICATION.CODE] && (
         <VerifyCode dispatch={dispatch} />
       )}
-      {infoList[VERIFICATION.CODE] && <VerifiedWithPath path="/login" />}
+      {infoList[VERIFICATION.CODE] && (
+        <VerifiedWithPath message="가입 성공" path="/login" />
+      )}
     </UserWrapper>
   );
 };

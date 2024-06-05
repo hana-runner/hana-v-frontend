@@ -1,15 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 
 import { FindIdAction, ActionProp } from "../../../../types/users/actions";
 import { EmailRefHandler, EmailType } from "../../../../types/users/users-type";
 import EmailInput from "../../../../components/users/EmailInput";
+import ApiClient from "../../../../apis/apiClient";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
-  const [email, setEmail] = useState<EmailType>({
-    emailId: "",
-    domain: EMAIL_DOMAIN.NAVER,
-  });
+  const { userInfo, setEmail } = useUserInfo();
 
   const emailRefHandler = useRef<EmailRefHandler>(null);
 
@@ -31,10 +30,11 @@ const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
   };
 
   useEffect(() => {
-    if (email.emailId) {
+    if (userInfo.userEmail.emailId) {
+      ApiClient.getInstance().emailVerification(userInfo.userEmail);
       dispatch({ type: VERIFICATION.EMAIL });
     }
-  }, [email, dispatch]);
+  }, [userInfo, dispatch]);
 
   return (
     <section className="flex flex-col h-full justify-between py-10">

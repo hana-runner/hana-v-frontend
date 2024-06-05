@@ -1,15 +1,17 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import validateId from "../../../components/validation/id-validation";
-import validatePw from "../../../components/validation/pw-validation";
+import validateId from "../../../components/users/validation/id-validation";
+import validatePw from "../../../components/users/validation/pw-validation";
 import UserWrapper from "../../../components/UserWrapper";
 import { LOGIN_ACTION, VALIDATION } from "../../../types/users/enums";
 import { LoginAction } from "../../../types/users/actions";
 import { LoginValidation } from "../../../types/users/validate-verify";
 import ApiClient from "../../../apis/apiClient";
-import { LoginResponseType, LoginType } from "../../../types/users/users-type";
+import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
+import { useUserInfo } from "../../../components/context/register-context/register-context";
+import AlarmCard from "../../../components/users/alarmCard";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
@@ -52,6 +54,7 @@ const Login = () => {
   const [IdErrMsg, setIdErrMsg] = useState<string>("");
   const [PwErrMsg, setPwErrMsg] = useState<string>("");
   const navigation = useNavigate();
+  const { reset } = useUserInfo();
 
   const [status, dispatch] = useReducer(reducer, InitialLoginInfoStatus);
 
@@ -99,6 +102,10 @@ const Login = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    reset;
+  }, []);
 
   return (
     <UserWrapper hasNav title="로그인" option>

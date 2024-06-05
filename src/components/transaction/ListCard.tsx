@@ -1,62 +1,63 @@
-import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { BsPencil } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { transactionType } from "../../types/transaction";
-import ApiClient from "../../apis/apiClient";
 import Tag from "../common/Tag";
 import { categoryType } from "../../types/category";
-import Loading from "../common/Loading";
 
 type ListCardProps = {
   id: string;
+  data: transactionType;
+  category: categoryType;
 };
 
-function ListCard({ id }: ListCardProps) {
-  const [list, setList] = useState<transactionType | null>(null);
+function ListCard({ id, data, category }: ListCardProps) {
+  // const [list, setList] = useState<transactionType | null>(null);
   const navigate = useNavigate();
 
-  // 거래 내역
-  const {
-    data: userTransaction,
-    isLoading: isTransactionLoading,
-    error: transactionError,
-  } = useQuery({
-    queryKey: ["transaction"],
-    queryFn: async () => {
-      const response = await ApiClient.getInstance().getTransactions();
-      return response;
-    },
-  });
+  // // 거래 내역
+  // const {
+  //   data: userTransaction,
+  //   isLoading: isTransactionLoading,
+  //   error: transactionError,
+  // } = useQuery({
+  //   queryKey: ["transaction"],
+  //   queryFn: async () => {
+  //     const response = await ApiClient.getInstance()
+  //       .getTransactions(accountId, option, sort, start, end);
+  //     return response.data.transactionHistory
+  //       .find((t: transactionType) => t.id === parseInt(id, 10));
+  //   },
+  // });
 
-  // 카테고리 가져오기
-  const { data: categories, isLoading: isCategoryLoading, error: categoryError } = useQuery({
-    queryKey: ["category"],
-    queryFn: async () => {
-      const response = await ApiClient.getInstance().getCategories();
-      return response;
-    },
-  });
+  // // 카테고리 가져오기
+  // const { data: categories, isLoading: isCategoryLoading, error: categoryError } = useQuery({
+  //   queryKey: ["category"],
+  //   queryFn: async () => {
+  //     const response = await ApiClient.getInstance().getCategories();
+  //     return response;
+  //   },
+  // });
 
-  useEffect(() => {
-    if (userTransaction && Array.isArray(userTransaction.data.transactionHistory)) {
-      const transaction = userTransaction.data.transactionHistory
-        .find((t: transactionType) => t.id === parseInt(id, 10));
-      setList(transaction || null);
-    }
-  }, [userTransaction, id]);
+  // useEffect(() => {
+  //   if (userTransaction && Array.isArray(userTransaction.data.transactionHistory)) {
+  //     const transaction = userTransaction.data.transactionHistory
+  //       .find((t: transactionType) => t.id === parseInt(id, 10));
+  //     setList(transaction || null);
+  //   }
+  // }, [userTransaction, id]);
 
-  if (isTransactionLoading || isCategoryLoading) {
-    return <Loading />;
-  }
+  // if (isTransactionLoading || isCategoryLoading) {
+  //   return <Loading />;
+  // }
 
-  if (transactionError || categoryError) {
-    return <div>Error fetching data</div>;
-  }
+  // if (transactionError || categoryError) {
+  //   return <div>Error fetching data</div>;
+  // }
 
-  const category = categories?.categories.find(
-    (c: categoryType) => c.id === list?.category_id,
-  );
+  // const category = categories?.categories.find(
+  //   (c: categoryType) => c.id === list?.category_id,
+  // );
 
   const handleCategoryClick = (idx: string) => {
     navigate(`/transaction/detail/${idx}/category`, {
@@ -66,14 +67,14 @@ function ListCard({ id }: ListCardProps) {
 
   return (
     <div className="flex flex-col items-center">
-      {list ? (
+      {data ? (
         <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
-          <div className="text-hanaSilver text-[8px] mb-[8px]">{new Date(list.created_at).toLocaleString()}</div>
-          <div>{list.description}</div>
+          <div className="text-hanaSilver text-[8px] mb-[8px]">{new Date(data.created_at).toLocaleString()}</div>
+          <div>{data.description}</div>
           <div className="flex justify-between mt-[20px] items-center">
             <Tag title={category?.title || ""} color={category?.color || ""} />
             <p>
-              {list.amount.toLocaleString()}
+              {data.amount.toLocaleString()}
               원
             </p>
           </div>
@@ -101,19 +102,19 @@ function ListCard({ id }: ListCardProps) {
         </div>
         <div className="flex justify-between my-[8px]">
             <p>승인번호</p>
-            {list?.num}
+            {data?.num}
         </div>
         <div className="flex justify-between my-[8px]">
             <p>거래유형</p>
-            {list?.action}
+            {data?.action}
         </div>
         <div className="flex justify-between my-[8px]">
             <p>일시</p>
-            {list?.created_at.toLocaleString()}
+            {data?.created_at.toLocaleString()}
         </div>
         <div className="flex justify-between my-[8px]">
             <p>거래 후 잔액</p>
-            {list?.balance.toLocaleString()}
+            {data?.balance.toLocaleString()}
         </div>
       </div>
     </div>

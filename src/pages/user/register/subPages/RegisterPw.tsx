@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { VERIFICATION } from "../../../../types/users/enums";
-import validatePw from "../../../../components/validation/pw-validation";
+import validatePw from "../../../../components/users/validation/pw-validation";
 import { ActionProp, RegisterAction } from "../../../../types/users/actions";
 
 const RegisterPw = ({ dispatch }: ActionProp<RegisterAction>) => {

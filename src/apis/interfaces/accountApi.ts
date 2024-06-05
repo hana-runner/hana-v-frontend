@@ -1,7 +1,5 @@
-import { AccountType } from "../../components/account/AccountCard";
-
 interface accountApi {
-  getAccounts(): Promise<AccountType>;
+  getAccounts(): Promise<ApiResponseType<AccountType[]>>;
 }
 
 export default accountApi;

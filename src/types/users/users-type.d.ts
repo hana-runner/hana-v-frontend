@@ -23,10 +23,9 @@ interface UserFindAccountType
 
 interface LoginType extends Pick<UserInfoType, "username" | "pw"> {}
 
-interface FindIdType extends pick<UserInfoType, "email" | "name"> {}
+interface FindIdType extends pick<UserInfoType, "email"> {}
 
-interface FindPwType
-  extends Pick<UserInfoType, "email" | "username" | "name"> {}
+interface UpdatePwType extends Pick<UserInfoType, "email" | "pw"> {}
 
 // 회원가입 api에 사용
 interface RegisterType
@@ -52,6 +51,11 @@ interface EmailRefHandler {
   setMessage: (msg: string) => void;
   emailRef: React.RefObject<HTMLInputElement | null>;
   domainRef: React.RefObject<HTMLSelectElement | null>;
+}
+
+interface SimpleInputRefHandler {
+  setMessage: (msg: string) => void;
+  inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
 interface LoginResponseType extends Required<BaseResponseType> {
