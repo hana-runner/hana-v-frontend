@@ -6,21 +6,6 @@ import { useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import ApiClient from "../../apis/apiClient";
 
-// const accounts: AccountType[] = [
-//   {
-//     title: "영하나플러스통장",
-//     type: "입출금",
-//     balance: 20000000,
-//     accountNumber: "756-910521-21207",
-//   },
-//   {
-//     title: "영하나플러스통장",
-//     type: "입출금",
-//     balance: 20000000,
-//     accountNumber: "756-910521-21208",
-//   },
-// ];
-
 const MyAccount = () => {
   const { data, isLoading } = useQuery<ApiResponseType<AccountType[]>>({
     queryKey: ["accounts"],
