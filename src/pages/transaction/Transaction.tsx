@@ -11,7 +11,7 @@ import ApiClient from "../../apis/apiClient";
 import calculateDate from "../../utils/calculateDate"; // 유틸리티 함수를 가져옵니다
 
 function Transaction() {
-  const accountId = 1;
+  const accountId = 2;
   const today = new Date();
   const [option, setOption] = useState<number>(0);
   const [sort, setSort] = useState<boolean>(false);
@@ -50,17 +50,9 @@ function Transaction() {
     },
   });
 
-  // 일반 카테고리 가져오기
-  const { data: categoryList } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const response = await ApiClient.getCategories();
-      return response;
-    },
-  });
-
   const transactions = userTransactions?.data || [];
   const useTransactionData = transactions.slice(0, visibleCount); // 배열 잘라서 새로운 배열 생성
+  const userAccounts = accounts?.data || [];
 
   const loadMore = () => {
     setVisibleCount((prevCount) => prevCount + 20);
@@ -77,7 +69,7 @@ function Transaction() {
   return (
     <section className="flex flex-col items-center flex-wrap">
       <Navbar title="거래내역조회" option={true} logo={false} />
-      <AccountBoard />
+      <AccountBoard data={userAccounts} accountId={accountId} />
       <HistoryOption
         option={option}
         startDate={startDate}
