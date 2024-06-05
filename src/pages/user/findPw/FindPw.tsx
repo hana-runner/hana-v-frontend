@@ -9,7 +9,6 @@ import ResetPasswrod from "./subPages/ResetPassword";
 import { FindPwVerification } from "../../../types/users/validate-verify";
 import Verified from "../../../components/users/Verified";
 import { useUserInfo } from "../../../context/register-context/register-context";
-import { FindAccountProvider } from "../../../context/find-account-context/find-account-context";
 
 const InitialVerificationData: FindPwVerification = {
   [VERIFICATION.CODE]: false,
@@ -63,26 +62,23 @@ const FindPw = () => {
   }, [checkList]);
 
   return (
-    <FindAccountProvider>
-      <UserWrapper hasNav title="비밀번호 재설정" option logo>
-        <div className=" h-full">
-          {!checkList[VERIFICATION.USER_ID] && <VerifyId dispatch={dispatch} />}
-          {checkList[VERIFICATION.USER_ID] &&
-            !checkList[VERIFICATION.EMAIL] && (
-              <VerifyEmail dispatch={dispatch} />
-            )}
-          {checkList[VERIFICATION.EMAIL] && !checkList[VERIFICATION.CODE] && (
-            <VerifyCode dispatch={dispatch} />
-          )}
-          {checkList[VERIFICATION.CODE] && showVerified && (
-            <Verified message="인증 완료" />
-          )}
-          {checkList[VERIFICATION.CODE] && !showVerified && (
-            <ResetPasswrod dispatch={dispatch} />
-          )}
-        </div>
-      </UserWrapper>
-    </FindAccountProvider>
+    <UserWrapper hasNav title="비밀번호 재설정" option logo>
+      <div className=" h-full">
+        {!checkList[VERIFICATION.USER_ID] && <VerifyId dispatch={dispatch} />}
+        {checkList[VERIFICATION.USER_ID] && !checkList[VERIFICATION.EMAIL] && (
+          <VerifyEmail dispatch={dispatch} />
+        )}
+        {checkList[VERIFICATION.EMAIL] && !checkList[VERIFICATION.CODE] && (
+          <VerifyCode dispatch={dispatch} />
+        )}
+        {checkList[VERIFICATION.CODE] && showVerified && (
+          <Verified message="인증 완료" />
+        )}
+        {checkList[VERIFICATION.CODE] && !showVerified && (
+          <ResetPasswrod dispatch={dispatch} />
+        )}
+      </div>
+    </UserWrapper>
   );
 };
 export default FindPw;

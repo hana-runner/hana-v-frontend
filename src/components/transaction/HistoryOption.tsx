@@ -3,27 +3,51 @@ import { CiSettings } from "react-icons/ci";
 import moment from "moment";
 import HistoryOptionBoard from "./HistoryOptionBoard";
 
-function HistoryOption() {
-  const today = new Date();
+interface HistoryOptionProps {
+  option: number;
+  startDate: Date;
+  endDate: Date;
+  sort: boolean;
+  setOption: (value: number) => void;
+  setSort: (value: boolean) => void;
+  setStartDate: (value: Date) => void;
+  setEndDate: (value: Date) => void;
+}
+
+const HistoryOption: React.FC<HistoryOptionProps> = ({
+  option,
+  startDate,
+  endDate,
+  sort,
+  setOption,
+  setSort,
+  setStartDate,
+  setEndDate,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(today);
   const [period, setPeriod] = useState<number | undefined>(0);
   const [transaction, setTransaction] = useState<number>(0);
-  const [order, setOrder] = useState<number>(0);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const handleDate = (start: Date | undefined, end: Date | undefined) => {
+
+  const handleDate = (start: Date, end: Date) => {
     setStartDate(start);
     setEndDate(end);
     setIsModalOpen(false);
   };
-  const handleOption = (periodName: number | undefined, entireView: number, orderBy: number) => {
+
+  const handleOption = (
+    periodName: number | undefined,
+    entireView: number,
+    orderBy: boolean,
+  ) => {
     setPeriod(periodName);
     setTransaction(entireView);
-    setOrder(orderBy);
+    setSort(orderBy);
+    setOption(entireView);
   };
+
   const getPeriodText = () => {
     switch (period) {
       case 1:
@@ -38,6 +62,7 @@ function HistoryOption() {
         return "전체";
     }
   };
+
   const getTransactionText = () => {
     switch (transaction) {
       case 1:
@@ -48,8 +73,9 @@ function HistoryOption() {
         return "전체";
     }
   };
+
   const getOrderText = () => {
-    switch (order) {
+    switch (Number(sort)) {
       case 1:
         return "과거순";
       default:
@@ -63,10 +89,7 @@ function HistoryOption() {
         <div className="flex items-center">
           <span className="text-[8px] font-bold">기간 : </span>
           <span className="text-[8px] ml-[4px]">
-            {startDate ? moment(startDate).format("YYYY-MM-DD") : ""}
-            {" "}
-            ~
-            {" "}
+            {startDate ? moment(startDate).format("YYYY-MM-DD") : ""} ~{" "}
             {endDate ? moment(endDate).format("YYYY-MM-DD") : ""}
           </span>
         </div>
@@ -88,11 +111,19 @@ function HistoryOption() {
             closeModal={closeModal}
             confirmDate={handleDate}
             confirmOption={handleOption}
+            startDate={startDate}
+            endDate={endDate}
+            option={option}
+            sort={sort}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            setOption={setOption}
+            setSort={setSort}
           />
         </div>
       )}
     </div>
   );
-}
+};
 
 export default HistoryOption;

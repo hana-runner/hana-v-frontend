@@ -4,7 +4,6 @@ import { VERIFICATION } from "../../../../types/users/enums";
 import validateId from "../../login/validation/id-validation";
 import SimpleInput from "../../../../components/users/SimpleInput";
 import { SimpleInputRefHandler } from "../../../../types/users/users-type";
-import { useFindAccount } from "../../../../context/find-account-context/find-account-context";
 
 const VerifyId = ({ dispatch }: ActionProp<FindPwAction>) => {
   const { userInfo, setUsername } = useFindAccount();

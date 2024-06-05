@@ -1,21 +1,13 @@
 import axios from "axios";
 import userApi from "./interfaces/userApi";
-
 import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
-import { transactionType } from "../types/transaction";
-import { categoryType } from "../types/category";
-
 import {
   EmailType,
   LoginType,
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
-import { getCookie } from "../utils/cookie";
-
-const ACCESSTOKEN = getCookie("x-access-token");
-
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 import EmailConverter from "../components/users/emailConverter";
@@ -206,24 +198,46 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
   // ------------------------------ category
 
-  // ------------------------------ transaction
-  public async getTransactions(): Promise<transactionType> {
-    // const accountId = 1;
-    const apiUrl = "/transactionListData.json"; // public 디렉토리의 JSON 파일 경로
+  public static async getCategories(): Promise<CategoryType> {
+    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  }
 
-    const response = await this.axiosInstance.request<transactionType>({
-      method: "get",
-      url: apiUrl,
-      // url: `/accounts/${accountId}`
+  public async updateTransactionCategory(
+    transactionId: string,
+    categoryId: number,
+  ): Promise<BaseResponseType> {
+    const response = await this.axiosInstance.request({
+      method: "put",
+      // url: `/transaction-histories/${transactionId}`,
+      url: "/categoriesData.json",
+      data: JSON.stringify(categoryId),
     });
     return response.data;
   }
 
-  public async getCategories(): Promise<categoryType> {
-    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
-    const response = await this.axiosInstance.request<categoryType>({
+  // ------------------------------ transaction
+  // 전체 거래 내역 조회
+  public async getTransactions(
+    accountId: number,
+    option: number,
+    sort: boolean,
+    start: Date,
+    end: Date,
+  ): Promise<ApiResponseType<transactionType>> {
+    const startDateString = start.toISOString().slice(0, 10);
+    const endDateString = end.toISOString().slice(0, 10);
+    const response = await this.axiosInstance.request<
+      ApiResponseType<transactionType>
+    >({
       method: "get",
-      url: apiUrl,
+      url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${startDateString}&end=${endDateString}`,
+      // url: "/transactionListData.json",
     });
     return response.data;
   }
@@ -269,7 +283,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     newInstance.interceptors.request.use(
       (config) => {
         if (ACCESSTOKEN) {
-          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+          config.headers.Authorization = `Bearer ${ACCESSTOKEN}`;
         }
 
         config.headers["Content-Type"] = "application/json";

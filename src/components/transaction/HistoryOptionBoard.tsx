@@ -5,79 +5,97 @@ import moment from "moment";
 import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import PeriodBtn from "../common/PeriodBtn";
+import calculateDate from "../../utils/calculateDate";
 
 interface HistoryOptionBoardProps {
   closeModal: () => void;
-  confirmDate: (
-    start: Date | undefined,
-    end: Date | undefined,
-    period: number | undefined,
-  ) => void;
+  confirmDate: (start: Date, end: Date, period: number | undefined) => void;
   confirmOption: (
     period: number | undefined,
-    entireView: number,
-    order: number,
+    option: number,
+    order: boolean,
   ) => void;
+  startDate: Date;
+  endDate: Date;
+  option: number;
+  sort: boolean;
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
+  setOption: (value: number) => void;
+  setSort: (value: boolean) => void;
 }
 
 function HistoryOptionBoard({
   closeModal,
   confirmDate,
   confirmOption,
+  startDate,
+  endDate,
+  option,
+  sort,
+  setStartDate,
+  setEndDate,
+  setOption,
+  setSort,
 }: HistoryOptionBoardProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<number | undefined>(
     undefined,
   );
-  const today = new Date();
-  const [isStartDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [isEndDate, setEndDate] = useState<Date>(today);
   const [isStartCalendarOpen, setStartCalendarOpen] = useState(false);
   const [isEndCalendarOpen, setEndCalendarOpen] = useState(false);
-  const [entireViewOption, setEntireViewOption] = useState<number>(0);
-  const [order, setOrder] = useState<number>(0);
+
+  // 현재 board의 state 관리
+  const [selectStartDate, setSelectStartDate] = useState<Date>(startDate);
+  const [selectEndDate, setSelectEndDate] = useState<Date>(endDate);
+  const [selectOption, setSelectOption] = useState<number>(option);
+  const [selectSort, setSelectSort] = useState<boolean>(sort);
 
   const handleStartToggleCalendar = () => {
     setStartCalendarOpen(!isStartCalendarOpen);
-    if (isEndCalendarOpen) setEndCalendarOpen(false); // Close end calendar if it's open
+    if (isEndCalendarOpen) setEndCalendarOpen(false);
   };
 
   const handleEndToggleCalendar = () => {
     setEndCalendarOpen(!isEndCalendarOpen);
-    if (isStartCalendarOpen) setStartCalendarOpen(false); // Close start calendar if it's open
+    if (isStartCalendarOpen) setStartCalendarOpen(false);
   };
 
   const handleStartDateChange: CalendarProps["onChange"] = (value) => {
     if (value instanceof Date) {
-      setStartDate(value);
-      setSelectedPeriod(undefined); // Clear the period
+      setSelectStartDate(value);
+      setSelectedPeriod(undefined);
       setStartCalendarOpen(false);
     }
   };
 
   const handleEndDateChange: CalendarProps["onChange"] = (value) => {
     if (value instanceof Date) {
-      setEndDate(value);
+      setSelectEndDate(value);
       setEndCalendarOpen(false);
     }
   };
 
   const handleConfirm = () => {
-    confirmDate(isStartDate, isEndDate, selectedPeriod);
-    confirmOption(selectedPeriod, entireViewOption, order);
+    setStartDate(selectStartDate);
+    setEndDate(selectEndDate);
+    setOption(selectOption);
+    setSort(selectSort);
+    confirmDate(selectStartDate, selectEndDate, selectedPeriod);
+    confirmOption(selectedPeriod, selectOption, selectSort);
     closeModal();
   };
 
   const handlePeriod = (month: number) => {
-    setStartDate(calculateDate.monthAgo(isEndDate, month));
+    setSelectStartDate(calculateDate.monthAgo(selectEndDate, month));
     setSelectedPeriod(month);
   };
 
   const handleEntireViewOption = (entireView: number) => {
-    setEntireViewOption(entireView);
+    setSelectOption(entireView);
   };
 
-  const handleOrder = (orderOption: number) => {
-    setOrder(orderOption);
+  const handleOrder = (orderOption: boolean) => {
+    setSelectSort(orderOption);
   };
 
   const periodOptions = [
@@ -107,15 +125,15 @@ function HistoryOptionBoard({
       <div className="flex flex-col items-center">
         <p className="py-[24px]">조회기간</p>
         <div id="btnGroup1" className="flex align-middle items-center">
-          {periodOptions.map((option) => (
+          {periodOptions.map((opt) => (
             <PeriodBtn
-              key={option.month}
-              month={option.month}
-              description={option.description}
+              key={opt.month}
+              month={opt.month}
+              description={opt.description}
               width="w-[76px]"
               height="h-[25px]"
-              selected={selectedPeriod === option.month}
-              onClick={() => handlePeriod(option.month)}
+              selected={selectedPeriod === opt.month}
+              onClick={() => handlePeriod(opt.month)}
             />
           ))}
         </div>
@@ -125,7 +143,7 @@ function HistoryOptionBoard({
             className="relative flex justify-between w-[151px] h-[48px] p-[14px] items-center align-middle border-2 border-hanaSilver rounded-[10px]"
           >
             <p className="text-[12px]">
-              {moment(isStartDate).format("YYYY-MM-DD")}
+              {moment(selectStartDate).format("YYYY-MM-DD")}
             </p>
             <IoCalendarOutline
               onClick={handleStartToggleCalendar}
@@ -135,10 +153,10 @@ function HistoryOptionBoard({
               <div className="absolute top-[50px] left-0 z-10 bg-white shadow-lg">
                 <Calendar
                   onChange={handleStartDateChange}
-                  value={isStartDate}
-                  maxDate={isEndDate}
-                  locale="en-US" // 일요일부터 시작
-                  formatDay={(locale, date) => moment(date).format("DD")} // 숫자만 보여주기
+                  value={selectStartDate}
+                  maxDate={selectEndDate}
+                  locale="en-US"
+                  formatDay={(locale, date) => moment(date).format("DD")}
                 />
               </div>
             )}
@@ -146,7 +164,7 @@ function HistoryOptionBoard({
           <div className="mx-[8px]">-</div>
           <div className="relative flex justify-between w-[151px] h-[48px] p-[14px] items-center align-middle border-2 border-hanaSilver rounded-[10px]">
             <p className="text-[12px]">
-              {moment(isEndDate).format("YYYY-MM-DD")}
+              {moment(selectEndDate).format("YYYY-MM-DD")}
             </p>
             <IoCalendarOutline
               onClick={handleEndToggleCalendar}
@@ -156,10 +174,10 @@ function HistoryOptionBoard({
               <div className="absolute top-[50px] left-auto right-0 z-10 bg-white shadow-lg">
                 <Calendar
                   onChange={handleEndDateChange}
-                  value={isEndDate}
-                  minDate={isStartDate}
-                  locale="en-US" // 일요일부터 시작
-                  formatDay={(locale, date) => moment(date).format("DD")} // 숫자만 보여주기
+                  value={selectEndDate}
+                  minDate={selectStartDate}
+                  locale="en-US"
+                  formatDay={(locale, date) => moment(date).format("DD")}
                 />
               </div>
             )}
@@ -169,15 +187,15 @@ function HistoryOptionBoard({
       <div className="flex flex-col items-center">
         <p className="py-[24px]">거래구분</p>
         <div className="flex align-middle items-center">
-          {entireViewTexts.map((option) => (
+          {entireViewTexts.map((opt) => (
             <PeriodBtn
-              key={option.month}
-              month={option.month}
-              description={option.description}
+              key={opt.month}
+              month={opt.month}
+              description={opt.description}
               width="w-[103px]"
               height="h-[30px]"
-              selected={entireViewOption === option.month}
-              onClick={() => handleEntireViewOption(option.month)}
+              selected={selectOption === opt.month}
+              onClick={() => handleEntireViewOption(opt.month)}
             />
           ))}
         </div>
@@ -185,15 +203,15 @@ function HistoryOptionBoard({
       <div className="flex flex-col items-center">
         <p className="py-[24px]">정렬순서</p>
         <div className="flex align-middle items-center">
-          {orderTexts.map((option) => (
+          {orderTexts.map((opt) => (
             <PeriodBtn
-              key={option.month}
-              month={option.month}
-              description={option.description}
+              key={opt.month}
+              month={opt.month}
+              description={opt.description}
               width="w-[159px]"
               height="h-[30px]"
-              selected={order === option.month}
-              onClick={() => handleOrder(option.month)}
+              selected={Number(selectSort) === opt.month}
+              onClick={() => handleOrder(Boolean(opt.month))}
             />
           ))}
         </div>
