@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
 import RegisterId from "./subPages/RegisterId";
 import RegisterPw from "./subPages/RegisterPw";
-import { useUserInfo } from "../../../components/context/register-context/register-context";
 import RegisterSSN from "./subPages/RegisterSSN";
 import RegisterName from "./subPages/RegisterName";
 import RegisterEmail from "./subPages/RegisterEmail";
@@ -16,6 +15,7 @@ import ApiClient from "../../../apis/apiClient";
 import { RegisterType } from "../../../types/users/users-type";
 import { RegisterVerification } from "../../../types/users/validate-verify";
 import VerifiedWithPath from "../../../components/users/VerifiedWithPath";
+import { useUserInfo } from "../../../context/register-context/register-context";
 
 const defaultCheckList: RegisterVerification = {
   [VERIFICATION.CODE]: false,
