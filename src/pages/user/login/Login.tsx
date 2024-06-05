@@ -12,6 +12,7 @@ import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
 import { useUserInfo } from "../../../components/context/register-context/register-context";
 import AlarmCard from "../../../components/users/alarmCard";
+import PersonalInformationCard from "../../../components/users/PersonalInformationCard";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
@@ -158,6 +159,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <PersonalInformationCard />
     </UserWrapper>
   );
 };

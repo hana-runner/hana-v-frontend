@@ -133,7 +133,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   public async updateUserInfo(userInfo: UserUpdateInfoType) {
     const response = await this.axiosInstance.request({
       method: "put",
-      url: `/users/${userInfo.username}`,
+      url: "users/update/email",
       data: userInfo,
     });
 
@@ -145,6 +145,15 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     const response = await this.axiosInstance.request({
       method: "delete",
       url: `/users/${userId}`,
+    });
+
+    return response.data;
+  }
+
+  public async getUserInfo() {
+    const response = await this.axiosInstance.request({
+      method: "get",
+      url: "users/info",
     });
 
     return response.data;

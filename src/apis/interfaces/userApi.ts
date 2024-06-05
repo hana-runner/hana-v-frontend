@@ -4,6 +4,8 @@ import {
   LoginType,
   RegisterType,
   UpdatePwType,
+  UserInfoResponseType,
+  UserUpdateInfoType,
 } from "../../types/users/users-type";
 
 interface userApi {
@@ -17,6 +19,9 @@ interface userApi {
     email: EmailType,
     inputCode: string,
   ): Promise<BaseResponseType>;
+
+  getUserInfo(): Promise<UserInfoResponseType>;
+  updateUserInfo(userInfo: UserUpdateInfoType): Promise<BaseResponseType>;
 }
 
 export default userApi;
