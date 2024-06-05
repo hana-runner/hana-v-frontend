@@ -8,7 +8,7 @@ import {
   Loading,
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
-import calculateDate from "../../utils/calculateDate"; // 유틸리티 함수를 가져옵니다
+import calculateDate from "../../utils/CalculateDate"; // 유틸리티 함수를 가져옵니다
 
 function Transaction() {
   const accountId = 1;

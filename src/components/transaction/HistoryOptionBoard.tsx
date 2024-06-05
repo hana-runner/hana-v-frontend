@@ -5,7 +5,7 @@ import moment from "moment";
 import Calendar, { CalendarProps } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import PeriodBtn from "../common/PeriodBtn";
-import calculateDate from "../../utils/calculateDate";
+import calculateDate from "../../utils/CalculateDate";
 
 interface HistoryOptionBoardProps {
   closeModal: () => void;
