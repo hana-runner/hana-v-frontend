@@ -10,6 +10,7 @@ import {
   EmailType,
   LoginType,
   RegisterType,
+  UpdatePwType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
 
@@ -108,7 +109,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   //  로그인 - 비밀번호 재설정
-  public async updatePw(updatePwInfo: FindPwType) {
+  public async updatePw(updatePwInfo: UpdatePwType) {
     const response = await this.axiosInstance.request({
       method: "post",
       url: "/users/update/pw",
