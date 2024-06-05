@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect } from "react";
-import { Navbar, NotificationCard } from "../../components";
+import { Navbar } from "../../components";
+import NotificationCard from "../../components/users/NotificationCard";
 
 const Notification = () => {
   useEffect(() => {}, []);
