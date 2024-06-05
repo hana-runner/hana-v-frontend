@@ -21,3 +21,4 @@ export { default as ModifyCategory } from "./transaction/ModifyCategory";
 export { default as Register } from "./user/register/Regstier";
 export { default as FindPw } from "./user/findPw/FindPw";
 export { default as Settings } from "./Settings";
+export { default as Notification } from "./notification/Notification";

@@ -15,7 +15,7 @@ import {
 
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
-import EmailConverter from "../components/users/emailConverter";
+import EmailConverter from "../utils/emailConverter";
 
 const ACCESSTOKEN = getCookie("x-access-token");
 
@@ -154,7 +154,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 사용자별 관심사 목록 조회
   public async getUserInterests() {
     const response = await this.axiosInstance.request<
-    ApiResponseType<UserInterestType[]>
+      ApiResponseType<UserInterestType[]>
     >({
       method: "get",
       url: "/user-interests",
@@ -171,7 +171,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   ) {
     const userId = 1;
     const response = await this.axiosInstance.request<
-    ApiResponseType<UserInterestTransactionsType>
+      ApiResponseType<UserInterestTransactionsType>
     >({
       method: "get",
       url: `/user-interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
@@ -183,7 +183,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 관심사 목록 가져오기
   public async getInterestList() {
     const response = await this.axiosInstance.request<
-    ApiResponseType<InterestType[]>
+      ApiResponseType<InterestType[]>
     >({
       method: "get",
       url: "/interests",
@@ -193,8 +193,10 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   // ------------------------------ category
-  public async updateTransactionCategory(transactionId: string, categoryId: number)
-    : Promise<BaseResponseType> {
+  public async updateTransactionCategory(
+    transactionId: string,
+    categoryId: number,
+  ): Promise<BaseResponseType> {
     const response = await this.axiosInstance.request({
       method: "put",
       // url: `/transaction-histories/${transactionId}`,
@@ -215,7 +217,9 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   ): Promise<ApiResponseType<transactionType>> {
     const startDateString = start.toISOString().slice(0, 10);
     const endDateString = end.toISOString().slice(0, 10);
-    const response = await this.axiosInstance.request<ApiResponseType<transactionType>>({
+    const response = await this.axiosInstance.request<
+      ApiResponseType<transactionType>
+    >({
       method: "get",
       url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${startDateString}&end=${endDateString}`,
       // url: "/transactionListData.json",
@@ -236,7 +240,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 사용자 전체 계좌 목록 조회
   public async getAccounts() {
     const response = await this.axiosInstance.request<
-    ApiResponseType<AccountType[]>
+      ApiResponseType<AccountType[]>
     >({
       method: "get",
       url: "/accounts",

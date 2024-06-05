@@ -21,3 +21,4 @@ export { default as Tooltip } from "./common/Tooltip";
 export { default as ListCard } from "./transaction/ListCard";
 export { default as CategoryBtn } from "./common/CategoryBtn";
 export { default as CancleBtn } from "./common/CancleBtn";
+export { default as NotificationCard } from "./users/NotificationCard";
