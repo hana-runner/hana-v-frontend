@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { Modal, Navbar, SelectBox } from "../components";
 
 const banks = [
-  "하나은행",
-  "국민은행",
-  "신한은행",
-  "우리은행",
-  "NH농협은행",
-  "토스뱅크",
-  "카카오뱅크",
+  { title: "하나은행" },
+  { title: "국민은행" },
+  { title: "우리은행" },
+  { title: "NH농협은행" },
+  { title: "토스뱅크" },
+  { title: "카카오뱅크" },
 ];
 
 const AddAccount = () => {
