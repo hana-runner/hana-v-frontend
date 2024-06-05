@@ -5,9 +5,7 @@ import React, {
   useMemo,
   useReducer,
 } from "react";
-import { EmailType } from "../../../types/users/register";
-import { UserFindAccountType } from "../../../types/users/user";
-import { EMAIL_DOMAIN } from "../../../types/users/enums";
+import { EmailType, UserFindAccountType } from "../../types/users/users-type";
 
 interface FindAccountContextProp {
   userInfo: UserFindAccountType;

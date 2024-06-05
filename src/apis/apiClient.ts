@@ -12,6 +12,9 @@ import {
   RegisterType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
+import { getCookie } from "../utils/cookie";
+
+const ACCESSTOKEN = getCookie("x-access-token");
 
 import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
