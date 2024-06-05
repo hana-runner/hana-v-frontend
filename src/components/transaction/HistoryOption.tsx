@@ -77,9 +77,9 @@ const HistoryOption: React.FC<HistoryOptionProps> = ({
   const getOrderText = () => {
     switch (Number(sort)) {
       case 1:
-        return "과거순";
-      default:
         return "최신순";
+      default:
+        return "과거순";
     }
   };
 

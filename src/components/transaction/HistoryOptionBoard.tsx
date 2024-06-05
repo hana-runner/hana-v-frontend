@@ -112,8 +112,8 @@ function HistoryOptionBoard({
   ];
 
   const orderTexts = [
-    { month: 0, description: "최신순" },
-    { month: 1, description: "과거순" },
+    { month: 1, description: "최신순" },
+    { month: 0, description: "과거순" },
   ];
 
   return (

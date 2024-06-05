@@ -25,8 +25,8 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
         {transactions.map((data: TransactionType) => {
           return (
             <div
-              key={data.id} // 고유한 key 추가
-              className="mb-[6px] border-b-2 py-[12px] cursor-pointer"
+              key={data.id}
+              className="mb-[6px] border-b-2 pt-[12px] pb-[16px] cursor-pointer"
               onClick={() => handleClick(data.id)}
             >
               <div className="text-hanaSilver text-[12px] text-left">
@@ -36,7 +36,11 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                 <div className="text-[16px]">{data.description}</div>
                 <div
                   className={
-                    data.amount >= 0 ? "text-hanaGreen" : "text-hanaRed"
+                    data.type === "입금"
+                      ? "text-hanaGreen"
+                      : data.type === "출금"
+                        ? "text-hanaRed"
+                        : ""
                   }
                 >
                   {`${data.amount.toLocaleString()} 원`}

@@ -11,10 +11,10 @@ import ApiClient from "../../apis/apiClient";
 import calculateDate from "../../utils/calculateDate"; // 유틸리티 함수를 가져옵니다
 
 function Transaction() {
-  const accountId = 2;
+  const accountId = 1;
   const today = new Date();
   const [option, setOption] = useState<number>(0);
-  const [sort, setSort] = useState<boolean>(false);
+  const [sort, setSort] = useState<boolean>(true);
   const [endDate, setEndDate] = useState<Date>(today); // default 종료일 오늘 날짜
   const [visibleCount, setVisibleCount] = useState<number>(20); // 처음에 보여줄 데이터 수
 
