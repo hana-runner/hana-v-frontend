@@ -141,10 +141,10 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   //  회원 삭제
-  public async deleteUser(userId: string) {
+  public async deleteUser() {
     const response = await this.axiosInstance.request({
       method: "delete",
-      url: `/users/${userId}`,
+      url: "/users/quit",
     });
 
     return response.data;
