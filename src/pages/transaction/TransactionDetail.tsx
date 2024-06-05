@@ -1,56 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ListCard, Loading, Navbar } from "../../components";
 import ApiClient from "../../apis/apiClient";
-import { transactionType } from "../../types/transaction";
-import { categoryType } from "../../types/category";
 
 function TransactionDetail() {
-  const { id } = useParams<{ id: string }>();
-  const { accountId } = useParams<{ accountId: string }>();
-  const [transactionData, setTransactionData] = useState<transactionType[]>([]);
+  const { id } = useParams<{ id: string }>(); // transactionHistoryId
 
-  // 거래 내역
+  // 단일 거래내역 가져오기
   const {
-    data: userTransaction,
-    isLoading: isTransactionLoading,
-    error: transactionError,
+    data: transactionHistory,
+    isLoading,
+    error,
   } = useQuery({
-    queryKey: ["transaction"],
+    queryKey: ["transactionHisotry", id],
     queryFn: async () => {
-      const response = await ApiClient.getInstance()
-        .getTransactions(Number(accountId), option, sort, start, end);
-      return response.data.transactionHistory
-        .find((t: transactionType) => t.id === parseInt(id, 10));
-    },
-  });
-
-  // 카테고리 가져오기
-  const { data: categories, isLoading: isCategoryLoading, error: categoryError } = useQuery({
-    queryKey: ["category"],
-    queryFn: async () => {
-      const response = await ApiClient.getInstance().getCategories();
+      const response = await ApiClient.getInstance().getTransactionHistory(
+        Number(id),
+      );
       return response;
     },
   });
 
-  if (isTransactionLoading || isCategoryLoading) {
+  const historyData = transactionHistory || [];
+
+  if (isLoading) {
     return <Loading />;
   }
 
-  if (transactionError || categoryError) {
-    return <div>Error fetching data</div>;
+  if (error) {
+    return "Error!";
   }
-
-  const category = categories?.categories.find(
-    (c: categoryType) => c.id === userTransaction?.category_id,
-  );
 
   return (
     <section>
-      <Navbar option={true} title="거래내역상세" logo={false} path="/transaction" />
-      {transactionData && <ListCard id={id!} data={transactionData} categoy={category} />}
+      <Navbar
+        option={true}
+        title="거래내역상세"
+        logo={false}
+        path="/transaction"
+      />
+      {transactionHistory && <ListCard id={Number(id)} data={historyData} />}
     </section>
   );
 }
