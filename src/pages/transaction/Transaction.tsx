@@ -14,7 +14,7 @@ function Transaction() {
   const accountId = 1;
   const today = new Date();
   const [option, setOption] = useState<number>(0);
-  const [sort, setSort] = useState<boolean>(false);
+  const [sort, setSort] = useState<boolean>(true);
   const [endDate, setEndDate] = useState<Date>(today); // default 종료일 오늘 날짜
   const [visibleCount, setVisibleCount] = useState<number>(20); // 처음에 보여줄 데이터 수
 
@@ -50,17 +50,11 @@ function Transaction() {
     },
   });
 
-  // 일반 카테고리 가져오기
-  const { data: categoryList } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const response = await ApiClient.getCategories();
-      return response;
-    },
-  });
-
   const transactions = userTransactions?.data || [];
   const useTransactionData = transactions.slice(0, visibleCount); // 배열 잘라서 새로운 배열 생성
+  const userAccounts = accounts?.data || [];
+
+  console.log("확인용", userTransactions);
 
   const loadMore = () => {
     setVisibleCount((prevCount) => prevCount + 20);
@@ -77,7 +71,7 @@ function Transaction() {
   return (
     <section className="flex flex-col items-center flex-wrap">
       <Navbar title="거래내역조회" option={true} logo={false} />
-      <AccountBoard />
+      <AccountBoard data={userAccounts} accountId={accountId} />
       <HistoryOption
         option={option}
         startDate={startDate}

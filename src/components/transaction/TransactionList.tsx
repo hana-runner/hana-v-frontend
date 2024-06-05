@@ -25,8 +25,8 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
         {transactions.map((data: TransactionType) => {
           return (
             <div
-              key={data.id} // 고유한 key 추가
-              className="mb-[6px] border-b-2 py-[12px] cursor-pointer"
+              key={data.id}
+              className="mb-[6px] border-b-2 pt-[12px] pb-[16px] cursor-pointer"
               onClick={() => handleClick(data.id)}
             >
               <div className="text-hanaSilver text-[12px] text-left">
@@ -36,15 +36,29 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                 <div className="text-[16px]">{data.description}</div>
                 <div
                   className={
-                    data.amount >= 0 ? "text-hanaGreen" : "text-hanaRed"
+                    data.type === "입금"
+                      ? "text-hanaGreen"
+                      : data.type === "출금"
+                        ? "text-hanaRed"
+                        : ""
                   }
                 >
                   {`${data.amount.toLocaleString()} 원`}
                 </div>
               </div>
               <div className="flex justify-between">
-                <Tag title={data.categoryTitle} color={data.categoryColor} />
-                <div className="text-[12px] mt-[2px]">
+                <div className="flex flex-row items-center justify-center mt-[8px]">
+                  <Tag title={data.categoryTitle} color={data.categoryColor} />
+                  {data.transactionHistoryDetails?.map((detail, index) => (
+                    <div key={index} className="flex">
+                      <Tag
+                        title={detail.interest.title}
+                        color={detail.interest.color}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="text-[12px] mt-[8px]">
                   {`잔액 ${data.balance.toLocaleString()} 원`}
                 </div>
               </div>
