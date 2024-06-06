@@ -76,7 +76,9 @@ function ListCard({ id }: ListCardProps) {
             <p>카테고리</p>
             <BsPencil
               className="ml-[6px] mt-[3px] text-hanaSilver cursor-pointer"
-              onClick={() => handleCategoryClick(id)}
+              onClick={() =>
+                handleCategoryClick(transactionHistory?.id.toString())
+              }
             />
           </div>
           <Tag
