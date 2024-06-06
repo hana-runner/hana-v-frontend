@@ -18,12 +18,6 @@ function ListCard({ id }: ListCardProps) {
     });
   };
 
-  const handleInterestClick = (idx: string) => {
-    navigate(`/transaction/detail/${idx}/interest`, {
-      state: { from: window.location.pathname, transactionId: idx },
-    });
-  };
-
   // 단일 거래내역 가져오기
   const {
     data: transactionHistory,
