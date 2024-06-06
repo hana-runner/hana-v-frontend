@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MenuCard, MonthlyConsumption, MyAccount, Navbar } from "../components";
 import { useQuery } from "@tanstack/react-query";
