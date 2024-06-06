@@ -15,6 +15,7 @@ export { default as Tag } from "./common/Tag";
 export { default as HistoryOption } from "./transaction/HistoryOption";
 export { default as HistoryOptionBoard } from "./transaction/HistoryOptionBoard";
 export { default as TransactionList } from "./transaction/TransactionList";
+export { default as ModifyInterest } from "./transaction/ModifyInterest";
 export { default as ToggleBtn } from "./common/ToggleBtn";
 export { default as MonthNavigationBtn } from "./common/MonthNavigationBtn";
 export { default as Tooltip } from "./common/Tooltip";
