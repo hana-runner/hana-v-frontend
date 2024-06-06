@@ -18,6 +18,12 @@ function ListCard({ id }: ListCardProps) {
     });
   };
 
+  const handleInterestClick = (idx: string) => {
+    navigate(`/transaction/detail/${idx}/interest`, {
+      state: { from: window.location.pathname, transactionId: idx },
+    });
+  };
+
   // 단일 거래내역 가져오기
   const {
     data: transactionHistory,
@@ -89,7 +95,10 @@ function ListCard({ id }: ListCardProps) {
         <div className="flex justify-between my-[8px]">
           <div className="flex">
             <p>관심사</p>
-            <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver cursor-pointer" />
+            <BsPencil
+              className="ml-[6px] mt-[3px] text-hanaSilver cursor-pointer"
+              onClick={handleInterestClick()}
+            />
           </div>
           <div className="flex flex-row">
             {transactionHistory?.transactionHistoryDetails.map(
