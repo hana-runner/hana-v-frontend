@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Modal, Navbar, SelectBox } from "../components";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ApiClient from "../apis/apiClient";
 import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const banks = [
   { title: "하나은행" },
@@ -14,14 +15,11 @@ const banks = [
 ];
 
 const AddAccount = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [openModal, setOpenModal] = useState(false);
   const accountNumberRef = useRef<HTMLInputElement>(null);
   const [bankName, setBankName] = useState("");
-  const [account, setAccount] = useState<AccountType>();
-  // const [accountInfo, setAccountInfo] = useState({
-  //   bankName: "",
-  //   accountNumber: "",
-  // });
 
   const getValue = (values: string) => {
     const [, value] = values.split(" ");
@@ -41,7 +39,6 @@ const AddAccount = () => {
     onSuccess: (data) => {
       // setOpenModal(true);
       console.log(data.data);
-      // setAccount(data.data);
       registerAccount(data.data);
     },
 
@@ -49,9 +46,6 @@ const AddAccount = () => {
       // TODO 유효하지 않은 계좌 에러 처리
       if (error.response) {
         console.error("Failed to submit account info", error.response.data);
-        // setErrorMessage(
-        //   error.response.data.message || "계좌 등록에 실패했습니다.",
-        // );
       }
     },
   });
@@ -63,16 +57,14 @@ const AddAccount = () => {
     },
 
     onSuccess: (data) => {
-      // setOpenModal(true);
+      setOpenModal(true);
       console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["accounts"] });
     },
 
     onError: (error: AxiosError) => {
       if (error.response) {
         console.error("Failed to submit account info", error.response.data);
-        // setErrorMessage(
-        //   error.response.data.message || "계좌 등록에 실패했습니다.",
-        // );
       }
     },
   });
@@ -93,7 +85,7 @@ const AddAccount = () => {
         <Modal
           option={false}
           message="등록되었습니다!"
-          modalToggle={() => setOpenModal(!openModal)}
+          modalToggle={() => navigate("/home")}
         />
       )}
       <Navbar logo={false} title="계좌 추가" option={true} path="/home" />
