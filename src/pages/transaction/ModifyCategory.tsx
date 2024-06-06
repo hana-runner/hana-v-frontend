@@ -1,44 +1,58 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CancleBtn, CategoryBtn, Navbar } from "../../components";
-import { categoryType } from "../../types/category";
 import ApiClient from "../../apis/apiClient";
 
+interface CategoryType {
+  id: number;
+  title: string;
+  color: string;
+}
+
 const ModifyCategory: React.FC = () => {
-  const [categories, setCategories] = useState<categoryType[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null,
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const previousUrl = location.state?.from;
   const transactionId = location.state?.transactionId;
+  const queryClient = useQueryClient();
 
-  const { data: categoryList } = useQuery({
-    queryKey: ["categoryList"],
-    queryFn: async () => {
-      const response = await ApiClient.getInstance().getCategories();
-      return response;
-    },
-  });
+  // public의 category 정보 가져오기
+  useEffect(() => {
+    fetch("/categoriesData.json")
+      .then((response) => response.json())
+      .then((data) => setCategories(data.categories)) // categories 배열로 접근
+      .catch((error) => console.error("Error", error));
+  }, []);
 
   const updateCategory = useMutation({
     mutationFn: async () => {
+      console.log("API 호출 준비됨");
       if (transactionId !== undefined && selectedCategoryId !== null) {
-        const response = ApiClient.getInstance()
-          .updateTransactionCategory(transactionId, selectedCategoryId);
-        console.log(response);
+        console.log("API 호출 시작");
+        const response =
+          await ApiClient.getInstance().updateTransactionCategory(
+            transactionId,
+            selectedCategoryId,
+          );
+        console.log("API 응답:", response);
+        return response;
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      console.log("Invalidating queries for transactionId:", transactionId);
+      await queryClient.invalidateQueries([
+        "transactionHistory",
+        transactionId,
+      ]);
+      console.log("Queries invalidated");
       navigate(previousUrl);
     },
   });
-
-  useEffect(() => {
-    if (categoryList && Array.isArray(categoryList.categories)) {
-      setCategories(categoryList.categories);
-    }
-  }, [categoryList]);
 
   const handleCategoryClick = (id: number) => {
     setSelectedCategoryId(id);
@@ -52,13 +66,13 @@ const ModifyCategory: React.FC = () => {
     <section>
       <Navbar title="카테고리" option={true} logo={false} path={previousUrl} />
       <div className="mt-[20px] pb-[10px] h-[520px] overflow-y-scroll scrollbar-hide">
-        {categories.map((c: categoryType) => (
+        {categories.map((c: CategoryType) => (
           <CategoryBtn
             key={c.id}
             id={c.id}
             text={c.title}
             selected={c.id === selectedCategoryId}
-            onClick={handleCategoryClick}
+            onClick={() => handleCategoryClick(c.id)}
           />
         ))}
       </div>

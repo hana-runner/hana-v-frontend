@@ -1,7 +1,5 @@
-import { categoryType } from "../../types/category";
-
 interface categoryApi {
-  getCategories(): Promise<categoryType>;
+  getCategories(): Promise<CategoryType>;
 }
 
 export default categoryApi;

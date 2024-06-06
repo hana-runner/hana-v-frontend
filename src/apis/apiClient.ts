@@ -209,14 +209,16 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   public async updateTransactionCategory(
-    transactionId: string,
+    transactionHistoryId: number,
     categoryId: number,
   ): Promise<BaseResponseType> {
     const response = await this.axiosInstance.request({
       method: "put",
-      // url: `/transaction-histories/${transactionId}`,
-      url: "/categoriesData.json",
-      data: JSON.stringify(categoryId),
+      url: `/transaction-histories/${transactionHistoryId}`,
+      data: JSON.stringify({ categoryId: categoryId.toString() }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     return response.data;
   }
@@ -244,10 +246,8 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 단일 거래 조회
   public async getTransactionHistory(
     transactionHistoryId: number,
-  ): Promise<ApiResponseType<TransactionType>> {
-    const response = await this.axiosInstance.request<
-      ApiResponseType<TransactionType>
-    >({
+  ): Promise<TransactionType> {
+    const response = await this.axiosInstance.request<TransactionType>({
       method: "get",
       url: `/transaction-histories/${transactionHistoryId}`,
     });

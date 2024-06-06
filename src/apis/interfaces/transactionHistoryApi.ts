@@ -1,7 +1,5 @@
 interface TransactionHistoryApi {
-  getTransactionHistory(
-    transactionHistoryId: number,
-  ): Promise<ApiResponseType<TransactionType>>;
+  getTransactionHistory(transactionHistoryId: number): Promise<TransactionType>;
 }
 
 export default TransactionHistoryApi;
