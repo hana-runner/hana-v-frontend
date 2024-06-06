@@ -20,6 +20,7 @@ import {
   TransactionDetail,
   ModifyCategory,
   Notification,
+  ModifyTransactionDetail,
 } from "./pages";
 import Interests from "./pages/interest/Interests";
 import PersonalInformation from "./pages/personalInformation/PersonalInformation";
@@ -47,6 +48,10 @@ function App() {
         <Route
           path="/transaction/detail/:id/category"
           element={<ModifyCategory />}
+        />
+        <Route
+          path="/transaction/detail/:id/interest"
+          element={<ModifyTransactionDetail />}
         />
         <Route path="/settings" element={<Settings />} />
         <Route
