@@ -1,4 +1,4 @@
-interface ccountInfoType {
+interface AccountInfoType {
   bankName: string;
   accountNumber: string;
 }

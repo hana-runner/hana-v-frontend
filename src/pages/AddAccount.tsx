@@ -28,7 +28,7 @@ const AddAccount = () => {
     setBankName(value);
   };
 
-  const { mutate, data } = useMutation({
+  const { mutate: checkAccountNumber } = useMutation({
     mutationFn: async (accountInfo: {
       bankName: string;
       accountNumber: string;
@@ -41,11 +41,33 @@ const AddAccount = () => {
     onSuccess: (data) => {
       // setOpenModal(true);
       console.log(data.data);
-      setAccount(data.data);
+      // setAccount(data.data);
+      registerAccount(data.data);
     },
 
     onError: (error: AxiosError) => {
       // TODO 유효하지 않은 계좌 에러 처리
+      if (error.response) {
+        console.error("Failed to submit account info", error.response.data);
+        // setErrorMessage(
+        //   error.response.data.message || "계좌 등록에 실패했습니다.",
+        // );
+      }
+    },
+  });
+
+  const { mutate: registerAccount } = useMutation({
+    mutationFn: async (account: AccountType) => {
+      const response = await ApiClient.getInstance().registerAccount(account);
+      return response;
+    },
+
+    onSuccess: (data) => {
+      // setOpenModal(true);
+      console.log(data);
+    },
+
+    onError: (error: AxiosError) => {
       if (error.response) {
         console.error("Failed to submit account info", error.response.data);
         // setErrorMessage(
@@ -62,7 +84,7 @@ const AddAccount = () => {
       accountNumber: accountNumber,
     };
 
-    mutate(accountInfo);
+    checkAccountNumber(accountInfo);
   };
 
   return (

@@ -278,6 +278,16 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
+  // 계좌 정보 등록 요청
+  public async registerAccount(account: AccountType) {
+    const response = await this.axiosInstance.request<BaseResponseType>({
+      method: "post",
+      url: "/accounts",
+      data: account,
+    });
+    return response.data;
+  }
+
   /*
   #####################################################
     singleton pattern, creational patterns
