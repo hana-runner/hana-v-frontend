@@ -15,6 +15,7 @@ import { EMAIL_DOMAIN } from "../../types/users/enums";
 import EmailConverter from "../../components/users/emailConverter";
 import { Modal } from "../../components";
 import { removeCookie } from "../../utils/cookie";
+import path from "path";
 
 interface ShowInfoType
   extends Pick<
@@ -134,6 +135,16 @@ const PersonalInformation = () => {
       <button type="button" onClick={() => onResign()}>
         회원 탈퇴
       </button>
+      <button
+        type="button"
+        onClick={() => {
+          removeCookie("x-access-token", { path: "/" });
+          removeCookie("x-auth-token", { path: "/" });
+          navigate("/", { replace: true });
+        }}
+      >
+        로그아웃
+      </button>
       {title === TITLE.EDIT && (
         <button
           type="button"
@@ -143,6 +154,7 @@ const PersonalInformation = () => {
           변경
         </button>
       )}
+
       {modalOppened && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
           <Modal
