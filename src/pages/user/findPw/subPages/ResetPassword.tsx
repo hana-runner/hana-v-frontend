@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import validatePw from "../../../../components/users/validation/pw-validation";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import {
   SimpleInputRefHandler,
   UpdatePwType,
@@ -9,7 +10,6 @@ import ApiClient from "../../../../apis/apiClient";
 import { ActionProp, FindPwAction } from "../../../../types/users/actions";
 import { VERIFICATION } from "../../../../types/users/enums";
 import EmailConverter from "../../../../components/users/emailConverter";
-import { useUserInfo } from "../../../../context/register-context/register-context";
 
 const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
   const newPwRef = useRef<SimpleInputRefHandler>(null);
@@ -29,7 +29,6 @@ const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
       const response: ApiResponseType<string> =
         await ApiClient.getInstance().updatePw(updateData);
 
-      console.log(response);
       if (response.success) {
         dispatch({ type: VERIFICATION.USER_PW });
       }
@@ -58,7 +57,6 @@ const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
     setPwConfirm(inputConfirm);
 
     if (inputPw !== newPwConfirm) {
-      console.log("newPw", newPwConfirm);
       newPwConfirmRef.current.setMessage(
         `비밀번호가 일치하지 않습니다  ${newPwConfirm}`,
       );

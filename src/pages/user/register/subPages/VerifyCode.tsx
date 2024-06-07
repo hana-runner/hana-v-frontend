@@ -3,7 +3,7 @@ import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 import ApiClient from "../../../../apis/apiClient";
-import { useUserInfo } from "../../../../context/register-context/register-context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 interface Value {
   value: string;
@@ -42,7 +42,6 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
       const response: ApiResponseType<string> =
         await ApiClient.getInstance().emailVerificationCode(userEmail, code);
 
-      console.log(response);
       if (response.data != "인증 번호가 틀렸습니다.") {
         dispatch({ type: VERIFICATION.CODE });
       } else {

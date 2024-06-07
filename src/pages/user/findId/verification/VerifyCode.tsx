@@ -3,7 +3,7 @@ import { ActionProp, FindIdAction } from "../../../../types/users/actions";
 import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
 import ApiClient from "../../../../apis/apiClient";
-import { useUserInfo } from "../../../../context/register-context/register-context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 interface Value {
   value: string;
@@ -43,7 +43,6 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
         );
 
       if (response.status) {
-        console.log("res", response);
         setUsername(response.data);
       }
     } catch (err) {
@@ -74,7 +73,6 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
         );
 
       if (response.status) {
-        console.log("res", response);
         fetchUsername();
       }
     } catch (err) {

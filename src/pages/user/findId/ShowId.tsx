@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserInfo } from "../../../context/register-context/register-context";
+import { useUserInfo } from "../../../components/context/register-context/register-context";
 
 const ShowId = () => {
   const navigate = useNavigate();

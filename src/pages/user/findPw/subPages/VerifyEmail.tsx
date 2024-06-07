@@ -5,7 +5,7 @@ import { FindPwAction, ActionProp } from "../../../../types/users/actions";
 import EmailInput from "../../../../components/users/EmailInput";
 import { EmailRefHandler, EmailType } from "../../../../types/users/users-type";
 import ApiClient from "../../../../apis/apiClient";
-import { useUserInfo } from "../../../../context/register-context/register-context";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 const VerifyEmail = ({ dispatch }: ActionProp<FindPwAction>) => {
   const { userInfo, setEmail } = useUserInfo();
@@ -14,7 +14,6 @@ const VerifyEmail = ({ dispatch }: ActionProp<FindPwAction>) => {
 
   const onSendEmail = useCallback(async () => {
     try {
-      console.log("onsendEmail email", userInfo.userEmail);
       ApiClient.getInstance().emailVerification(userInfo.userEmail);
       dispatch({ type: VERIFICATION.EMAIL });
     } catch (err) {
@@ -41,7 +40,6 @@ const VerifyEmail = ({ dispatch }: ActionProp<FindPwAction>) => {
 
   useEffect(() => {
     if (userInfo.userEmail.emailId) {
-      console.log("email Id", userInfo.userEmail.emailId);
       onSendEmail();
     }
   }, [userInfo, dispatch, onSendEmail]);

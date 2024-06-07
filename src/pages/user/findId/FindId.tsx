@@ -5,8 +5,8 @@ import ShowId from "./ShowId";
 import UserWrapper from "../../../components/UserWrapper";
 import { FindIdAction } from "../../../types/users/actions";
 import { VERIFICATION } from "../../../types/users/enums";
+import { useUserInfo } from "../../../components/context/register-context/register-context";
 import { FindIdVerification } from "../../../types/users/validate-verify";
-import { useUserInfo } from "../../../context/register-context/register-context";
 
 const InitialVerificationList: FindIdVerification = {
   [VERIFICATION.EMAIL]: false,
@@ -37,6 +37,7 @@ const FindId = () => {
   useEffect(() => {
     reset();
   }, []);
+
 
   return (
     <UserWrapper hasNav title="아이디 찾기" option logo>
