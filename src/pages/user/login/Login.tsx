@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 import validateId from "../../../components/users/validation/id-validation";
 import validatePw from "../../../components/users/validation/pw-validation";
@@ -92,11 +92,10 @@ const Login = () => {
         pw,
       });
 
-      console.log(response);
       if (response.success) {
         setCookie("x-access-token", response.accessToken);
         setCookie("x-auth-token", response.refreshToken);
-        navigation("/home");
+        navigation("/home", { replace: true });
       }
     } catch (err) {
       console.error(err);

@@ -231,6 +231,8 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // ------------------------------ account
   // 사용자 전체 계좌 목록 조회
   public async getAccounts() {
+    console.log("GetAccount");
+    console.log("token : ", getCookie("x-access-token"));
     const response = await this.axiosInstance.request<
       ApiResponseType<AccountType[]>
     >({
@@ -268,8 +270,9 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
     newInstance.interceptors.request.use(
       (config) => {
-        if (ACCESSTOKEN) {
-          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+        if (getCookie("x-access-token")) {
+          config.headers["Authorization"] =
+            `Bearer ${getCookie("x-access-token")}`;
         }
 
         config.headers["Content-Type"] = "application/json";

@@ -121,7 +121,7 @@ const PersonalInformation = () => {
     console.log("resignSuccess", resignSuccess);
     if (resignSuccess) {
       console.log("resignSuccess1", resignSuccess);
-      redirect("/login");
+      navigate("/home", { replace: true });
       console.log("resignSuccess2", resignSuccess);
     }
     setModalOppened(false);
