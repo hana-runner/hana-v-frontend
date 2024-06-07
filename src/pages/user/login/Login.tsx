@@ -10,6 +10,7 @@ import { LoginValidation } from "../../../types/users/validate-verify";
 import ApiClient from "../../../apis/apiClient";
 import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
+
 import { useUserInfo } from "../../../context/register-context/register-context";
 
 const InitialLoginInfoStatus: LoginValidation = {
@@ -92,10 +93,10 @@ const Login = () => {
         pw,
       });
 
-      if (response.code) {
+      if (response.success) {
         setCookie("x-access-token", response.accessToken);
         setCookie("x-auth-token", response.refreshToken);
-        navigation("/");
+        navigation("/home", { replace: true });
       }
     } catch (err) {
       console.error(err);
@@ -103,7 +104,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    reset;
+    reset();
   }, []);
 
   return (

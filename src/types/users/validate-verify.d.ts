@@ -33,7 +33,9 @@ interface RegisterVerification
     | VERIFICATION.EMAIL
     | VERIFICATION.NAME
     | VERIFICATION.USER_SSN
-  > {}
+  > {
+  created: boolean;
+}
 
 interface FindIdVerification
   extends Pick<VerificationList, VERIFICATION.EMAIL | VERIFICATION.CODE> {}

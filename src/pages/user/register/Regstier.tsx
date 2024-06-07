@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import UserWrapper from "../../../components/UserWrapper";
 import RegisterId from "./subPages/RegisterId";
 import RegisterPw from "./subPages/RegisterPw";
@@ -15,7 +15,9 @@ import ApiClient from "../../../apis/apiClient";
 import { RegisterType } from "../../../types/users/users-type";
 import { RegisterVerification } from "../../../types/users/validate-verify";
 import VerifiedWithPath from "../../../components/users/VerifiedWithPath";
+import { Modal } from "../../../components";
 import { useUserInfo } from "../../../context/register-context/register-context";
+
 
 const defaultCheckList: RegisterVerification = {
   [VERIFICATION.CODE]: false,
@@ -24,6 +26,7 @@ const defaultCheckList: RegisterVerification = {
   [VERIFICATION.USER_ID]: false,
   [VERIFICATION.USER_PW]: false,
   [VERIFICATION.USER_SSN]: false,
+  created: false,
 };
 
 const reducer = (list: RegisterVerification, { type }: RegisterAction) => {
@@ -54,6 +57,14 @@ const reducer = (list: RegisterVerification, { type }: RegisterAction) => {
       newer = { ...list, [VERIFICATION.CODE]: true };
       break;
 
+    case "created":
+      newer = { ...list, created: true };
+      break;
+
+    case "clear":
+      newer = { ...defaultCheckList };
+      break;
+
     default:
       return list;
   }
@@ -65,12 +76,36 @@ const Register = () => {
   const navigate = useNavigate();
   const [infoList, dispatch] = useReducer(reducer, defaultCheckList);
   const { userInfo, reset } = useUserInfo();
+  const [modalOpened, setModalOppened] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+
+  const openModal = (msg: string) => {
+    setMessage(msg);
+    setModalOppened(true);
+  };
+
+  const closeModal = () => {
+    setModalOppened(false);
+    dispatch({ type: "clear" });
+    redirect("/register");
+  };
 
   const onRegister = async (dat: RegisterType) => {
-    const res: BaseResponseType = await ApiClient.getInstance().register(dat);
-    if (res.code) {
-      reset();
-    } else {
+    try {
+      const res: BaseResponseType = await ApiClient.getInstance().register(dat);
+      if (res.success) {
+        reset();
+        dispatch({ type: "created" });
+        return;
+      }
+      openModal("가입 성공");
+
+      throw new Error(res.message);
+    } catch (err: any) {
+      if (err.response.data) {
+        const messg = err.response.data.message;
+        openModal(messg);
+      }
     }
   };
 
@@ -120,8 +155,13 @@ const Register = () => {
       {infoList[VERIFICATION.EMAIL] && !infoList[VERIFICATION.CODE] && (
         <VerifyCode dispatch={dispatch} />
       )}
-      {infoList[VERIFICATION.CODE] && (
+      {infoList[VERIFICATION.CODE] && infoList.created && (
         <VerifiedWithPath message="가입 성공" path="/login" />
+      )}
+      {modalOpened && (
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+          <Modal message={message} option={false} modalToggle={closeModal} />
+        </div>
       )}
     </UserWrapper>
   );

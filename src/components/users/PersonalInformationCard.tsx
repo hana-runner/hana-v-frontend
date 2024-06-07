@@ -11,7 +11,6 @@ import {
   EmailType,
   PersonalInfoRefHandler,
 } from "../../types/users/users-type";
-import EmailConverter from "./emailConverter";
 import formatDate from "../../utils/formDate";
 import firstDigitSSN from "../../utils/firstDigitSSN";
 import BlindedInput from "./BlindedInput";
