@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Modal, Navbar, SelectBox } from "../components";
+import React from "react";
+import { Navbar, SelectBox } from "../components";
+import { useModal } from "../context/ModalContext";
 
 const banks = [
   "하나은행",
@@ -12,17 +13,10 @@ const banks = [
 ];
 
 const AddAccount = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const { openModal } = useModal();
 
   return (
     <section>
-      {openModal && (
-        <Modal
-          option={false}
-          message="등록되었습니다!"
-          modalToggle={() => setOpenModal(!openModal)}
-        />
-      )}
       <Navbar logo={false} title="계좌 추가" option={true} />
       <div className="h-[90vh] bg-white px-12 py-4 mt-4 flex flex-col justify-between">
         <div className="flex flex-col items-start gap-4">
@@ -41,7 +35,7 @@ const AddAccount = () => {
         <div className="flex justify-center items-center">
           <button
             className="btn-primary w-72"
-            onClick={() => setOpenModal(true)}
+            onClick={() => openModal("등록되었습니다!")}
           >
             등록
           </button>

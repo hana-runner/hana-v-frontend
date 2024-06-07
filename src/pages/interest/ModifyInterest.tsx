@@ -10,13 +10,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BsCamera } from "react-icons/bs";
 import ImageApiClient from "../../apis/imageApiClient";
 import { useInterests } from "../../context/interest/InterestContext";
+import { useModal } from "../../context/ModalContext";
 
 const ModifyInterest = () => {
   const { interestId } = useParams();
   const navigate = useNavigate();
-
-  const [openModal, setOpenModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
 
   const [interestInfo, setInterestInfo] = useState({
     interestId: 0,
@@ -29,6 +27,8 @@ const ModifyInterest = () => {
   const [userInterest, setUserInterest] = useState<UserInterestType[]>([]);
 
   const { isLoading, userInterests } = useInterests();
+
+  const { openModal } = useModal();
 
   const findInterest = userInterests?.data.find(
     (interest: UserInterestType) => interest.interestId === Number(interestId),
@@ -83,8 +83,7 @@ const ModifyInterest = () => {
         }
       } catch (error: any) {
         console.log(error);
-        setOpenModal(true);
-        setModalMessage(error.response.data.message);
+        openModal(error.response.data.message);
       }
     }
   };
@@ -98,13 +97,6 @@ const ModifyInterest = () => {
 
   return (
     <section>
-      {openModal && (
-        <Modal
-          option={false}
-          message={modalMessage}
-          modalToggle={() => setOpenModal(!openModal)}
-        />
-      )}
       <Navbar
         title="관심사 수정"
         option={true}
