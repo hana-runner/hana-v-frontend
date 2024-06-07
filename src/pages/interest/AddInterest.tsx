@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { HiOutlinePlusCircle } from "react-icons/hi";
 import ApiClient from "../../apis/apiClient";
 import ImageApiClient from "../../apis/imageApiClient";
 import {
-  ImageCard,
   ImageUploader,
   InterestSubtitle,
-  Modal,
   Navbar,
   SelectBox,
 } from "../../components";
 import { BsCamera } from "react-icons/bs";
+import { useModal } from "../../context/ModalContext";
 
 const AddInterest = () => {
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+
   const [interestInfo, setInterestInfo] = useState({
     interestId: 0,
     title: "",
@@ -33,6 +30,8 @@ const AddInterest = () => {
       return response;
     },
   });
+
+  const { openModal } = useModal();
 
   const getValue = (values: string) => {
     const [id, title] = values.split(" ");
@@ -75,21 +74,13 @@ const AddInterest = () => {
         }
       } catch (error: any) {
         console.log(error);
-        setOpenModal(true);
-        setModalMessage(error.response.data.message);
+        openModal(error.response.data.message);
       }
     }
   };
 
   return (
     <section>
-      {openModal && (
-        <Modal
-          option={false}
-          message={modalMessage}
-          modalToggle={() => setOpenModal(!openModal)}
-        />
-      )}
       <Navbar title="관심사 추가" path="/interests" option />
 
       {/* 관심사 지정 */}

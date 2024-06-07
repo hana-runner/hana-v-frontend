@@ -7,6 +7,8 @@ import App from "./App";
 import PushNotification from "./apis/notification/config";
 import { RegisterProvider } from "./context/register-context/register-context";
 import { InterestContextProvider } from "./context/interest/InterestContext";
+import { ModalProvider } from "./context/ModalContext";
+import { Modal } from "./components";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +25,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <RegisterProvider>
           <InterestContextProvider>
-            <App />
+            <ModalProvider>
+              <Modal />
+              <App />
+            </ModalProvider>
           </InterestContextProvider>
         </RegisterProvider>
       </QueryClientProvider>
