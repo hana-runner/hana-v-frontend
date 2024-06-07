@@ -95,6 +95,7 @@ const PersonalInformation = () => {
         removeCookie("x-access-token", { path: "/" });
         removeCookie("x-auth-token", { path: "/" });
 
+        setResignSuccess(true);
         openModal("탈퇴 성공");
       }
     } catch (err) {
