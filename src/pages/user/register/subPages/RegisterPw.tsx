@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { VERIFICATION } from "../../../../types/users/enums";
 import validatePw from "../../../../components/users/validation/pw-validation";
 import { ActionProp, RegisterAction } from "../../../../types/users/actions";
+import { useUserInfo } from "../../../../context/register-context/register-context";
 
 const RegisterPw = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setUserPw, userInfo } = useUserInfo();

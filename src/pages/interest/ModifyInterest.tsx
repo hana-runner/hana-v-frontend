@@ -1,53 +1,61 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { HiOutlinePlusCircle } from "react-icons/hi";
-import ApiClient from "../../apis/apiClient";
-import ImageApiClient from "../../apis/imageApiClient";
+import React, { useEffect, useState } from "react";
 import {
-  ImageCard,
   ImageUploader,
   InterestSubtitle,
   Modal,
   Navbar,
   SelectBox,
 } from "../../components";
+import { useNavigate, useParams } from "react-router-dom";
 import { BsCamera } from "react-icons/bs";
+import ImageApiClient from "../../apis/imageApiClient";
+import { useInterests } from "../../context/interest/InterestContext";
 
-const AddInterest = () => {
+const ModifyInterest = () => {
+  const { interestId } = useParams();
   const navigate = useNavigate();
+
   const [openModal, setOpenModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
   const [interestInfo, setInterestInfo] = useState({
     interestId: 0,
     title: "",
     subtitle: "",
     imageUrl: "",
   });
+
   const [file, setFile] = useState<File>();
+  const [userInterest, setUserInterest] = useState<UserInterestType[]>([]);
 
-  const { data: interestList } = useQuery<ApiResponseType<InterestType[]>>({
-    queryKey: ["interestList"],
-    queryFn: () => {
-      const response = ApiClient.getInstance().getInterestList();
-      return response;
-    },
-  });
+  const { isLoading, userInterests } = useInterests();
 
-  const getValue = (values: string) => {
-    const [id, title] = values.split(" ");
-    setInterestInfo({ ...interestInfo, interestId: Number(id), title });
-  };
+  const findInterest = userInterests?.data.find(
+    (interest: UserInterestType) => interest.interestId === Number(interestId),
+  );
 
   const handlesubtitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
-    setInterestInfo({ ...interestInfo, subtitle: value });
+    setInterestInfo((prev) => ({ ...prev, subtitle: value }));
+    setUserInterest((prev) =>
+      prev.map((interest) =>
+        interest.interestId === Number(interestId)
+          ? { ...interest, subtitle: value }
+          : interest,
+      ),
+    );
   };
 
   const handleImageChange = (file: File, url: string) => {
     setFile(file);
     setInterestInfo((prev) => ({ ...prev, imageUrl: url }));
+    setUserInterest((prev) =>
+      prev.map((interest) =>
+        interest.interestId === Number(interestId)
+          ? { ...interest, imageUrl: url }
+          : interest,
+      ),
+    );
   };
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -69,7 +77,7 @@ const AddInterest = () => {
 
       try {
         const response =
-          await ImageApiClient.getInstance().addUserInterest(formData);
+          await ImageApiClient.getInstance().modifyUserInterest(formData);
         if (response.status === 200) {
           navigate("/interests");
         }
@@ -81,6 +89,13 @@ const AddInterest = () => {
     }
   };
 
+  useEffect(() => {
+    if (findInterest) {
+      setInterestInfo(findInterest);
+      setUserInterest([findInterest]);
+    }
+  }, [findInterest]);
+
   return (
     <section>
       {openModal && (
@@ -90,47 +105,46 @@ const AddInterest = () => {
           modalToggle={() => setOpenModal(!openModal)}
         />
       )}
-      <Navbar title="관심사 추가" path="/interests" option />
+      <Navbar
+        title="관심사 수정"
+        option={true}
+        path="/interests"
+        logo={false}
+      />
 
-      {/* 관심사 지정 */}
       <div className="bg-white">
         <div className="mx-6 my-4">
           <div className="flex flex-col gap-4 pt-4 pb-6">
             <p className="text-left">관심사 지정</p>
-            <SelectBox
-              items={interestList?.data || []}
-              placeholder="관심사를 선택해주세요"
-              getValue={getValue}
-            />
+            <SelectBox items={userInterest} />
           </div>
         </div>
       </div>
 
-      {/* 관심사 부연 설명 */}
-      <InterestSubtitle
-        placeholder="내 집 마련 가자 !"
-        onChange={handlesubtitle}
-      />
+      {userInterest.map((item) => (
+        <div key={item.interestId}>
+          <InterestSubtitle
+            placeholder={item.subtitle}
+            onChange={handlesubtitle}
+          />
 
-      {/* 이미지 */}
-      <div className="bg-white">
-        <div className="mx-6 my-4">
-          <ImageUploader
-            userInterest={interestInfo}
-            onImageChange={handleImageChange}
-          >
-            <label
-              htmlFor="file"
-              className="absolute top-5 left-28 cursor-pointer"
+          <div className="flex flex-col text-left px-6 gap-4 bg-white">
+            <ImageUploader
+              userInterest={item}
+              onImageChange={handleImageChange}
             >
-              <BsCamera />
-            </label>
-          </ImageUploader>
+              <label
+                htmlFor="file"
+                className="absolute top-5 left-28 cursor-pointer"
+              >
+                <BsCamera />
+              </label>
+            </ImageUploader>
+          </div>
         </div>
-      </div>
+      ))}
 
-      {/* 취소 / 추가 버튼 */}
-      <div className="flex gap-4 justify-center mb-4 w-full">
+      <div className="flex gap-4 justify-center my-4 w-full">
         <button
           type="button"
           name="cancel"
@@ -145,11 +159,11 @@ const AddInterest = () => {
           className="btn-primary w-5/12"
           onClick={handleClick}
         >
-          추가
+          수정
         </button>
       </div>
     </section>
   );
 };
 
-export default AddInterest;
+export default ModifyInterest;

@@ -10,7 +10,7 @@ import { LoginValidation } from "../../../types/users/validate-verify";
 import ApiClient from "../../../apis/apiClient";
 import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
-import { useUserInfo } from "../../../components/context/register-context/register-context";
+import { useUserInfo } from "../../../context/register-context/register-context";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
