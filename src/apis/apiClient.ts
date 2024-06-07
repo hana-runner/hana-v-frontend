@@ -257,6 +257,15 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
+  public async fetchAlarms() {
+    const response = await this.axiosInstance.request({
+      method: "get",
+      url: "/users/alarms",
+    });
+
+    return response.data;
+  }
+
   /*
   #####################################################
     singleton pattern, creational patterns

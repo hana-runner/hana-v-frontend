@@ -35,6 +35,15 @@ const PushNotification: React.FC = () => {
     return false;
   };
 
+  const fetchAlarms = async () => {
+    try {
+      const response: ApiResponseType<NotificationFetchResType> =
+        await ApiClient.getInstance().fetchAlarms();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     // Firebase 초기화
     const app: FirebaseApp = initializeApp(firebaseConfig);
