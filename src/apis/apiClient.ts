@@ -172,7 +172,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
   // 사용자 관심사별 거래 내역 조회
   public async getUserInterestTransactions(
-    interestId: number,
+    interestId: string,
     year: number,
     month: number,
   ) {
@@ -305,16 +305,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
       (error) => {
         console.log(error);
-        const errorStatus = error.response.data.code;
-        const errorMessage = error.response.data.message;
-
-        switch (errorStatus) {
-          case "USERINTEREST-001":
-            return Promise.reject(new Error(errorMessage));
-
-          default:
-            break;
-        }
+        return Promise.reject(error);
       },
     );
 

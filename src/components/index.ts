@@ -1,6 +1,6 @@
 export { default as Navbar } from "./Navbar";
 export { default as NavIcons } from "./common/NavIcon";
-export { default as Loading } from "./Loading";
+export { default as Loading } from "./common/Loading";
 export { default as Modal } from "./Modal";
 export { default as LegendElement } from "./LegendElement";
 export { default as MenuCard } from "./MenuCard";
@@ -19,9 +19,3 @@ export { default as ToggleBtn } from "./common/ToggleBtn";
 export { default as MonthNavigationBtn } from "./common/MonthNavigationBtn";
 export { default as Tooltip } from "./common/Tooltip";
 export { default as ListCard } from "./transaction/ListCard";
-export { default as NotificationCard } from "./users/NotificationCard";
-export { default as InterestMenu } from "./intereset/InterestMenu";
-export { default as ImageCard } from "./intereset/ImageCard";
-export { default as InterestSubtitle } from "./intereset/InterestSubtitle";
-export { default as ImageUploader } from "./intereset/ImageUploader";
-export { default as MenuSlide } from "./common/MenuSlide";

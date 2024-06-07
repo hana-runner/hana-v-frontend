@@ -3,7 +3,7 @@ interface UserInterestType {
   title: string;
   subtitle: string;
   imageUrl: string;
-  color?: string;
+  color: string;
 }
 
 interface UserInterestTransactionType {

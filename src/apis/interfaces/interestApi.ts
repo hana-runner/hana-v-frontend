@@ -1,11 +1,11 @@
 interface interestApi {
-  getUserInterests(): Promise<ApiResponseType<UserInterestType[]>>;
+  getUserInterests(): Promise<BasicResultApiType<UserInterestType[]>>;
   getUserInterestTransactions(
-    interestId: number,
+    interestId: string,
     year: number,
     month: number,
-  ): Promise<ApiResponseType<UserInterestTransactionsType>>;
-  getInterestList(): Promise<ApiResponseType<InterestType[]>>;
+  ): Promise<BasicResultApiType<UserInterestTransactionsType>>;
+  getInterestList(): Promise<BasicResultApiType<InterestType[]>>;
 }
 
 export default interestApi;
