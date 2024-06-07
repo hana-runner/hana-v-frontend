@@ -1,13 +1,6 @@
 import React from "react";
 
-export interface CategoryType {
-  title: string;
-  ratio: number;
-  color: string;
-  unit: string;
-}
-
-const LegendElement = ({ title, ratio, color, unit }: CategoryType) => {
+const LegendElement = ({ title, ratio, color, unit }: LegendType) => {
   return (
     <div className="flex justify-between py-1">
       <div className="w-1/2 flex justify-start items-center">

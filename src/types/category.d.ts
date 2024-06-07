@@ -1,4 +1,4 @@
-export interface categoryType {
+interface CategoryType {
   categories: Array;
   id: number;
   title: string;

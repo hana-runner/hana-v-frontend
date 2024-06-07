@@ -13,16 +13,18 @@ import {
   InterestTransaction,
   Login,
   NotFound,
-  Notification,
   Register,
   Settings,
   Splash,
   Transaction,
   TransactionDetail,
+  ModifyCategory,
+  Notification,
+  ModifyTransactionDetail,
 } from "./pages";
 import Interests from "./pages/interest/Interests";
-import { RegisterProvider } from "./components/context/register-context/register-context";
 import PersonalInformation from "./pages/personalInformation/PersonalInformation";
+import { RegisterProvider } from "./context/register-context/register-context";
 
 function App() {
   return (
@@ -43,6 +45,14 @@ function App() {
         <Route path="/users/info" element={<PersonalInformation />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
+        <Route
+          path="/transaction/detail/:id/category"
+          element={<ModifyCategory />}
+        />
+        <Route
+          path="/transaction/detail/:id/interest"
+          element={<ModifyTransactionDetail />}
+        />
         <Route path="/settings" element={<Settings />} />
         <Route
           path="/interests/analysis/:interestId"
@@ -54,11 +64,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/settings" element={<Settings />} />
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </RegisterProvider>
   );
 }
-
 export default App;

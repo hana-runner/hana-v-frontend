@@ -3,7 +3,7 @@ import { VERIFICATION } from "../../../../types/users/enums";
 import { Modal } from "../../../../components";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 import ApiClient from "../../../../apis/apiClient";
-import { useUserInfo } from "../../../../components/context/register-context/register-context";
+import { useUserInfo } from "../../../../context/register-context/register-context";
 
 interface Value {
   value: string;

@@ -1,16 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MenuCard, MonthlyConsumption, MyAccount, Navbar } from "../components";
+import { useQueries } from "@tanstack/react-query";
+import ApiClient from "../apis/apiClient";
 
 const Home = () => {
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ["accounts"],
+        queryFn: async () => {
+          const response = await ApiClient.getInstance().getAccounts();
+          return response;
+        },
+      },
+      {
+        queryKey: ["expenses"],
+        queryFn: async () => {
+          const response =
+            await ApiClient.getInstance().getExpensePerCategories();
+          return response;
+        },
+      },
+    ],
+  });
+
+  const accountsQuery = results[0];
+  const expensesQuery = results[1];
+
+  const accounts: AccountType[] = accountsQuery.data?.data || [];
+  const expenses: ExpenseType[] = expensesQuery.data?.data || [];
+
+  const isLoading = accountsQuery.isLoading || expensesQuery.isLoading;
+
   const navigate = useNavigate();
 
   return (
     <section>
       <Navbar option={false} title="HANA" logo={true} />
-      {/* 나의 계좌 */}
-      <MyAccount />
-      <MonthlyConsumption />
+      {isLoading ? (
+        <div>is Loading...</div>
+      ) : (
+        <>
+          <MyAccount accounts={accounts} />
+          <MonthlyConsumption expenses={expenses} />
+        </>
+      )}
       <MenuCard
         title="나의 관심사"
         description="나의 관심사를 설정하여 비슷한 관심사를 가진 사람들과 소비를 비교해 보아요!"
