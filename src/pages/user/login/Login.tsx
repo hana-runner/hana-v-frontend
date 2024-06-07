@@ -11,7 +11,6 @@ import ApiClient from "../../../apis/apiClient";
 import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
 import { useUserInfo } from "../../../components/context/register-context/register-context";
-import PersonalInformationCard from "../../../components/users/PersonalInformationCard";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,

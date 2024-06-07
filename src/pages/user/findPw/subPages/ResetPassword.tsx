@@ -29,7 +29,6 @@ const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
       const response: ApiResponseType<string> =
         await ApiClient.getInstance().updatePw(updateData);
 
-      console.log(response);
       if (response.success) {
         dispatch({ type: VERIFICATION.USER_PW });
       }
@@ -58,7 +57,6 @@ const ResetPasswrod = ({ dispatch }: ActionProp<FindPwAction>) => {
     setPwConfirm(inputConfirm);
 
     if (inputPw !== newPwConfirm) {
-      console.log("newPw", newPwConfirm);
       newPwConfirmRef.current.setMessage(
         `비밀번호가 일치하지 않습니다  ${newPwConfirm}`,
       );

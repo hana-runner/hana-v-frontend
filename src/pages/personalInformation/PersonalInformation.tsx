@@ -49,8 +49,6 @@ const PersonalInformation = () => {
 
       if (!response.success) return;
 
-      console.log(response);
-
       setUserInfo({
         username: response.username,
         email: response.email,
@@ -93,13 +91,10 @@ const PersonalInformation = () => {
       const response: BaseResponseType =
         await ApiClient.getInstance().deleteUser();
 
-      console.log("회원 삭제 에이피아이 컴포넌트로 받아옴");
-      console.log(response);
       if (response.success) {
         removeCookie("x-access-token", { path: "/" });
         removeCookie("x-auth-token", { path: "/" });
-        setResignSuccess(true);
-        console.log("모달 오픈");
+
         openModal("탈퇴 성공");
       }
     } catch (err) {
