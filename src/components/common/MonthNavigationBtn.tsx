@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import calculateDate from "../../utils/date";
+import calculateDate from "../../utils/calculateDate";
 
 interface MonthNavigationBtnType {
   getValues: (date: Date, year: number, month: number) => void;
