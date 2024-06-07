@@ -5,10 +5,11 @@ import { FindPwAction } from "../../../types/users/actions";
 import VerifyEmail from "./subPages/VerifyEmail";
 import VerifyId from "./subPages/VerifyId";
 import VerifyCode from "./subPages/VerifyCode";
+import { FindAccountProvider } from "../../../components/context/find-account-context/find-account-context";
 import ResetPasswrod from "./subPages/ResetPassword";
 import { FindPwVerification } from "../../../types/users/validate-verify";
 import Verified from "../../../components/users/Verified";
-import { useUserInfo } from "../../../context/register-context/register-context";
+import { useUserInfo } from "../../../components/context/register-context/register-context";
 
 const InitialVerificationData: FindPwVerification = {
   [VERIFICATION.CODE]: false,

@@ -1,11 +1,7 @@
+import { Transaction } from "../../types/transaction";
+
 interface transactionApi {
-  getTransactions(
-    accountId: number,
-    option: number,
-    sort: boolean,
-    start: Date,
-    end: Date,
-  ): Promise<ApiResponseType<TransactionType[]>>;
+  getTransactions(): Promise<Transaction>;
 }
 
 export default transactionApi;

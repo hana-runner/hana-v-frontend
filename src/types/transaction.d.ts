@@ -1,22 +1,15 @@
-interface TransactionType {
+export interface transactionType {
   transactionHistory: Array;
-  transactionHistoryDetails: Array;
   id: number;
   account_id: number;
   user_id: number;
-  categoryTitle: string;
-  categoryColor: string;
-  approvalNumber: number;
+  category_id: number;
   num: number;
-  type: string;
+  type: boolean;
   description: string;
-  action: number;
+  action: string;
   amount: number;
   balance: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface TransactionDataType {
-  transactionHistory: TransactionType[];
+  created_at: string;
+  updated_at: string;
 }

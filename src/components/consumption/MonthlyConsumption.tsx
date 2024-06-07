@@ -1,46 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
-import LegendElement from "../LegendElement";
+import LegendElement, { CategoryType } from "../LegendElement";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface MonthlyConsumptionProps {
-  expenses: ExpenseType[];
-}
-
-interface ChartDataType {
-  labels: string[];
-  datasets: [
-    {
-      data: number[];
-      backgroundColor: string[];
-      borderWidth: number;
-      cutout: string;
-    },
-  ];
-}
-
-const MonthlyConsumption: React.FC<MonthlyConsumptionProps> = ({
-  expenses,
-}) => {
+const MonthlyConsumption = () => {
   const navigate = useNavigate();
-
-  const [chartData, setChartData] = useState<ChartDataType>({
-    labels: [],
+  const data = {
+    // labels: 카테고리 배열
+    labels: ["식비", "교통비", "통신비", "주거"],
     datasets: [
       {
-        data: [],
-        backgroundColor: [],
+        data: [40, 30, 20, 10],
+        backgroundColor: ["#008C8C", "#EF5489", "#FFCC5A", "#B5B5B5"],
         borderWidth: 0,
         cutout: "70%",
       },
     ],
-  });
-  const [totalConsumption, setTotalConsumption] = useState(0);
-  const [legends, setLegends] = useState<LegendType[]>([]);
+  };
 
   const options = {
     plugins: {
@@ -50,40 +30,14 @@ const MonthlyConsumption: React.FC<MonthlyConsumptionProps> = ({
     },
   };
 
-  useEffect(() => {
-    const total = expenses.reduce(
-      (total, expense) => total + expense.expense,
-      0,
-    );
-    setTotalConsumption(total);
+  const totalConsumption = 2000000000;
 
-    const labels: string[] = expenses.map((expense) => expense.title);
-    const backgroundColor: string[] = expenses.map((expense) => expense.color);
-    const data = expenses.map((expense) =>
-      total ? Math.round((expense.expense / total) * 100) : 0,
-    );
-
-    setChartData({
-      labels,
-      datasets: [
-        {
-          data,
-          backgroundColor,
-          borderWidth: 0,
-          cutout: "70%",
-        },
-      ],
-    });
-
-    const newLegends = labels.map((label, index) => ({
-      title: label,
-      ratio: data[index],
-      color: backgroundColor[index],
-      unit: "%",
-    }));
-
-    setLegends(newLegends);
-  }, [expenses]);
+  const categories: CategoryType[] = [
+    { title: "식비", ratio: 40, color: "#008C8C", unit: "%" },
+    { title: "교통비", ratio: 30, color: "#EF5489", unit: "%" },
+    { title: "통신비", ratio: 20, color: "#FFCC5A", unit: "%" },
+    { title: "주거", ratio: 10, color: "#B5B5B5", unit: "%" },
+  ];
 
   return (
     <>
@@ -104,7 +58,7 @@ const MonthlyConsumption: React.FC<MonthlyConsumptionProps> = ({
         {/* 도넛차트 */}
         <div className="my-4 flex justify-center items-center">
           <div className="w-56 h-56 relative">
-            <Doughnut data={chartData} options={options} />
+            <Doughnut data={data} options={options} />
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="font-hanaRegular">총 지출</span>
               <span className="font-hanaRegular">
@@ -115,13 +69,13 @@ const MonthlyConsumption: React.FC<MonthlyConsumptionProps> = ({
         </div>
         {/* 범례 */}
         <div className="mx-8">
-          {legends.map((legend, index) => (
+          {categories.map((category, index) => (
             <LegendElement
               key={index}
-              title={legend.title}
-              ratio={legend.ratio}
-              color={legend.color}
-              unit={legend.unit}
+              title={category.title}
+              ratio={category.ratio}
+              color={category.color}
+              unit={category.unit}
             />
           ))}
         </div>
