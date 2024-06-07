@@ -1,5 +1,7 @@
 import axios from "axios";
-import interestApi from "./interfaces/interestApi";
+import { getCookie } from "../utils/cookie";
+
+const ACCESSTOKEN = getCookie("x-access-token");
 
 class ImageApiClient {
   private static instance: ImageApiClient;
@@ -11,15 +13,25 @@ class ImageApiClient {
   }
 
   // 사용자 관심사 추가
-  public async addUserInterest(newUserInterest: NewUserInterestType) {
-    const userId = 1;
+  public async addUserInterest(newUserInterest: FormData) {
     const response = await this.axiosInstance.request<BaseResponseType>({
       method: "post",
-      url: `/user-interests/${userId}`,
+      url: `/user-interests`,
       data: newUserInterest,
     });
 
-    return response.data;
+    return response;
+  }
+
+  // 사용자 관심 수정
+  public async modifyUserInterest(UserInterest: FormData) {
+    const response = await this.axiosInstance.request<BaseResponseType>({
+      method: "put",
+      url: `/user-interests`,
+      data: UserInterest,
+    });
+
+    return response;
   }
 
   static getInstance(): ImageApiClient {
@@ -43,7 +55,10 @@ class ImageApiClient {
 
     newInstance.interceptors.request.use(
       (config) => {
-        // eslint-disable-next-line no-param-reassign
+        if (ACCESSTOKEN) {
+          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+        }
+
         config.headers["Content-Type"] = "multipart/form-data";
 
         return config;
@@ -51,7 +66,16 @@ class ImageApiClient {
 
       (error) => {
         console.log(error);
-        return Promise.reject(error);
+        const errorStatus = error.response.data.code;
+        const errorMessage = error.response.data.message;
+
+        switch (errorStatus) {
+          case "IMAGE-001":
+            return Promise.reject(new Error(errorMessage));
+
+          default:
+            break;
+        }
       },
     );
 

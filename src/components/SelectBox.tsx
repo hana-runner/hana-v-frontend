@@ -1,17 +1,18 @@
 import React from "react";
 import { BiSolidDownArrow } from "react-icons/bi";
 
-interface SelectBoxType<T> {
-  items: T[];
-  placeholder: string;
+interface ItemType {
+  id?: number;
+  interestId?: number;
+  title: string;
+}
+interface SelectBoxType {
+  items: ItemType[];
+  placeholder?: string;
   getValue?: (item: string) => void;
 }
 
-const SelectBox = ({
-  items,
-  placeholder,
-  getValue,
-}: SelectBoxType<InterestType>) => {
+const SelectBox = ({ items, placeholder, getValue }: SelectBoxType) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (getValue) {
       getValue(e.target.value);
@@ -28,7 +29,7 @@ const SelectBox = ({
         <option value="1" disabled className="text-base">
           {placeholder}
         </option>
-        {items.map((item) => (
+        {items?.map((item) => (
           <option
             className="text-hanaBlack text-base"
             key={item.interestId}

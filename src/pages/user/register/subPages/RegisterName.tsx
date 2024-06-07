@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { VERIFICATION } from "../../../../types/users/enums";
-
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 import BlindedInput from "../../../../components/users/BlindedInput";
-import { FaCircle } from "react-icons/fa";
+import { useUserInfo } from "../../../../context/register-context/register-context";
 
 const RegisterName = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setName, userInfo } = useUserInfo();
