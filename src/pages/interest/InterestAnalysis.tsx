@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { MonthNavigationBtn, Navbar } from "../../components";
+import { Loading, MonthNavigationBtn, Navbar } from "../../components";
 import { getCookie } from "../../utils/cookie";
-import ApiClient from "../../apis/apiClient";
+import { useEffect, useState } from "react";
+import userInterestTransactionsQuery from "../../hooks/useInterestTransactionQuery";
 
 const InterestAnalysis = () => {
   const navigate = useNavigate();
@@ -19,19 +18,8 @@ const InterestAnalysis = () => {
     month: new Date().getMonth() + 1,
   });
 
-  const { data: userInterestTransactions, refetch } = useQuery<
-    BasicResultApiType<UserInterestTransactionsType>
-  >({
-    queryKey: ["userInterestTransactions"],
-    queryFn: () => {
-      const response = ApiClient.getInstance().getUserInterestTransactions(
-        interestId!,
-        date.year,
-        date.month,
-      );
-      return response;
-    },
-  });
+  const { isLoading, userInterestTransactions, refetch } =
+    userInterestTransactionsQuery(Number(interestId), date.year, date.month);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { id } = e.currentTarget;
@@ -54,8 +42,12 @@ const InterestAnalysis = () => {
     refetch();
   }, [date.year, date.month]);
 
+  if (isLoading) {
+    <Loading />;
+  }
+
   return (
-    <section>
+    <section className="h-screen flex flex-col">
       <Navbar
         title={interestTitle}
         option={true}
@@ -84,18 +76,20 @@ const InterestAnalysis = () => {
       </div>
 
       {/* 총 지출액 */}
-      <div className="flex flex-col gap-4 mx-6 rounded-t-md bg-white h-[calc(100vh - 152px)]">
+      <div className="flex flex-col flex-grow gap-4 px-6 py-4 rounded-t-3xl bg-white">
         <MonthNavigationBtn getValues={getValues} />
-        {userInterestTransactions?.data.transaction?.length !== 0 ? (
+        {userInterestTransactions?.data.transaction.length !== 0 ? (
           <div className="flex gap-1">
             <p className="text-left ml-2">{`${userInterestTransactions?.data.interestTotalSpent.toLocaleString("kr-KR")} 원`}</p>
             <p className="flex items-end text-xs text-hanaSliver">{`/${userInterestTransactions?.data.totalSpent.toLocaleString("kr-KR")} 원`}</p>
           </div>
         ) : (
-          <div>거래 내역에서 관심사를 지정해 보세요 !</div>
+          <div className="flex justify-center items-center">
+            거래 내역에서 관심사를 지정해 보세요 !
+          </div>
         )}
 
-        <Outlet />
+        <Outlet context={{ userInterestTransactions }} />
       </div>
     </section>
   );
