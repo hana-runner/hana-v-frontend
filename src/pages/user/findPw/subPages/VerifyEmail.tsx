@@ -14,7 +14,6 @@ const VerifyEmail = ({ dispatch }: ActionProp<FindPwAction>) => {
 
   const onSendEmail = useCallback(async () => {
     try {
-      console.log("onsendEmail email", userInfo.userEmail);
       ApiClient.getInstance().emailVerification(userInfo.userEmail);
       dispatch({ type: VERIFICATION.EMAIL });
     } catch (err) {
@@ -41,7 +40,6 @@ const VerifyEmail = ({ dispatch }: ActionProp<FindPwAction>) => {
 
   useEffect(() => {
     if (userInfo.userEmail.emailId) {
-      console.log("email Id", userInfo.userEmail.emailId);
       onSendEmail();
     }
   }, [userInfo, dispatch, onSendEmail]);

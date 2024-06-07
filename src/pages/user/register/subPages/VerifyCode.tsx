@@ -42,7 +42,6 @@ const VerifyCode = ({ dispatch }: ActionProp<RegisterAction>) => {
       const response: ApiResponseType<string> =
         await ApiClient.getInstance().emailVerificationCode(userEmail, code);
 
-      console.log(response);
       if (response.data != "인증 번호가 틀렸습니다.") {
         dispatch({ type: VERIFICATION.CODE });
       } else {

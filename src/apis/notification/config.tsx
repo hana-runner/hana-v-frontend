@@ -1,7 +1,7 @@
-/* eslint-disable react/react-in-jsx-scope */
 import React, { useEffect } from "react";
 import { initializeApp, FirebaseApp } from "firebase/app";
 import { getMessaging, getToken, Messaging } from "firebase/messaging";
+import ApiClient from "../apiClient";
 
 export const VAPID_PUBLIC_KEY =
   "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
@@ -17,6 +17,24 @@ const firebaseConfig = {
 };
 
 const PushNotification: React.FC = () => {
+  const updateReceive = async (status: boolean, token: string) => {
+    try {
+      const response = await ApiClient.getInstance().updateNotiReceive(status);
+
+      if (response.success) {
+        const response2 =
+          await ApiClient.getInstance().updateDeviceToken(token);
+        if (response2.success) {
+          return true;
+        }
+      }
+    } catch (err) {
+      return false;
+    }
+
+    return false;
+  };
+
   useEffect(() => {
     // Firebase 초기화
     const app: FirebaseApp = initializeApp(firebaseConfig);
@@ -31,8 +49,8 @@ const PushNotification: React.FC = () => {
           .then((currentToken) => {
             if (currentToken) {
               console.log(currentToken);
-              alert("토큰: " + currentToken);
               // 토큰을 서버에 전달...
+              updateReceive(true, currentToken);
             } else {
               console.log(
                 "No registration token available. Request permission to generate one.",

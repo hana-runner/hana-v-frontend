@@ -46,9 +46,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
       data: registerInfo,
     });
 
-    if (!response.data.code) {
-      console.log("에러");
-    }
     return response.data;
   }
 
@@ -229,14 +226,34 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // ------------------------------ account
   // 사용자 전체 계좌 목록 조회
   public async getAccounts() {
-    console.log("GetAccount");
-    console.log("token : ", getCookie("x-access-token"));
     const response = await this.axiosInstance.request<
       ApiResponseType<AccountType[]>
     >({
       method: "get",
       url: "/accounts",
     });
+    return response.data;
+  }
+
+  // ----------------------------------- notification
+  // 알림 수신 여부 업데이트
+  public async updateNotiReceive(status: boolean) {
+    const response = await this.axiosInstance.request({
+      method: "put",
+      url: "/users/update/is_receieve_alarm",
+      data: { is_receive_alarm: status },
+    });
+    return response.data;
+  }
+
+  // device token 백에 보내기
+  public async updateDeviceToken(token: string) {
+    const response = await this.axiosInstance.request({
+      method: "post",
+      url: "/users/alarm/device_token",
+      data: { device_token: token },
+    });
+
     return response.data;
   }
 

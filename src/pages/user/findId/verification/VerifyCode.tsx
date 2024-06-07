@@ -43,7 +43,6 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
         );
 
       if (response.status) {
-        console.log("res", response);
         setUsername(response.data);
       }
     } catch (err) {
@@ -74,7 +73,6 @@ const VerifyCode = ({ dispatch }: ActionProp<FindIdAction>) => {
         );
 
       if (response.status) {
-        console.log("res", response);
         fetchUsername();
       }
     } catch (err) {
