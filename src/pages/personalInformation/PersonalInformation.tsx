@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useRef, useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 import UserWrapper from "../../components/UserWrapper";
 import ApiClient from "../../apis/apiClient";
 import {
@@ -13,8 +14,7 @@ import EmailTypeConverter from "../../components/emailTypeConverter";
 import { EMAIL_DOMAIN } from "../../types/users/enums";
 import EmailConverter from "../../components/users/emailConverter";
 import { Modal } from "../../components";
-import { redirect, useNavigate } from "react-router-dom";
-import { removeCookie, setCookie } from "../../utils/cookie";
+import { removeCookie } from "../../utils/cookie";
 
 interface ShowInfoType
   extends Pick<
@@ -112,20 +112,13 @@ const PersonalInformation = () => {
   };
 
   const closeModal = () => {
-    console.log("모달 닫기");
     if (message === "정말로 탈퇴하시겠습니까?") {
       submitResign();
       return;
     }
-
-    console.log("resignSuccess", resignSuccess);
     if (resignSuccess) {
-      console.log("resignSuccess1", resignSuccess);
       navigate("/home", { replace: true });
-      console.log("resignSuccess2", resignSuccess);
     }
-    setModalOppened(false);
-    // window.location.reload();
   };
 
   useEffect(() => {
