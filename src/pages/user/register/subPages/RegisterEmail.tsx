@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { FaCircle } from "react-icons/fa";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 import { EMAIL_DOMAIN, VERIFICATION } from "../../../../types/users/enums";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
@@ -7,7 +8,6 @@ import { EmailRefHandler, EmailType } from "../../../../types/users/users-type";
 import ApiClient from "../../../../apis/apiClient";
 import EmailInput from "../../../../components/users/EmailInput";
 import BlindedInput from "../../../../components/users/BlindedInput";
-import { useUserInfo } from "../../../../context/register-context/register-context";
 
 const RegisterEmail = ({ dispatch }: ActionProp<RegisterAction>) => {
   const { setEmail, userInfo } = useUserInfo();

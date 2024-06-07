@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaCircle } from "react-icons/fa";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import { Modal } from "../../../../components";
 import { VERIFICATION } from "../../../../types/users/enums";
 import { RegisterAction, ActionProp } from "../../../../types/users/actions";
 import BlindedInput from "../../../../components/users/BlindedInput";
-import { useUserInfo } from "../../../../context/register-context/register-context";
 
 interface Value {
   value: string;

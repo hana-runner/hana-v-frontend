@@ -1,7 +1,11 @@
 import axios from "axios";
 import userApi from "./interfaces/userApi";
+
 import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
+import { transactionType } from "../types/transaction";
+import { categoryType } from "../types/category";
+
 import {
   EmailType,
   LoginType,
@@ -10,7 +14,7 @@ import {
   UserUpdateInfoType,
 } from "../types/users/users-type";
 
-import { getCookie } from "../utils/cookie";
+import { getCookie, removeCookie, setCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 import EmailConverter from "../components/users/emailConverter";
 
@@ -200,58 +204,24 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
   // ------------------------------ category
 
-  public static async getCategories(): Promise<CategoryType> {
-    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
-    return data;
-  }
-
-  public async updateTransactionCategory(
-    transactionHistoryId: number,
-    categoryId: number,
-  ): Promise<BaseResponseType> {
-    const response = await this.axiosInstance.request({
-      method: "put",
-      url: `/transaction-histories/${transactionHistoryId}`,
-      data: JSON.stringify({ categoryId: categoryId.toString() }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  }
-
   // ------------------------------ transaction
-  // 전체 거래 내역 조회
-  public async getTransactions(
-    accountId: number,
-    option: number,
-    sort: boolean,
-    start: Date,
-    end: Date,
-  ): Promise<ApiResponseType<TransactionType[]>> {
-    const startDateString = start.toISOString().slice(0, 10);
-    const endDateString = end.toISOString().slice(0, 10);
-    const response = await this.axiosInstance.request<
-      ApiResponseType<TransactionType[]>
-    >({
+  public async getTransactions(): Promise<transactionType> {
+    // const accountId = 1;
+    const apiUrl = "/transactionListData.json"; // public 디렉토리의 JSON 파일 경로
+
+    const response = await this.axiosInstance.request<transactionType>({
       method: "get",
-      url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${startDateString}&end=${endDateString}`,
+      url: apiUrl,
+      // url: `/accounts/${accountId}`
     });
     return response.data;
   }
 
-  // 단일 거래 조회
-  public async getTransactionHistory(
-    transactionHistoryId: number,
-  ): Promise<TransactionType> {
-    const response = await this.axiosInstance.request<TransactionType>({
+  public async getCategories(): Promise<categoryType> {
+    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
+    const response = await this.axiosInstance.request<categoryType>({
       method: "get",
-      url: `/transaction-histories/${transactionHistoryId}`,
+      url: apiUrl,
     });
     return response.data;
   }
@@ -266,39 +236,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     >({
       method: "get",
       url: "/accounts",
-    });
-    return response.data;
-  }
-
-  // 등록 요청 계좌 유효성 확인
-  public async checkAccountNumber(accountInfo: AccountInfoType) {
-    const response = await this.axiosInstance.request<
-      ApiResponseType<AccountType>
-    >({
-      method: "post",
-      url: "/accounts/check/account-info",
-      data: accountInfo,
-    });
-    return response.data;
-  }
-
-  // 계좌 정보 등록 요청
-  public async registerAccount(account: AccountType) {
-    const response = await this.axiosInstance.request<BaseResponseType>({
-      method: "post",
-      url: "/accounts",
-      data: account,
-    });
-    return response.data;
-  }
-
-  // 카테고리별 지출 합계 조회
-  public async getExpensePerCategories() {
-    const response = await this.axiosInstance.request<
-      ApiResponseType<ExpenseType[]>
-    >({
-      method: "get",
-      url: "/accounts/categories",
     });
     return response.data;
   }
@@ -334,7 +271,6 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
         if (getCookie("x-access-token")) {
           config.headers["Authorization"] =
             `Bearer ${getCookie("x-access-token")}`;
-
         }
 
         config.headers["Content-Type"] = "application/json";
