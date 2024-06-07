@@ -10,10 +10,11 @@ import {
   EmailType,
   LoginType,
   RegisterType,
+  UpdatePwType,
   UserUpdateInfoType,
 } from "../types/users/users-type";
 
-import { getCookie } from "../utils/cookie";
+import { getCookie, removeCookie, setCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 import EmailConverter from "../components/users/emailConverter";
 
@@ -108,7 +109,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   //  로그인 - 비밀번호 재설정
-  public async updatePw(updatePwInfo: FindPwType) {
+  public async updatePw(updatePwInfo: UpdatePwType) {
     const response = await this.axiosInstance.request({
       method: "post",
       url: "/users/update/pw",
@@ -141,10 +142,19 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   }
 
   //  회원 삭제
-  public async deleteUser(userId: string) {
+  public async deleteUser() {
     const response = await this.axiosInstance.request({
       method: "delete",
-      url: `/users/${userId}`,
+      url: "/users/quit",
+    });
+
+    return response.data;
+  }
+
+  public async getUserInfo() {
+    const response = await this.axiosInstance.request({
+      method: "get",
+      url: "users/info",
     });
 
     return response.data;
@@ -228,6 +238,8 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // ------------------------------ account
   // 사용자 전체 계좌 목록 조회
   public async getAccounts() {
+    console.log("GetAccount");
+    console.log("token : ", getCookie("x-access-token"));
     const response = await this.axiosInstance.request<
       ApiResponseType<AccountType[]>
     >({
@@ -265,12 +277,12 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
     newInstance.interceptors.request.use(
       (config) => {
-        if (ACCESSTOKEN) {
-          config.headers["Authorization"] = `Bearer ${ACCESSTOKEN}`;
+        if (getCookie("x-access-token")) {
+          config.headers["Authorization"] =
+            `Bearer ${getCookie("x-access-token")}`;
         }
 
         config.headers["Content-Type"] = "application/json";
-
         return config;
       },
 

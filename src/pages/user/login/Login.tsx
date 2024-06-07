@@ -94,10 +94,10 @@ const Login = () => {
         pw,
       });
 
-      if (response.code) {
+      if (response.success) {
         setCookie("x-access-token", response.accessToken);
         setCookie("x-auth-token", response.refreshToken);
-        navigation("/");
+        navigation("/home", { replace: true });
       }
     } catch (err) {
       console.error(err);
@@ -105,7 +105,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    reset;
+    reset();
   }, []);
 
   return (

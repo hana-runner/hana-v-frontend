@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { ActionProp, FindPwAction } from "../../../../types/users/actions";
 import { VERIFICATION } from "../../../../types/users/enums";
 import validateId from "../../login/validation/id-validation";
-import { useFindAccount } from "../../../../components/context/find-account-context/find-account-context";
 import SimpleInput from "../../../../components/users/SimpleInput";
 import { SimpleInputRefHandler } from "../../../../types/users/users-type";
+import { useUserInfo } from "../../../../components/context/register-context/register-context";
 
 const VerifyId = ({ dispatch }: ActionProp<FindPwAction>) => {
-  const { userInfo, setUsername } = useFindAccount();
+  const { userInfo, setUsername } = useUserInfo();
 
   const inputRef = useRef<SimpleInputRefHandler>(null);
 

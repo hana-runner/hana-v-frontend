@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useRef, useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 import UserWrapper from "../../components/UserWrapper";
 import ApiClient from "../../apis/apiClient";
 import {
@@ -13,6 +14,7 @@ import EmailTypeConverter from "../../components/emailTypeConverter";
 import { EMAIL_DOMAIN } from "../../types/users/enums";
 import EmailConverter from "../../components/users/emailConverter";
 import { Modal } from "../../components";
+import { removeCookie } from "../../utils/cookie";
 
 interface ShowInfoType
   extends Pick<
@@ -30,17 +32,14 @@ const PersonalInformation = () => {
   const [userInfo, setUserInfo] = useState<ShowInfoType | null>(null);
   const [modalOppened, setModalOppened] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+  const [resignSuccess, setResignSuccess] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const refHandler = useRef<PersonalInfoRefHandler>(null);
 
   const openModal = (inputmessage: string) => {
     setMessage(inputmessage);
     setModalOppened(true);
-  };
-
-  const closeModal = () => {
-    setModalOppened(false);
-    window.location.reload();
   };
 
   const getInfo = async () => {
@@ -61,6 +60,7 @@ const PersonalInformation = () => {
       });
     } catch (err) {
       console.error(err);
+      redirect("/");
     }
   };
 
@@ -87,6 +87,40 @@ const PersonalInformation = () => {
       console.error(err);
     }
   };
+
+  const submitResign = async () => {
+    try {
+      const response: BaseResponseType =
+        await ApiClient.getInstance().deleteUser();
+
+      console.log("회원 삭제 에이피아이 컴포넌트로 받아옴");
+      console.log(response);
+      if (response.success) {
+        removeCookie("x-access-token", { path: "/" });
+        removeCookie("x-auth-token", { path: "/" });
+        setResignSuccess(true);
+        console.log("모달 오픈");
+        openModal("탈퇴 성공");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onResign = () => {
+    openModal("정말로 탈퇴하시겠습니까?");
+  };
+
+  const closeModal = () => {
+    if (message === "정말로 탈퇴하시겠습니까?") {
+      submitResign();
+      return;
+    }
+    if (resignSuccess) {
+      navigate("/home", { replace: true });
+    }
+  };
+
   useEffect(() => {
     getInfo();
   }, []);
@@ -101,6 +135,9 @@ const PersonalInformation = () => {
         birthday={userInfo?.birthday}
         onEdit={() => onEdit()}
       />
+      <button type="button" onClick={() => onResign()}>
+        회원 탈퇴
+      </button>
       {title === TITLE.EDIT && (
         <button
           type="button"
@@ -114,7 +151,7 @@ const PersonalInformation = () => {
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
           <Modal
             message={message}
-            option={false}
+            option={message === "정말로 탈퇴하시겠습니까?"}
             modalToggle={() => closeModal()}
           />
         </div>

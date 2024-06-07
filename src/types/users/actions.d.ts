@@ -19,7 +19,7 @@ interface FindPwAction extends Required<CommonAction<VERIFICATION>> {
 }
 
 interface RegisterAction extends Required<CommonAction<VERIFICATION>> {
-  type: VERIFICATION;
+  type: VERIFICATION | "created" | "clear";
 }
 
 // type Action = LoginAction | FindIdAction;

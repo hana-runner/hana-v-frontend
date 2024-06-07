@@ -22,6 +22,7 @@ interface userApi {
 
   getUserInfo(): Promise<UserInfoResponseType>;
   updateUserInfo(userInfo: UserUpdateInfoType): Promise<BaseResponseType>;
+  deleteUser(): Promise<BaseResponseType>;
 }
 
 export default userApi;

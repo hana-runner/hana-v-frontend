@@ -63,26 +63,23 @@ const FindPw = () => {
   }, [checkList]);
 
   return (
-    <FindAccountProvider>
-      <UserWrapper hasNav title="비밀번호 재설정" option logo>
-        <div className=" h-full">
-          {!checkList[VERIFICATION.USER_ID] && <VerifyId dispatch={dispatch} />}
-          {checkList[VERIFICATION.USER_ID] &&
-            !checkList[VERIFICATION.EMAIL] && (
-              <VerifyEmail dispatch={dispatch} />
-            )}
-          {checkList[VERIFICATION.EMAIL] && !checkList[VERIFICATION.CODE] && (
-            <VerifyCode dispatch={dispatch} />
-          )}
-          {checkList[VERIFICATION.CODE] && showVerified && (
-            <Verified message="인증 완료" />
-          )}
-          {checkList[VERIFICATION.CODE] && !showVerified && (
-            <ResetPasswrod dispatch={dispatch} />
-          )}
-        </div>
-      </UserWrapper>
-    </FindAccountProvider>
+    <UserWrapper hasNav title="비밀번호 재설정" option logo>
+      <div className=" h-full">
+        {!checkList[VERIFICATION.USER_ID] && <VerifyId dispatch={dispatch} />}
+        {checkList[VERIFICATION.USER_ID] && !checkList[VERIFICATION.EMAIL] && (
+          <VerifyEmail dispatch={dispatch} />
+        )}
+        {checkList[VERIFICATION.EMAIL] && !checkList[VERIFICATION.CODE] && (
+          <VerifyCode dispatch={dispatch} />
+        )}
+        {checkList[VERIFICATION.CODE] && showVerified && (
+          <Verified message="인증 완료" />
+        )}
+        {checkList[VERIFICATION.CODE] && !showVerified && (
+          <ResetPasswrod dispatch={dispatch} />
+        )}
+      </div>
+    </UserWrapper>
   );
 };
 export default FindPw;
