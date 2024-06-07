@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 import validateId from "../../../components/users/validation/id-validation";
 import validatePw from "../../../components/users/validation/pw-validation";
@@ -11,7 +11,6 @@ import ApiClient from "../../../apis/apiClient";
 import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
 import { useUserInfo } from "../../../components/context/register-context/register-context";
-import PersonalInformationCard from "../../../components/users/PersonalInformationCard";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
@@ -93,10 +92,11 @@ const Login = () => {
         pw,
       });
 
-      if (response.code) {
+      console.log(response);
+      if (response.success) {
         setCookie("x-access-token", response.accessToken);
         setCookie("x-auth-token", response.refreshToken);
-        navigation("/");
+        navigation("/home");
       }
     } catch (err) {
       console.error(err);
@@ -104,7 +104,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    reset;
+    reset();
   }, []);
 
   return (

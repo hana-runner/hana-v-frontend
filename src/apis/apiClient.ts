@@ -14,7 +14,7 @@ import {
   UserUpdateInfoType,
 } from "../types/users/users-type";
 
-import { getCookie } from "../utils/cookie";
+import { getCookie, removeCookie, setCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 import EmailConverter from "../components/users/emailConverter";
 
@@ -143,10 +143,12 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
   //  회원 삭제
   public async deleteUser() {
+    console.log("회원 삭제 에이피아이 호출");
     const response = await this.axiosInstance.request({
       method: "delete",
       url: "/users/quit",
     });
+    console.log("회원 삭제 에이피아이 응답");
 
     return response.data;
   }
