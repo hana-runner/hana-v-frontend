@@ -5,7 +5,7 @@ import { FindIdAction, ActionProp } from "../../../../types/users/actions";
 import { EmailRefHandler, EmailType } from "../../../../types/users/users-type";
 import EmailInput from "../../../../components/users/EmailInput";
 import ApiClient from "../../../../apis/apiClient";
-import { useUserInfo } from "../../../../components/context/register-context/register-context";
+import { useUserInfo } from "../../../../context/register-context/register-context";
 
 const VerifyEmail = ({ dispatch }: ActionProp<FindIdAction>) => {
   const { userInfo, setEmail } = useUserInfo();

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useUserInfo } from "../../../../components/context/register-context/register-context";
 import validateId from "../../../../components/users/validation/id-validation";
 
 import { VERIFICATION } from "../../../../types/users/enums";
 import { ActionProp, RegisterAction } from "../../../../types/users/actions";
 import ApiClient from "../../../../apis/apiClient";
+import { useUserInfo } from "../../../../context/register-context/register-context";
 
 const RegisterId = ({ dispatch }: ActionProp<RegisterAction>) => {
   const idRef = useRef<HTMLInputElement | null>(null);
