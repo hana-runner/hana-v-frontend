@@ -1,10 +1,6 @@
-interface accountInfoType {
-  accounts: Array;
-  id: number;
-  account_number: number;
-  balance: number;
-  account_name: string;
-  account_type: string;
+interface AccountInfoType {
+  bankName: string;
+  accountNumber: string;
 }
 
 interface AccountType {
@@ -15,4 +11,17 @@ interface AccountType {
   accountType: string;
 }
 
+interface ExpenseType {
+  title: string;
+  color: string;
+  categoryId: number;
+  accountId: number;
+  expense: number;
+}
 
+interface LegendType {
+  title: string;
+  ratio: number;
+  color: string;
+  unit: string;
+}
