@@ -3,8 +3,6 @@ import userApi from "./interfaces/userApi";
 
 import interestApi from "./interfaces/interestApi";
 import transactionApi from "./interfaces/transactionApi";
-import { transactionType } from "../types/transaction";
-import { categoryType } from "../types/category";
 
 import {
   EmailType,
