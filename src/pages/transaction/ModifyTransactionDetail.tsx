@@ -23,9 +23,13 @@ function ModifyTransactionDetail() {
   const [interestList, setInterestList] = useState<InterestDetail[]>([]);
   const [currAmount, setCurrAmount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+  const previousUrl = location.state?.from;
 
   function handleSaveClick() {
-    return false;
+    if (!errorMessage) {
+      // Save logic goes here
+      console.log("Transaction saved");
+    }
   }
 
   // 단일 거래내역 가져오기
@@ -86,7 +90,7 @@ function ModifyTransactionDetail() {
 
   const addList = () => {
     if (currAmount <= 0) {
-      setErrorMessage("잔액이 0원입니다");
+      setErrorMessage("더 이상 목록을 추가하실 수 없습니다.");
       return;
     }
     const newInterest = {
@@ -99,7 +103,12 @@ function ModifyTransactionDetail() {
 
   return (
     <section>
-      <Navbar title="거래내역수정" option={true} logo={false} path="" />
+      <Navbar
+        title="거래내역수정"
+        option={true}
+        logo={false}
+        path={previousUrl}
+      />
       <div className="flex flex-col items-center">
         {transactionHistory ? (
           <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
@@ -168,6 +177,7 @@ function ModifyTransactionDetail() {
             type="button"
             className="w-[144px] h-[48px] rounded-[15px] ml-[12px] text-white bg-hanaGreen"
             onClick={handleSaveClick}
+            disabled={!!errorMessage}
           >
             저장
           </button>

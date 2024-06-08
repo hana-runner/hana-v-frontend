@@ -57,10 +57,22 @@ function ListCard({ id }: ListCardProps) {
           </div>
           <div>{transactionHistory.description}</div>
           <div className="flex justify-between mt-[20px] items-center">
-            <Tag
-              title={transactionHistory.categoryTitle}
-              color={transactionHistory.categoryColor}
-            />
+            <div className="flex flex-row">
+              <Tag
+                title={transactionHistory.categoryTitle}
+                color={transactionHistory.categoryColor}
+              />
+              {transactionHistory?.transactionHistoryDetails.map(
+                (detail, index) => (
+                  <div key={index}>
+                    <Tag
+                      title={detail.interest.title}
+                      color={detail.interest.color}
+                    />
+                  </div>
+                ),
+              )}
+            </div>
             <p
               className={
                 transactionHistory.type === "입금"
