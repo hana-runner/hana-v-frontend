@@ -23,3 +23,7 @@ export { default as ListCard } from "./transaction/ListCard";
 export { default as CategoryBtn } from "./common/CategoryBtn";
 export { default as CancleBtn } from "./common/CancleBtn";
 export { default as NotificationCard } from "./users/NotificationCard";
+export { default as ImageCard } from "./intereset/ImageCard";
+export { default as InterestMenu } from "./intereset/InterestMenu";
+export { default as ImageUploader } from "./intereset/ImageUploader";
+export { default as InterestSubtitle } from "./intereset/InterestSubtitle";

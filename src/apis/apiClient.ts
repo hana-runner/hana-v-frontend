@@ -201,24 +201,58 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
 
   // ------------------------------ category
 
-  // ------------------------------ transaction
-  public async getTransactions(): Promise<transactionType> {
-    // const accountId = 1;
-    const apiUrl = "/transactionListData.json"; // public 디렉토리의 JSON 파일 경로
+  public static async getCategories(): Promise<CategoryType> {
+    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  }
 
-    const response = await this.axiosInstance.request<transactionType>({
-      method: "get",
-      url: apiUrl,
-      // url: `/accounts/${accountId}`
+  public async updateTransactionCategory(
+    transactionHistoryId: number,
+    categoryId: number,
+  ): Promise<BaseResponseType> {
+    const response = await this.axiosInstance.request({
+      method: "put",
+      url: `/transaction-histories/${transactionHistoryId}`,
+      data: JSON.stringify({ categoryId: categoryId.toString() }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     return response.data;
   }
 
-  public async getCategories(): Promise<categoryType> {
-    const apiUrl = "/categoriesData.json"; // public 디렉토리의 JSON 파일 경로
-    const response = await this.axiosInstance.request<categoryType>({
+  // ------------------------------ transaction
+  // 전체 거래 내역 조회
+  public async getTransactions(
+    accountId: number,
+    option: number,
+    sort: boolean,
+    start: Date,
+    end: Date,
+  ): Promise<ApiResponseType<TransactionType[]>> {
+    const startDateString = start.toISOString().slice(0, 10);
+    const endDateString = end.toISOString().slice(0, 10);
+    const response = await this.axiosInstance.request<
+      ApiResponseType<TransactionType[]>
+    >({
       method: "get",
-      url: apiUrl,
+      url: `/accounts/${accountId}/history?option=${option}&sort=${sort}&start=${startDateString}&end=${endDateString}`,
+    });
+    return response.data;
+  }
+
+  // 단일 거래 조회
+  public async getTransactionHistory(
+    transactionHistoryId: number,
+  ): Promise<TransactionType> {
+    const response = await this.axiosInstance.request<TransactionType>({
+      method: "get",
+      url: `/transaction-histories/${transactionHistoryId}`,
     });
     return response.data;
   }
