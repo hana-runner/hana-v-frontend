@@ -1,6 +1,25 @@
 import React from "react";
 
-function ModifyInterest() {
+interface ModifyInterestProps {
+  amount: number;
+  description: string;
+  onAmountChange: (amount: number) => void;
+}
+
+function ModifyInterest({
+  amount,
+  description,
+  onAmountChange,
+}: ModifyInterestProps) {
+  // description이 10자를 넘어가면 자르기
+  const truncatedDescription =
+    description.length > 10 ? description.substring(0, 10) : description;
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newAmount = parseFloat(e.target.value) || 0;
+    onAmountChange(newAmount);
+  };
+
   return (
     <div className="w-[326px] h-[114px] rounded-[20px] mt-[16px] bg-white border-2 border-hanaSilver-300 flex justify-between px-[10px] py-[30px]">
       <div>
@@ -14,6 +33,7 @@ function ModifyInterest() {
               type="text"
               placeholder="내용을 입력하세요."
               className="w-[145px] h-[26px] border-b-2 text-[12px]"
+              defaultValue={truncatedDescription}
             />
             <p className="text-[8px] text-right mt-[4px] text-hanaSilver">
               최대 10자
@@ -21,9 +41,11 @@ function ModifyInterest() {
           </div>
           <div>
             <input
-              type="text"
+              type="number"
               placeholder="금액을 입력하세요."
               className="w-[92px] h-[26px] border-b-2 text-[12px]"
+              defaultValue={amount.toString()}
+              onChange={handleAmountChange}
             />
             <p className="text-[8px] text-right mt-[4px] text-hanaSilver">
               단위(원)

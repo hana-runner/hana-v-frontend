@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -11,10 +11,18 @@ import {
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
 
+interface InterestDetail {
+  id: number;
+  amount: number;
+  description: string;
+}
+
 function ModifyTransactionDetail() {
   const location = useLocation();
   const transactionId = location.state?.transactionId;
-  const [interestList, setInterestList] = useState<JSX.Element[]>([]);
+  const [interestList, setInterestList] = useState<InterestDetail[]>([]);
+  const [currAmount, setCurrAmount] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function handleSaveClick() {
     return false;
@@ -26,7 +34,7 @@ function ModifyTransactionDetail() {
     isLoading,
     error,
   } = useQuery<TransactionType>({
-    queryKey: ["transactionHistory", transactionId], // queryKey 수정
+    queryKey: ["transactionHistory", transactionId],
     queryFn: async () => {
       const response = await ApiClient.getInstance().getTransactionHistory(
         Number(transactionId),
@@ -35,7 +43,38 @@ function ModifyTransactionDetail() {
     },
   });
 
-  console.log(transactionHistory);
+  const handleAmountChange = (id: number, newAmount: number) => {
+    const newInterestList = interestList.map((detail) =>
+      detail.id === id ? { ...detail, amount: newAmount } : detail,
+    );
+
+    const totalAmount = newInterestList.reduce(
+      (sum, detail) => sum + detail.amount,
+      0,
+    );
+
+    if (transactionHistory && totalAmount > transactionHistory.amount) {
+      setErrorMessage("입력한 금액을 확인해주세요");
+    } else if (transactionHistory) {
+      setErrorMessage("");
+      setCurrAmount(transactionHistory.amount - totalAmount);
+      setInterestList(newInterestList);
+    }
+  };
+
+  useEffect(() => {
+    if (transactionHistory) {
+      setCurrAmount(transactionHistory.amount);
+      const details = transactionHistory.transactionHistoryDetails.map(
+        (detail) => ({
+          id: detail.index,
+          amount: detail.amount,
+          description: detail.description,
+        }),
+      );
+      setInterestList(details);
+    }
+  }, [transactionHistory]);
 
   if (isLoading) {
     return <Loading />;
@@ -46,10 +85,16 @@ function ModifyTransactionDetail() {
   }
 
   const addList = () => {
-    setInterestList([
-      ...interestList,
-      <ModifyInterest key={interestList.length} />,
-    ]);
+    if (currAmount <= 0) {
+      setErrorMessage("잔액이 0원입니다");
+      return;
+    }
+    const newInterest = {
+      id: interestList.length,
+      amount: 0,
+      description: "",
+    };
+    setInterestList([...interestList, newInterest]);
   };
 
   return (
@@ -63,10 +108,22 @@ function ModifyTransactionDetail() {
             </div>
             <div>{transactionHistory.description}</div>
             <div className="flex justify-between mt-[20px] items-center">
-              <Tag
-                title={transactionHistory.categoryTitle}
-                color={transactionHistory.categoryColor}
-              />
+              <div className="flex flex-row">
+                <Tag
+                  title={transactionHistory.categoryTitle}
+                  color={transactionHistory.categoryColor}
+                />
+                {transactionHistory.transactionHistoryDetails.map(
+                  (detail, index) => (
+                    <div key={index}>
+                      <Tag
+                        title={detail.interest.title}
+                        color={detail.interest.color}
+                      />
+                    </div>
+                  ),
+                )}
+              </div>
               <p
                 className={
                   transactionHistory.type === "입금"
@@ -83,13 +140,23 @@ function ModifyTransactionDetail() {
         )}
       </div>
       <div className="flex flex-col items-center">
-        <div className="max-h-[360px] overflow-y-auto scroll-auto mt-[16px] w-[326px] scrollbar-hide">
-          {interestList}
+        <div className="max-h-[330px] overflow-y-auto scroll-auto mt-[16px] w-[326px] scrollbar-hide">
+          {interestList.map((detail) => (
+            <ModifyInterest
+              key={detail.id}
+              amount={detail.amount}
+              description={detail.description}
+              onAmountChange={(amount) => handleAmountChange(detail.id, amount)}
+            />
+          ))}
         </div>
+        {errorMessage && (
+          <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+        )}
         <button
           type="button"
           className="w-[326px] h-[51px] rounded-[20px] mt-[16px] bg-white border-hanaSilver-300 border-2"
-          onClick={addList} // 클릭 핸들러를 버튼에 추가
+          onClick={addList}
         >
           <div className="flex items-center justify-center">
             <AiOutlinePlusCircle />
