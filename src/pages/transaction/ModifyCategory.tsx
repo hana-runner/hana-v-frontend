@@ -45,11 +45,7 @@ const ModifyCategory: React.FC = () => {
     },
     onSuccess: async () => {
       console.log("Invalidating queries for transactionId:", transactionId);
-      await queryClient.invalidateQueries([
-        "transactionHistory",
-        transactionId,
-      ]);
-      console.log("Queries invalidated");
+      queryClient.invalidateQueries(["transactionHistory", transactionId]);
       navigate(previousUrl);
     },
   });
