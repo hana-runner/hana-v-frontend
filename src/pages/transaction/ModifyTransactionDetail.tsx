@@ -24,6 +24,7 @@ function ModifyTransactionDetail() {
   const [currAmount, setCurrAmount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const previousUrl = location.state?.from;
+  const [expanded, setExpanded] = useState(false);
 
   // 단일 거래내역 가져오기
   const {
@@ -39,6 +40,8 @@ function ModifyTransactionDetail() {
       return response;
     },
   });
+
+  console.log("확인확인", transactionHistory);
 
   const handleAmountChange = (id: number, newAmount: number) => {
     const newInterestList = interestList.map((detail) =>
@@ -119,6 +122,10 @@ function ModifyTransactionDetail() {
     }
   }
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <section>
       <Navbar
@@ -134,21 +141,45 @@ function ModifyTransactionDetail() {
               {new Date(transactionHistory.createdAt).toLocaleString()}
             </div>
             <div>{transactionHistory.description}</div>
-            <div className="flex justify-between mt-[20px] items-center">
-              <div className="flex flex-row">
-                <Tag
-                  title={transactionHistory.categoryTitle}
-                  color={transactionHistory.categoryColor}
-                />
-                {transactionHistory.transactionHistoryDetails.map(
-                  (detail, index) => (
-                    <div key={index}>
-                      <Tag
-                        title={detail.interest.title}
-                        color={detail.interest.color}
-                      />
-                    </div>
-                  ),
+            <div className="flex justify-between mt-[20px] items-start">
+              <div className="flex flex-col">
+                <div className="flex flex-row">
+                  <Tag
+                    title={transactionHistory.categoryTitle}
+                    color={transactionHistory.categoryColor}
+                  />
+                  {transactionHistory.transactionHistoryDetails
+                    .slice(0, 2)
+                    .map((detail, index) => (
+                      <div key={index}>
+                        <Tag
+                          title={detail.interest.title}
+                          color={detail.interest.color}
+                        />
+                      </div>
+                    ))}
+                  {transactionHistory.transactionHistoryDetails.length > 2 && (
+                    <button
+                      onClick={handleExpandClick}
+                      className="ml-2 text-hanaSilver"
+                    >
+                      ...
+                    </button>
+                  )}
+                </div>
+                {expanded && (
+                  <div className="flex flex-row">
+                    {transactionHistory.transactionHistoryDetails
+                      .slice(2)
+                      .map((detail, index) => (
+                        <div key={index}>
+                          <Tag
+                            title={detail.interest.title}
+                            color={detail.interest.color}
+                          />
+                        </div>
+                      ))}
+                  </div>
                 )}
               </div>
               <p
@@ -157,6 +188,7 @@ function ModifyTransactionDetail() {
                     ? "text-hanaGreen"
                     : "text-hanaRed"
                 }
+                style={{ alignSelf: "flex-start" }}
               >
                 {`${transactionHistory.amount.toLocaleString()}원`}
               </p>

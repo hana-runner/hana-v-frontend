@@ -277,6 +277,8 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
           "Content-Type": "application/json",
         },
       });
+    console.log("transactionHistoryId", transactionHistoryId);
+    console.log("interests는 과연?", interests);
     return response.data;
   }
 

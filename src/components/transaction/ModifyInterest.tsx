@@ -43,7 +43,7 @@ function ModifyInterest({
             <input
               type="number"
               placeholder="금액을 입력하세요."
-              className="w-[92px] h-[26px] border-b-2 text-[12px]"
+              className="w-[92px] h-[26px] border-b-2 text-[12px] text-right"
               defaultValue={amount.toString()}
               onChange={handleAmountChange}
             />

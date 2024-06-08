@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -12,24 +12,26 @@ type ListCardProps = {
 
 function ListCard({ id }: ListCardProps) {
   const navigate = useNavigate();
+  const [showAllTags, setShowAllTags] = useState(false);
+
   const handleCategoryClick = (idx: string) => {
     navigate(`/transaction/detail/${idx}/category`, {
       state: { from: window.location.pathname, transactionId: idx },
     });
   };
+
   const handleInterestClick = (idx: string) => {
     navigate(`/transaction/detail/${idx}/interest`, {
       state: { from: window.location.pathname, transactionId: idx },
     });
   };
 
-  // 단일 거래내역 가져오기
   const {
     data: transactionHistory,
     isLoading,
     error,
   } = useQuery<TransactionType>({
-    queryKey: ["transactionHistory", id], // queryKey 수정
+    queryKey: ["transactionHistory", id],
     queryFn: async () => {
       const response = await ApiClient.getInstance().getTransactionHistory(
         Number(id),
@@ -38,7 +40,9 @@ function ListCard({ id }: ListCardProps) {
     },
   });
 
-  console.log(transactionHistory);
+  const toggleShowAllTags = () => {
+    setShowAllTags(!showAllTags);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -48,6 +52,32 @@ function ListCard({ id }: ListCardProps) {
     return "Error!";
   }
 
+  const renderTags = () => {
+    if (!transactionHistory?.transactionHistoryDetails) return null;
+    const tags = transactionHistory.transactionHistoryDetails.map(
+      (detail, index) => (
+        <div key={index}>
+          <Tag title={detail.interest.title} color={detail.interest.color} />
+        </div>
+      ),
+    );
+    if (tags.length > 2 && !showAllTags) {
+      return (
+        <>
+          {tags.slice(0, 2)}
+          <button
+            type="button"
+            className="text-hanaSilver"
+            onClick={toggleShowAllTags}
+          >
+            ...
+          </button>
+        </>
+      );
+    }
+    return tags;
+  };
+
   return (
     <div className="flex flex-col items-center">
       {transactionHistory ? (
@@ -56,22 +86,13 @@ function ListCard({ id }: ListCardProps) {
             {new Date(transactionHistory.createdAt).toLocaleString()}
           </div>
           <div>{transactionHistory.description}</div>
-          <div className="flex justify-between mt-[20px] items-center">
-            <div className="flex flex-row">
+          <div className="flex justify-between mt-[20px] items-top">
+            <div className="grid grid-cols-3 w-[200px]">
               <Tag
                 title={transactionHistory.categoryTitle}
                 color={transactionHistory.categoryColor}
               />
-              {transactionHistory?.transactionHistoryDetails.map(
-                (detail, index) => (
-                  <div key={index}>
-                    <Tag
-                      title={detail.interest.title}
-                      color={detail.interest.color}
-                    />
-                  </div>
-                ),
-              )}
+              {renderTags()}
             </div>
             <p
               className={
@@ -113,18 +134,7 @@ function ListCard({ id }: ListCardProps) {
               }
             />
           </div>
-          <div className="flex flex-row">
-            {transactionHistory?.transactionHistoryDetails.map(
-              (detail, index) => (
-                <div key={index}>
-                  <Tag
-                    title={detail.interest.title}
-                    color={detail.interest.color}
-                  />
-                </div>
-              ),
-            )}
-          </div>
+          <div className="flex flex-row max-w-[200px]">{renderTags()}</div>
         </div>
         <div className="flex justify-between my-[8px]">
           <p>승인번호</p>
@@ -136,7 +146,7 @@ function ListCard({ id }: ListCardProps) {
         </div>
         <div className="flex justify-between my-[8px]">
           <p>일시</p>
-          {transactionHistory?.createdAt.toLocaleString()}
+          {new Date(transactionHistory?.createdAt).toLocaleString()}
         </div>
         <div className="flex justify-between my-[8px]">
           <p>거래 후 잔액</p>
