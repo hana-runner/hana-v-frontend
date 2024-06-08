@@ -1,71 +1,74 @@
-import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { BsPencil } from "react-icons/bs";
-import { transactionType } from "../../types/transaction";
-import ApiClient from "../../apis/apiClient";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Tag from "../common/Tag";
-import { categoryType } from "../../types/category";
+import ApiClient from "../../apis/apiClient";
+import Loading from "../common/Loading";
 
 type ListCardProps = {
   id: string;
 };
 
 function ListCard({ id }: ListCardProps) {
-  const [list, setList] = useState<transactionType | null>(null);
+  const navigate = useNavigate();
+  const handleCategoryClick = (idx: string) => {
+    navigate(`/transaction/detail/${idx}/category`, {
+      state: { from: window.location.pathname, transactionId: idx },
+    });
+  };
+  const handleInterestClick = (idx: string) => {
+    navigate(`/transaction/detail/${idx}/interest`, {
+      state: { from: window.location.pathname, transactionId: idx },
+    });
+  };
 
-  // 거래 내역
+  // 단일 거래내역 가져오기
   const {
-    data: userTransaction,
-    isLoading: isTransactionLoading,
-    error: transactionError,
-  } = useQuery({
-    queryKey: ["transaction"],
+    data: transactionHistory,
+    isLoading,
+    error,
+  } = useQuery<TransactionType>({
+    queryKey: ["transactionHistory", id], // queryKey 수정
     queryFn: async () => {
-      const response = await ApiClient.getInstance().getTransactions();
+      const response = await ApiClient.getInstance().getTransactionHistory(
+        Number(id),
+      );
       return response;
     },
   });
 
-  // 카테고리 가져오기
-  const { data: categories, isLoading: isCategoryLoading, error: categoryError } = useQuery({
-    queryKey: ["category"],
-    queryFn: async () => {
-      const response = await ApiClient.getInstance().getCategories();
-      return response;
-    },
-  });
+  console.log(transactionHistory);
 
-  useEffect(() => {
-    if (userTransaction && Array.isArray(userTransaction.transactionHistory)) {
-      const transaction = userTransaction.transactionHistory
-        .find((t: transactionType) => t.id === parseInt(id, 10));
-      setList(transaction || null);
-    }
-  }, [userTransaction, id]);
-
-  if (isTransactionLoading || isCategoryLoading) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <Loading />;
   }
 
-  if (transactionError || categoryError) {
-    return <div>Error fetching data</div>;
+  if (error) {
+    return "Error!";
   }
-
-  const category = categories?.categories.find(
-    (c: categoryType) => c.id === list?.category_id,
-  );
 
   return (
     <div className="flex flex-col items-center">
-      {list ? (
+      {transactionHistory ? (
         <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
-          <div className="text-hanaSilver text-[8px] mb-[8px]">{new Date(list.created_at).toLocaleString()}</div>
-          <div>{list.description}</div>
+          <div className="text-hanaSilver text-[8px] mb-[8px]">
+            {new Date(transactionHistory.createdAt).toLocaleString()}
+          </div>
+          <div>{transactionHistory.description}</div>
           <div className="flex justify-between mt-[20px] items-center">
-            <Tag title={category?.title || ""} color={category?.color || ""} />
-            <p>
-              {list.amount.toLocaleString()}
-              원
+            <Tag
+              title={transactionHistory.categoryTitle}
+              color={transactionHistory.categoryColor}
+            />
+            <p
+              className={
+                transactionHistory.type === "입금"
+                  ? "text-hanaGreen"
+                  : "text-hanaRed"
+              }
+            >
+              {`${transactionHistory.amount.toLocaleString()}원`}
             </p>
           </div>
         </div>
@@ -76,32 +79,56 @@ function ListCard({ id }: ListCardProps) {
         <div className="flex justify-between my-[8px]">
           <div className="flex">
             <p>카테고리</p>
-            <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver" />
+            <BsPencil
+              className="ml-[6px] mt-[3px] text-hanaSilver cursor-pointer"
+              onClick={() =>
+                handleCategoryClick(transactionHistory?.id.toString())
+              }
+            />
           </div>
-          <Tag title={category?.title || ""} color={category?.color || ""} />
+          <Tag
+            title={transactionHistory?.categoryTitle}
+            color={transactionHistory?.categoryColor}
+          />
         </div>
         <div className="flex justify-between my-[8px]">
-            <div className="flex">
-              <p>관심사</p>
-              <BsPencil className="ml-[6px] mt-[3px] text-hanaSilver" />
-            </div>
-
+          <div className="flex">
+            <p>관심사</p>
+            <BsPencil
+              className="ml-[6px] mt-[3px] text-hanaSilver cursor-pointer"
+              onClick={() =>
+                handleInterestClick(transactionHistory?.id.toString())
+              }
+            />
+          </div>
+          <div className="flex flex-row">
+            {transactionHistory?.transactionHistoryDetails.map(
+              (detail, index) => (
+                <div key={index}>
+                  <Tag
+                    title={detail.interest.title}
+                    color={detail.interest.color}
+                  />
+                </div>
+              ),
+            )}
+          </div>
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>승인번호</p>
-            {list?.num}
+          <p>승인번호</p>
+          {transactionHistory?.approvalNumber}
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>거래유형</p>
-            {list?.action}
+          <p>거래유형</p>
+          {transactionHistory?.action}
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>일시</p>
-            {list?.created_at.toLocaleString()}
+          <p>일시</p>
+          {transactionHistory?.createdAt.toLocaleString()}
         </div>
         <div className="flex justify-between my-[8px]">
-            <p>거래 후 잔액</p>
-            {list?.balance.toLocaleString()}
+          <p>거래 후 잔액</p>
+          {transactionHistory?.balance.toLocaleString()}
         </div>
       </div>
     </div>
