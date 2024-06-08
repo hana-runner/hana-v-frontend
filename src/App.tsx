@@ -22,6 +22,8 @@ import {
   Transaction,
   TransactionDetail,
   PersonalInformation,
+  ModifyCategory,
+  ModifyTransactionDetail,
 } from "./pages";
 
 function App() {
@@ -51,6 +53,15 @@ function App() {
       <Route path="/users/info" element={<PersonalInformation />} />
       <Route path="/transaction" element={<Transaction />} />
       <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
+      <Route
+        path="/transaction/detail/:id/category"
+        element={<ModifyCategory />}
+      />
+      <Route
+        path="/transaction/detail/:id/interest"
+        element={<ModifyTransactionDetail />}
+      />
+
       <Route path="/settings" element={<Settings />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
