@@ -70,20 +70,11 @@ const Login = () => {
     if (validateId(id)) {
       setIdErrMsg("");
       dispatch({ type: LOGIN_ACTION.ID_VALIDATE });
-    } else {
-      setIdErrMsg("유효하지 않은 아이디입니다");
     }
     if (!pw) {
       setPwErrMsg("비밀번호를 입력해주세요");
       pwRef.current?.focus();
       return;
-    }
-
-    if (validatePw(pw)) {
-      setPwErrMsg("");
-      dispatch({ type: LOGIN_ACTION.PW_VALIDATE });
-    } else {
-      setPwErrMsg("유효하지 않은 비밀번호입니다");
     }
 
     try {
