@@ -66,7 +66,7 @@ const Login = () => {
 
   const [status, dispatch] = useReducer(reducer, InitialLoginInfoStatus);
 
-  const { isModalOpen, openModal } = useModal();
+  const { openModal } = useModal();
 
   const loginHandler = async () => {
     const id = idRef.current?.value;
@@ -100,7 +100,7 @@ const Login = () => {
         navigation("/home", { replace: true });
       }
     } catch (err) {
-      openModal("로그인 실패");
+      openModal("/login", "로그인 실패");
     }
   };
 
