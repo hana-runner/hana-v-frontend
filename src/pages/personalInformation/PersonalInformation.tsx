@@ -13,8 +13,9 @@ import EmailTypeConverter from "../../components/emailTypeConverter";
 import { EMAIL_DOMAIN } from "../../types/users/enums";
 import EmailConverter from "../../components/users/emailConverter";
 import { Modal } from "../../components";
-import { removeCookie } from "../../utils/cookie";
+import { getCookie, removeCookie } from "../../utils/cookie";
 import formatDate from "../../utils/formDate";
+import Logout from "../../components/users/Logout";
 
 interface ShowInfoType
   extends Pick<
@@ -131,6 +132,7 @@ const PersonalInformation = () => {
         birthday={userInfo?.birthday}
         onEdit={() => onEdit()}
       />
+      {getCookie("token") && <Logout className="btn-primary}" />}
       <button type="button" onClick={() => onResign()}>
         회원 탈퇴
       </button>
