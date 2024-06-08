@@ -64,12 +64,14 @@ interface LoginResponseType extends Required<BaseResponseType> {
   refreshToken: string;
 }
 
-interface UserInfoResponseType extends BaseResponseType {
+interface UserInfoResponse {
   birthday: Date;
   email: string;
   gender: number;
   username: string;
 }
+
+interface UserInfoResponseType extends ApiResponseType<UserInfoResponse> {}
 
 interface PersonalInfoRefHandler {
   emailIdRef: RefObject<HTMLInputElement>;
