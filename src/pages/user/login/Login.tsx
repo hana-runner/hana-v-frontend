@@ -1,4 +1,10 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import validateId from "../../../components/users/validation/id-validation";
@@ -11,6 +17,8 @@ import ApiClient from "../../../apis/apiClient";
 import { LoginResponseType } from "../../../types/users/users-type";
 import { setCookie } from "../../../utils/cookie";
 import { useUserInfo } from "../../../context/register-context/register-context";
+import { Modal } from "../../../components";
+import { useModal } from "../../../context/ModalContext";
 
 const InitialLoginInfoStatus: LoginValidation = {
   [VALIDATION.USER_ID]: false,
@@ -52,10 +60,13 @@ const Login = () => {
   const pwRef = useRef<HTMLInputElement | null>(null);
   const [IdErrMsg, setIdErrMsg] = useState<string>("");
   const [PwErrMsg, setPwErrMsg] = useState<string>("");
+
   const navigation = useNavigate();
   const { reset } = useUserInfo();
 
   const [status, dispatch] = useReducer(reducer, InitialLoginInfoStatus);
+
+  const { openModal } = useModal();
 
   const loginHandler = async () => {
     const id = idRef.current?.value;
@@ -70,20 +81,11 @@ const Login = () => {
     if (validateId(id)) {
       setIdErrMsg("");
       dispatch({ type: LOGIN_ACTION.ID_VALIDATE });
-    } else {
-      setIdErrMsg("유효하지 않은 아이디입니다");
     }
     if (!pw) {
       setPwErrMsg("비밀번호를 입력해주세요");
       pwRef.current?.focus();
       return;
-    }
-
-    if (validatePw(pw)) {
-      setPwErrMsg("");
-      dispatch({ type: LOGIN_ACTION.PW_VALIDATE });
-    } else {
-      setPwErrMsg("유효하지 않은 비밀번호입니다");
     }
 
     try {
@@ -98,7 +100,7 @@ const Login = () => {
         navigation("/home", { replace: true });
       }
     } catch (err) {
-      console.error(err);
+      openModal("/login", "로그인 실패");
     }
   };
 
