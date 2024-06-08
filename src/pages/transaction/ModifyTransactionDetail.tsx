@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import {
   CancleBtn,
@@ -24,13 +24,6 @@ function ModifyTransactionDetail() {
   const [currAmount, setCurrAmount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const previousUrl = location.state?.from;
-
-  function handleSaveClick() {
-    if (!errorMessage) {
-      // Save logic goes here
-      console.log("Transaction saved");
-    }
-  }
 
   // 단일 거래내역 가져오기
   const {
@@ -66,12 +59,31 @@ function ModifyTransactionDetail() {
     }
   };
 
+  // 목록 업데이트
+  const updateTransactionDetail = useMutation({
+    mutationFn: async () => {
+      if (transactionHistory !== undefined && transactionId !== null) {
+        const response = await ApiClient.getInstance().updateTransactionDetail(
+          transactionId,
+          interestList,
+        );
+        return response;
+      }
+    },
+    onSuccess: (data) => {
+      console.log("Transaction saved successfully", data);
+    },
+    onError: (e) => {
+      console.error("Error saving transaction", e);
+    },
+  });
+
   useEffect(() => {
     if (transactionHistory) {
       setCurrAmount(transactionHistory.amount);
       const details = transactionHistory.transactionHistoryDetails.map(
         (detail) => ({
-          id: detail.index,
+          id: detail.id,
           amount: detail.amount,
           description: detail.description,
         }),
@@ -100,6 +112,12 @@ function ModifyTransactionDetail() {
     };
     setInterestList([...interestList, newInterest]);
   };
+
+  function handleSaveClick() {
+    if (!errorMessage) {
+      updateTransactionDetail.mutate();
+    }
+  }
 
   return (
     <section>
