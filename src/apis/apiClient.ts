@@ -223,6 +223,17 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
+  // 거래 상세 내역 수정
+  public async updateTransactionDetail(
+    transactionHistoryId: number,
+  ): Promise<TransactionType> {
+    const response = await this.axiosInstance.request<TransactionType>({
+      method: "post",
+      url: `/transaction-history-details/transaction-history/${transactionHistoryId}`,
+    });
+    return response.data;
+  }
+
   // ------------------------------ account
   // 사용자 전체 계좌 목록 조회
   public async getAccounts() {
