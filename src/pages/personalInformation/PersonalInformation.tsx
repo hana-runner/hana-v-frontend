@@ -9,12 +9,12 @@ import {
   UserInfoType,
 } from "../../types/users/users-type";
 import PersonalInformationCard from "../../components/users/PersonalInformationCard";
-import formatDate from "../../utils/formDate";
 import EmailTypeConverter from "../../components/emailTypeConverter";
 import { EMAIL_DOMAIN } from "../../types/users/enums";
 import EmailConverter from "../../components/users/emailConverter";
 import { Modal } from "../../components";
 import { removeCookie } from "../../utils/cookie";
+import formatDate from "../../utils/formDate";
 
 interface ShowInfoType
   extends Pick<
@@ -48,13 +48,14 @@ const PersonalInformation = () => {
         await ApiClient.getInstance().getUserInfo();
 
       if (!response.success) return;
+      console.log(response);
 
       setUserInfo({
-        username: response.username,
-        email: response.email,
-        gender: response.gender === 0 ? 0 : 1,
-        birthday: response.birthday,
-        ssn: formatDate(response.birthday),
+        username: response.data.username,
+        email: response.data.email,
+        gender: response.data.gender === 0 ? 0 : 1,
+        birthday: response.data.birthday,
+        ssn: formatDate(response.data.birthday),
       });
     } catch (err) {
       console.error(err);

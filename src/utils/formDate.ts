@@ -3,6 +3,7 @@ const formatDate = (date: Date) => {
   const year = dats[0].slice(2);
   const month = dats[1];
   const day = dats[2];
+  console.log(`${year}${month}${day}`);
   return `${year}${month}${day}`;
 };
 
