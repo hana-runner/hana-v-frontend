@@ -9,13 +9,13 @@ export const VAPID_PUBLIC_KEY =
   "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDdWVKTE3q17G6lRtF_D2xmi0zPxxLsYCY",
-  authDomain: "hanav-3f6ee.firebaseapp.com",
-  projectId: "hanav-3f6ee",
-  storageBucket: "hanav-3f6ee.appspot.com",
-  messagingSenderId: "964360216393",
-  appId: "1:964360216393:web:7af3e9a9ec433897ae4498",
-  measurementId: "G-2Z0TK05PLK",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
 const PushNotification: React.FC = () => {
@@ -61,6 +61,7 @@ const PushNotification: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log(firebaseConfig);
     // Firebase 초기화
     const app: FirebaseApp = initializeApp(firebaseConfig);
     const messaging: Messaging = getMessaging(app);
