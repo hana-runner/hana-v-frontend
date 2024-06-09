@@ -1,13 +1,24 @@
-// 은행별 로고 이미지 추가
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const AccountCard = ({
+  id,
   accountName,
   accountType,
   accountNumber,
   balance,
 }: AccountType) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/transaction/${id}`);
+  };
+
   return (
-    <div className="bg-white flex flex-col items-start mx-4 mb-4 rounded-3xl shadow-md pl-4 pr-8 py-8">
+    <div
+      onClick={handleClick}
+      className="bg-white flex flex-col items-start mx-4 mb-4 rounded-3xl shadow-md pl-4 pr-8 py-8 cursor-pointer"
+    >
       <div className="flex items-center mb-1">
         <img src="/img/hana_logo.png" className="w-6 h-6 mr-1" />
         <span className="font-hanaMedium">{accountName}</span>
