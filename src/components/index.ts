@@ -28,3 +28,5 @@ export { default as InterestMenu } from "./intereset/InterestMenu";
 export { default as ImageUploader } from "./intereset/ImageUploader";
 export { default as InterestSubtitle } from "./intereset/InterestSubtitle";
 export { default as InterestConsumptionDetail } from "./consumption/InterestConsumptionDetail";
+export { default as Menu } from "./Menu";
+export { default as MenuElement } from "./MenuElement";
