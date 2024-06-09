@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AccountCard from "./AccountCard";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { useNavigate } from "react-router";

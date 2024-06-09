@@ -52,7 +52,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/notification" element={<Notification />} />
       <Route path="/users/info" element={<PersonalInformation />} />
-      <Route path="/transaction" element={<Transaction />} />
+      <Route path="/transaction/:id" element={<Transaction />} />
       <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
       <Route
         path="/transaction/detail/:id/category"

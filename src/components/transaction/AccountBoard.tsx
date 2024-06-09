@@ -6,7 +6,7 @@ interface AccountBoardProps {
 }
 
 const AccountBoard: React.FC<AccountBoardProps> = ({ data, accountId }) => {
-  const accountData = data[accountId];
+  const accountData = data.find((account) => account.id === accountId);
   const formattedBalance = accountData?.balance.toLocaleString();
 
   return (
