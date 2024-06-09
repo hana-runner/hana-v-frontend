@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { useQuery } from "@tanstack/react-query";
+import ApiClient from "../../apis/apiClient";
 import {
   CategorySelect,
   InterestConsumptionDetail,
   Navbar,
-} from "../components";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useQuery } from "@tanstack/react-query";
-import ApiClient from "../apis/apiClient";
+} from "../../components";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
