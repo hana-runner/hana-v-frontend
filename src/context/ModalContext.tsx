@@ -31,8 +31,8 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [hasOption, setHasOption] = useState(false);
 
   const openModal = (
-    modalPath: string,
     modalMessage: string,
+    modalPath: string,
     hasOption = false,
   ) => {
     setModalPath(modalPath);
@@ -43,7 +43,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    navigate(modalPath);
+    if (modalPath) {
+      navigate(modalPath);
+    }
   };
 
   return (
