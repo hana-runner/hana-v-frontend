@@ -19,7 +19,7 @@ import BlindedInput from "./BlindedInput";
 
 interface Prop {
   email: EmailType | undefined;
-  username: string | undefined;
+  name: string | undefined;
   birthday: Date | undefined;
   gender: 0 | 1 | undefined;
   onEdit: () => void;
@@ -27,13 +27,9 @@ interface Prop {
 
 const PersonalInformationCard = forwardRef(
   (
-    { email, username, birthday, gender, onEdit }: Prop,
+    { email, name, birthday, gender, onEdit }: Prop,
     ref: ForwardedRef<PersonalInfoRefHandler>,
   ) => {
-    const [domain, setDomain] = useState<EMAIL_DOMAIN | undefined>(
-      email?.domain,
-    );
-    const [emailId, setEmailId] = useState<string | undefined>(email?.emailId);
     const [readOnly, setReadOnly] = useState<boolean>(false);
     const emailIdRef = useRef<HTMLInputElement | null>(null);
     const domainRef = useRef<HTMLSelectElement | null>(null);
@@ -62,7 +58,7 @@ const PersonalInformationCard = forwardRef(
         <div className="row-span-8 flex flex-col gap-2 pt-2 pb-5 text-start text-sm">
           <div className="flex justify-between">
             <div className="text-hanaSilver">이름</div>
-            <div>{username}</div>
+            <div>{name}</div>
           </div>
           <div className="grid grid-cols-12 justify-between">
             <div className="col-span-3 text-hanaSilver">email</div>

@@ -20,7 +20,7 @@ import Logout from "../../components/users/Logout";
 interface ShowInfoType
   extends Pick<
     UserInfoType,
-    "username" | "email" | "birthday" | "gender" | "ssn"
+    "name" | "email" | "birthday" | "gender" | "ssn"
   > {}
 
 enum TITLE {
@@ -52,7 +52,7 @@ const PersonalInformation = () => {
       console.log(response);
 
       setUserInfo({
-        username: response.data.username,
+        name: response.data.name,
         email: response.data.email,
         gender: response.data.gender === 0 ? 0 : 1,
         birthday: response.data.birthday,
@@ -128,7 +128,7 @@ const PersonalInformation = () => {
         ref={refHandler}
         gender={userInfo?.gender}
         email={EmailTypeConverter(userInfo?.email || "")}
-        username={userInfo?.username}
+        name={userInfo?.name}
         birthday={userInfo?.birthday}
         onEdit={() => onEdit()}
       />

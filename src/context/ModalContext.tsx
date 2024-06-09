@@ -6,9 +6,11 @@ interface ModalContextType {
   modalPath: string;
   modalMessage: string;
   hasOption: boolean;
+  onConfirm: () => void;
   openModal: (
-    modalPath: string,
     modalMessage: string,
+    modalPath?: string,
+    onConfirm?: () => void,
     hasOption?: boolean,
   ) => void;
   closeModal: () => void;
@@ -19,6 +21,7 @@ const ModalContext = createContext<ModalContextType>({
   modalPath: "",
   modalMessage: "",
   hasOption: false,
+  onConfirm: () => {},
   openModal: () => {},
   closeModal: () => {},
 });
@@ -29,21 +32,26 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [modalPath, setModalPath] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [hasOption, setHasOption] = useState(false);
+  const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
 
   const openModal = (
     modalPath: string,
     modalMessage: string,
+    onConfirm: () => void,
     hasOption = false,
   ) => {
     setModalPath(modalPath);
     setModalMessage(modalMessage);
     setHasOption(hasOption);
+    setOnConfirm(() => onConfirm);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    navigate(modalPath);
+    if (modalPath) {
+      navigate(modalPath);
+    }
   };
 
   return (
@@ -53,6 +61,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         modalPath,
         modalMessage,
         hasOption,
+        onConfirm,
         openModal,
         closeModal,
       }}

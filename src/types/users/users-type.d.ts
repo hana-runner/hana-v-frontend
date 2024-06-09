@@ -69,6 +69,7 @@ interface UserInfoResponse {
   email: string;
   gender: number;
   username: string;
+  name: string;
 }
 
 interface UserInfoResponseType extends ApiResponseType<UserInfoResponse> {}
