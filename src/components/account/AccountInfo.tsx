@@ -1,5 +1,6 @@
 import React from "react";
 import { BsTrash3 } from "react-icons/bs";
+import { useModal } from "../../context/ModalContext";
 
 interface AccountInfoProps {
   accountTitle: string;
@@ -12,11 +13,18 @@ function AccountInfo({
   accountNumber,
   accountBankName,
 }: AccountInfoProps) {
+  const { openModal } = useModal();
+  const handleConfirmDelete = () => {
+    openModal("/manage_account", "등록된 계좌를 삭제하시겠습니까?", true);
+  };
   return (
     <div className="w-[348px] h-[156px] bg-white rounded-[24px] p-[20px] mt-[24px]">
       <div className="flex justify-between border-b-2">
         <p className="text-[18px] font-hanaMedium">{accountTitle}</p>
-        <BsTrash3 className="text-hanaSilver cursor-pointer" />
+        <BsTrash3
+          className="text-hanaSilver cursor-pointer"
+          onClick={() => handleConfirmDelete()}
+        />
       </div>
       <p className="mt-[12px] text-left text-[16px]">{accountNumber}</p>
       <p className="text-[17px] text-right mt-[28px]">{accountBankName}</p>
