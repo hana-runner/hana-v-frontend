@@ -25,6 +25,7 @@ import {
   ModifyCategory,
   ModifyTransactionDetail,
   MenuTab,
+  AccountManagement,
 } from "./pages";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
       <Route path="/splash" element={<Splash />} />
       <Route path="/consumption" element={<ConsumptionDetail />} />
       <Route path="/add_account" element={<AddAccount />} />
+      <Route path="/manage_account" element={<AccountManagement />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/find/id" element={<FindId />} />

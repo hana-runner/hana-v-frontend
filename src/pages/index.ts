@@ -24,3 +24,4 @@ export { default as FindPw } from "./user/findPw/FindPw";
 export { default as Settings } from "./Settings";
 export { default as Notification } from "./notification/Notification";
 export { default as MenuTab } from "./MenuTab";
+export { default as AccountManagement } from "./account/AccountManagement";

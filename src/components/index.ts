@@ -30,3 +30,4 @@ export { default as InterestSubtitle } from "./intereset/InterestSubtitle";
 export { default as InterestConsumptionDetail } from "./consumption/InterestConsumptionDetail";
 export { default as Menu } from "./Menu";
 export { default as MenuElement } from "./MenuElement";
+export { default as AccountInfo } from "./account/AccountInfo";
