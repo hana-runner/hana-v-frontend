@@ -1,8 +1,8 @@
 export { default as Home } from "./Home";
 export { default as NotFound } from "./NotFound";
 export { default as Splash } from "./Splash";
-export { default as AddAccount } from "./AddAccount";
-export { default as ConsumptionDetail } from "./ConsumptionDetail";
+export { default as AddAccount } from "./account/AddAccount";
+export { default as ConsumptionDetail } from "./consumption/ConsumptionDetail";
 export { default as Interests } from "./interest/Interests";
 export { default as AddInterest } from "./interest/AddInterest";
 export { default as ModifyInterest } from "./interest/ModifyInterest";

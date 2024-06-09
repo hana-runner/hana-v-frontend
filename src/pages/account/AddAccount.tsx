@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Navbar, SelectBox } from "../components";
-import { useModal } from "../context/ModalContext";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ApiClient from "../apis/apiClient";
 import { AxiosError } from "axios";
+import { useModal } from "../../context/ModalContext";
+import ApiClient from "../../apis/apiClient";
+import { Navbar, SelectBox } from "../../components";
 
 const banks = [
   { title: "하나은행" },
@@ -17,7 +16,6 @@ const banks = [
 ];
 
 const AddAccount = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const accountNumberRef = useRef<HTMLInputElement>(null);
   const [bankName, setBankName] = useState("");

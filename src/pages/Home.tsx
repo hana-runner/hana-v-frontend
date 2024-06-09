@@ -1,6 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { MenuCard, MonthlyConsumption, MyAccount, Navbar } from "../components";
+import {
+  Loading,
+  MenuCard,
+  MonthlyConsumption,
+  MyAccount,
+  Navbar,
+} from "../components";
 import { useQueries } from "@tanstack/react-query";
 import ApiClient from "../apis/apiClient";
 import Logout from "../components/users/Logout";
@@ -44,7 +50,7 @@ const Home = () => {
         className="btn-primary"
       />
       {isLoading ? (
-        <div>is Loading...</div>
+        <Loading />
       ) : (
         <>
           <MyAccount accounts={accounts} />

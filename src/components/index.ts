@@ -27,3 +27,4 @@ export { default as ImageCard } from "./intereset/ImageCard";
 export { default as InterestMenu } from "./intereset/InterestMenu";
 export { default as ImageUploader } from "./intereset/ImageUploader";
 export { default as InterestSubtitle } from "./intereset/InterestSubtitle";
+export { default as InterestConsumptionDetail } from "./consumption/InterestConsumptionDetail";
