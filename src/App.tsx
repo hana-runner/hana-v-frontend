@@ -24,6 +24,7 @@ import {
   PersonalInformation,
   ModifyCategory,
   ModifyTransactionDetail,
+  MenuTab,
 } from "./pages";
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
       />
 
       <Route path="/settings" element={<Settings />} />
+      <Route path="/menu" element={<MenuTab />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
