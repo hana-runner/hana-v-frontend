@@ -10,8 +10,8 @@ const Modal = () => {
   }
 
   const handleConfirm = () => {
-    onConfirm();
     closeModal();
+    onConfirm();
   };
 
   return (
