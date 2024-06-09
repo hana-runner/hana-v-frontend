@@ -20,3 +20,11 @@ interface TransactionType {
 interface TransactionDataType {
   transactionHistory: TransactionType[];
 }
+
+interface TransactionInterestDetail {
+  id: number;
+  interestId: number;
+  title: string;
+  amount: number;
+  description: string;
+}

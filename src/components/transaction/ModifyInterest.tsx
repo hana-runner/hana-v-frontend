@@ -1,6 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-function ModifyInterest() {
+interface ModifyInterestProps {
+  interests: TransactionInterestDetail[];
+  amount: number;
+  description: string;
+  interestId: number;
+  onDescriptionChange: (description: string) => void;
+  onAmountChange: (amount: number) => void;
+  onInterestChange: (interestId: number) => void;
+}
+
+function ModifyInterest({
+  interests,
+  amount,
+  description,
+  interestId,
+  onDescriptionChange,
+  onAmountChange,
+  onInterestChange,
+}: ModifyInterestProps) {
+  const [childAmount, setChildAmount] = useState(amount);
+  const [childDescription, setChildDescription] = useState(description);
+  const [childInterestId, setChildInterestId] = useState(interestId);
+
+  useEffect(() => {
+    setChildAmount(amount);
+    setChildDescription(description);
+    setChildInterestId(interestId);
+  }, [amount, description, interestId]);
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDescription = e.target.value;
+    setChildDescription(newDescription);
+    onDescriptionChange(newDescription);
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newAmount = parseFloat(e.target.value) || 0;
+    setChildAmount(newAmount);
+    onAmountChange(newAmount);
+  };
+
+  const handleInterestChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newInterestId = parseInt(e.target.value);
+    setChildInterestId(newInterestId);
+    onInterestChange(newInterestId);
+  };
+
   return (
     <div className="w-[326px] h-[114px] rounded-[20px] mt-[16px] bg-white border-2 border-hanaSilver-300 flex justify-between px-[10px] py-[30px]">
       <div>
@@ -14,6 +60,8 @@ function ModifyInterest() {
               type="text"
               placeholder="내용을 입력하세요."
               className="w-[145px] h-[26px] border-b-2 text-[12px]"
+              value={childDescription}
+              onChange={handleDescriptionChange}
             />
             <p className="text-[8px] text-right mt-[4px] text-hanaSilver">
               최대 10자
@@ -21,9 +69,11 @@ function ModifyInterest() {
           </div>
           <div>
             <input
-              type="text"
+              type="number"
               placeholder="금액을 입력하세요."
-              className="w-[92px] h-[26px] border-b-2 text-[12px]"
+              className="w-[92px] h-[26px] border-b-2 text-[12px] text-right"
+              value={childAmount.toString()}
+              onChange={handleAmountChange}
             />
             <p className="text-[8px] text-right mt-[4px] text-hanaSilver">
               단위(원)
@@ -36,8 +86,14 @@ function ModifyInterest() {
         <select
           name="interests"
           className="border-b-2 border-hanaSilver-300 text-[12px] pb-[3px]"
+          value={childInterestId}
+          onChange={handleInterestChange}
         >
-          <option value="1">사과</option>
+          {interests?.map((interest) => (
+            <option key={interest.interestId} value={interest.interestId}>
+              {interest.title}
+            </option>
+          ))}
         </select>
       </div>
     </div>
