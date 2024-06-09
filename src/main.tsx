@@ -9,6 +9,7 @@ import { InterestContextProvider } from "./context/interest/InterestContext";
 import { ModalProvider } from "./context/ModalContext";
 import { Modal } from "./components";
 import PushNotification from "./components/PushNotification";
+import { MyModalProvider } from "./context/MyModalContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {

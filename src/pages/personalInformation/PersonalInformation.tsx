@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useRef, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserWrapper from "../../components/UserWrapper";
 import ApiClient from "../../apis/apiClient";
 import {
@@ -12,7 +12,6 @@ import PersonalInformationCard from "../../components/users/PersonalInformationC
 import EmailTypeConverter from "../../components/emailTypeConverter";
 import { EMAIL_DOMAIN } from "../../types/users/enums";
 import EmailConverter from "../../components/users/emailConverter";
-import { Modal } from "../../components";
 import { getCookie, removeCookie } from "../../utils/cookie";
 import formatDate from "../../utils/formDate";
 import Logout from "../../components/users/Logout";
@@ -31,16 +30,18 @@ enum TITLE {
 const PersonalInformation = () => {
   const [title, setTitle] = useState<TITLE>(TITLE.VIEW);
   const [userInfo, setUserInfo] = useState<ShowInfoType | null>(null);
-  const [modalOppened, setModalOppened] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
-  const [resignSuccess, setResignSuccess] = useState<boolean>(false);
+  const [modalOpen, setModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [hasOption, setHasOption] = useState<boolean>(false);
+  const [isConfirm, setConfirm] = useState<boolean>(false);
+  const [idDel, setDel] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const refHandler = useRef<PersonalInfoRefHandler>(null);
 
-  const openModal = (inputmessage: string) => {
-    setMessage(inputmessage);
-    setModalOppened(true);
+  const openMyModal = (msg: string) => {
+    setModalMessage(msg);
+    setModal(true);
   };
 
   const getInfo = async () => {
@@ -60,12 +61,20 @@ const PersonalInformation = () => {
       });
     } catch (err) {
       console.error(err);
-      redirect("/");
+      navigate("/", { replace: true });
     }
   };
 
-  const onEdit = () => {
-    setTitle(TITLE.EDIT);
+  const onDecline = () => {
+    setHasOption(false);
+    setModal(false);
+  };
+
+  const onResign = () => {
+    console.log("onRes");
+    setConfirm(true);
+    setHasOption(true);
+    openMyModal("정말로 탈퇴하시겠습니까?");
   };
 
   const submitChanges = async () => {
@@ -82,7 +91,7 @@ const PersonalInformation = () => {
         });
 
       if (!response.success) return;
-      openModal("변경 되었습니다");
+      openMyModal("변경 되었습니다");
     } catch (err) {
       console.error(err);
     }
@@ -97,25 +106,40 @@ const PersonalInformation = () => {
         removeCookie("x-access-token", { path: "/" });
         removeCookie("x-auth-token", { path: "/" });
 
-        openModal("탈퇴 성공");
+        setDel(true);
+        openMyModal("탈퇴 성공");
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      openMyModal("탈퇴 실패");
     }
   };
 
-  const onResign = () => {
-    openModal("정말로 탈퇴하시겠습니까?");
-  };
-
-  const closeModal = () => {
-    if (message === "정말로 탈퇴하시겠습니까?") {
-      submitResign();
-      return;
-    }
-    if (resignSuccess) {
+  const closeModal = async () => {
+    if (idDel) {
       navigate("/home", { replace: true });
     }
+    setModal(false);
+    setHasOption(false);
+
+    if (!isConfirm) return;
+    try {
+      const res: BaseResponseType = await submitResign();
+      if (res.success) {
+        navigate("/home");
+      }
+    } catch (err) {
+      setConfirm(false);
+      setHasOption(false);
+    }
+  };
+
+  const handleConfirm = () => {
+    closeModal();
+  };
+
+  const onEdit = () => {
+    setTitle(TITLE.EDIT);
   };
 
   useEffect(() => {
@@ -145,13 +169,33 @@ const PersonalInformation = () => {
           변경
         </button>
       )}
-      {modalOppened && (
+      {modalOpen && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <Modal
-            message={message}
-            option={message === "정말로 탈퇴하시겠습니까?"}
-            modalToggle={() => closeModal()}
-          />
+          <div className="fixed w-[390px] h-screen bg-black bg-opacity-50 z-40 flex justify-center items-center">
+            <div className="flex flex-col justify-center bg-white rounded-xl w-3/4 h-1/4 gap-3 z-50">
+              <p>{modalMessage}</p>
+              <div className="flex justify-center gap-4">
+                {hasOption && (
+                  <button
+                    type="button"
+                    id="cancel"
+                    className="btn-cancel"
+                    onClick={onDecline}
+                  >
+                    취소
+                  </button>
+                )}
+                <button
+                  type="button"
+                  id="confirm"
+                  className="btn-primary"
+                  onClick={handleConfirm}
+                >
+                  확인
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </UserWrapper>

@@ -92,7 +92,9 @@ const Login = () => {
         navigation("/home", { replace: true });
       }
     } catch (err) {
-      openModal("/login", "로그인 실패");
+      openModal("일치하는 계정이 없습니다", "", () => {
+        setPwErrMsg("");
+      });
     }
   };
 
