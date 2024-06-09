@@ -10,7 +10,7 @@ interface ModalContextType {
   openModal: (
     modalMessage: string,
     modalPath?: string,
-    onConfirm: () => void,
+    onConfirm?: () => void,
     hasOption?: boolean,
   ) => void;
   closeModal: () => void;
@@ -35,8 +35,8 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
 
   const openModal = (
-    modalMessage: string,
     modalPath: string,
+    modalMessage: string,
     onConfirm: () => void,
     hasOption = false,
   ) => {
