@@ -4,11 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import App from "./App";
-import PushNotification from "./apis/notification/config";
 import { RegisterProvider } from "./context/register-context/register-context";
 import { InterestContextProvider } from "./context/interest/InterestContext";
 import { ModalProvider } from "./context/ModalContext";
 import { Modal } from "./components";
+import PushNotification from "./components/PushNotification";
 
 const queryClient = new QueryClient({
   defaultOptions: {
