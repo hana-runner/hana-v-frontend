@@ -7,8 +7,8 @@ interface ModalContextType {
   modalMessage: string;
   hasOption: boolean;
   openModal: (
-    modalPath: string,
     modalMessage: string,
+    modalPath?: string,
     hasOption?: boolean,
   ) => void;
   closeModal: () => void;

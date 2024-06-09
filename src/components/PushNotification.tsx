@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect } from "react";
 import { initializeApp, FirebaseApp } from "firebase/app";
 import { getMessaging, getToken, Messaging } from "firebase/messaging";
-import ApiClient from "../apiClient";
+import ApiClient from "../apis/apiClient";
+import { useModal } from "../context/ModalContext";
 
 export const VAPID_PUBLIC_KEY =
   "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
@@ -17,30 +19,44 @@ const firebaseConfig = {
 };
 
 const PushNotification: React.FC = () => {
-  const updateReceive = async (status: boolean, token: string) => {
+  const { openModal } = useModal();
+  const updateIsReceive = async (stat: boolean) => {
     try {
-      const response = await ApiClient.getInstance().updateNotiReceive(status);
+      const response: BaseResponseType =
+        await ApiClient.getInstance().updateNotiReceive(stat);
 
-      if (response.success) {
-        const response2 =
-          await ApiClient.getInstance().updateDeviceToken(token);
-        if (response2.success) {
-          return true;
-        }
-      }
+      return response.success;
     } catch (err) {
+      console.error(err);
       return false;
     }
-
-    return false;
   };
 
-  const fetchAlarms = async () => {
+  const updateDeviceToken = async (token: string) => {
     try {
-      const response: ApiResponseType<NotificationFetchResType> =
-        await ApiClient.getInstance().fetchAlarms();
+      const response: BaseResponseType =
+        await ApiClient.getInstance().updateDeviceToken(token);
+      return true;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      return false;
+    }
+  };
+
+  const updateAlarmAtts = async (stat: boolean, token: string) => {
+    try {
+      const isReceive: boolean = await updateIsReceive(stat);
+      if (isReceive) {
+        try {
+          const isTokenupdated: boolean = await updateDeviceToken(token);
+        } catch (err) {
+          return false;
+        }
+        console.log("알람 성공");
+      }
+    } catch (err) {
+      openModal("알람 등록 실패");
+      return false;
     }
   };
 
@@ -58,8 +74,9 @@ const PushNotification: React.FC = () => {
           .then((currentToken) => {
             if (currentToken) {
               console.log(currentToken);
+              //   alert("토큰: " + currentToken);
               // 토큰을 서버에 전달...
-              updateReceive(true, currentToken);
+              updateAlarmAtts(true, currentToken);
             } else {
               console.log(
                 "No registration token available. Request permission to generate one.",
@@ -76,9 +93,9 @@ const PushNotification: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <section>
       <h1>Push Notification Setup</h1>
-    </div>
+    </section>
   );
 };
 
