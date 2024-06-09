@@ -7,6 +7,8 @@ interface accountApi {
 
   registerAccount(account: AccountType): Promise<BaseResponseType>;
 
+  deleteAccountInfo(accountId: number): Promise<BaseResponseType>;
+
   getExpensePerInterests(): Promise<ApiResponseType<InterestExpenseType[]>>;
 }
 
