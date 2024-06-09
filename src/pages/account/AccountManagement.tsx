@@ -8,7 +8,7 @@ import ApiClient from "../../apis/apiClient";
 function AccountManagement() {
   const navigate = useNavigate();
 
-  // 사용자 별 계좌 목록 가져오는 api 호출 코드 구현
+  // 사용자 별 계좌 목록 가져오기
   const { data: accounts } = useQuery<AccountType[]>({
     queryKey: ["userAccount"],
     queryFn: async () => {
@@ -16,7 +16,6 @@ function AccountManagement() {
       return response.data;
     },
   });
-
   const handleNavigate = () => {
     navigate("/add_account");
   };
@@ -31,6 +30,7 @@ function AccountManagement() {
             accounts.map((account) => (
               <AccountInfo
                 key={account.id}
+                accountId={account.id}
                 accountTitle={account.accountName}
                 accountNumber={account.accountNumber}
                 accountBankName={account.bankName}

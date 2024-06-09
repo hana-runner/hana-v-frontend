@@ -42,7 +42,7 @@ function ModifyInterest({
   };
 
   const handleInterestChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newInterestId = parseInt(e.target.value);
+    const newInterestId = parseInt(e.target.value, 10);
     setChildInterestId(newInterestId);
     onInterestChange(newInterestId);
   };

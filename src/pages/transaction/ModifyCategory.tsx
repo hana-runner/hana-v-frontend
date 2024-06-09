@@ -31,20 +31,16 @@ const ModifyCategory: React.FC = () => {
 
   const updateCategory = useMutation({
     mutationFn: async () => {
-      console.log("API 호출 준비됨");
       if (transactionId !== undefined && selectedCategoryId !== null) {
-        console.log("API 호출 시작");
         const response =
           await ApiClient.getInstance().updateTransactionCategory(
             transactionId,
             selectedCategoryId,
           );
-        console.log("API 응답:", response);
         return response;
       }
     },
     onSuccess: async () => {
-      console.log("Invalidating queries for transactionId:", transactionId);
       queryClient.invalidateQueries(["transactionHistory", transactionId]);
       navigate(previousUrl);
     },
