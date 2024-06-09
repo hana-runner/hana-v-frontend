@@ -311,6 +311,17 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
+  // 카테고리별 지출에 대한 관심사별 지출 내역
+  public async getExpensePerInterests() {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<InterestExpenseType[]>
+    >({
+      method: "get",
+      url: "/transaction-history-details/expenses",
+    });
+    return response.data;
+  }
+
   // ----------------------------------- notification
   // 알림 수신 여부 업데이트
   public async updateNotiReceive(status: boolean) {

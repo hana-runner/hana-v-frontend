@@ -1,49 +1,39 @@
-import React from "react";
-import { CategorySelect, LegendElement, Navbar } from "../components";
+import React, { useEffect, useState } from "react";
+import {
+  CategorySelect,
+  InterestConsumptionDetail,
+  Navbar,
+} from "../components";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import { useQuery } from "@tanstack/react-query";
+import ApiClient from "../apis/apiClient";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface interestType {
-  title: string;
-  value: number;
-  color: string;
-  unit: string;
-}
-
 const ConsumptionDetail = () => {
-  const categories = ["식비", "교통비", "통신비", "피트니스"];
-  const interests: interestType[] = [
-    { title: "관심사1", value: 40000, color: "#008C8C", unit: "원" },
-    { title: "관심사2", value: 30000, color: "#EF5489", unit: "원" },
-    { title: "관심사3", value: 20000, color: "#FFCC5A", unit: "원" },
-    { title: "관심사4", value: 10000, color: "#B5B5B5", unit: "원" },
-  ];
-
-  const data = {
-    labels: ["관심사1", "관심사2", "관심사3", "관심사3"],
-    datasets: [
-      {
-        data: [40, 30, 20, 10],
-        backgroundColor: ["#008C8C", "#EF5489", "#FFCC5A", "#B5B5B5"],
-        hoverBorderColor: ["#008C8C", "#EF5489", "#FFCC5A", "#B5B5B5"],
-        hoverBorderWidth: 1,
-        hoverOffset: 10,
-        radius: "80%",
-      },
-    ],
-  };
-
-  const options = {
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        enabled: false,
-      },
+  const { data } = useQuery<ApiResponseType<InterestExpenseType[]>>({
+    queryKey: ["InterestExpense"],
+    queryFn: () => {
+      const response = ApiClient.getInstance().getExpensePerInterests();
+      return response;
     },
+  });
+
+  const expenses = data?.data || [];
+
+  const categories: string[] = Array.from(
+    new Set(expenses.map((expense) => expense.categoryTitle)),
+  );
+  const [category, setCategory] = useState<string | undefined>(categories[0]);
+
+  useEffect(() => {
+    if (categories.length > 0 && category === undefined) {
+      setCategory(categories[0]);
+    }
+  }, [categories, category]);
+
+  const getValue = (value: string) => {
+    setCategory(value);
   };
 
   return (
@@ -55,26 +45,15 @@ const ConsumptionDetail = () => {
       <div className="bg-white rounded-2xl shadow-md mx-8 p-4">
         {/* 카테고리 선택 옵션 */}
         <div className="flex justify-start">
-          <CategorySelect categories={categories} />
+          <CategorySelect
+            categories={categories}
+            getValue={getValue}
+            defaultValue={category}
+          />
         </div>
-        {/* 파이 차트 */}
-        <div className="flex justify-center items-center">
-          <div className="w-60 h-60">
-            <Pie data={data} options={options} />
-          </div>
-        </div>
-        {/* 범례 */}
-        <div>
-          {interests.map((interest, index) => (
-            <LegendElement
-              key={index}
-              title={interest.title}
-              color={interest.color}
-              ratio={interest.value}
-              unit={interest.unit}
-            />
-          ))}
-        </div>
+        {category && (
+          <InterestConsumptionDetail expenses={expenses} category={category} />
+        )}
       </div>
     </section>
   );

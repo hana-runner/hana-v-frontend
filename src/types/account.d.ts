@@ -25,3 +25,14 @@ interface LegendType {
   color: string;
   unit: string;
 }
+
+interface InterestExpenseType {
+  interestId: number;
+  userId: number;
+  accountId: number;
+  categoryTitle: string;
+  expense: number;
+  interestTitle: string;
+  interestColor: string;
+  transactionHistoryId: number;
+}
