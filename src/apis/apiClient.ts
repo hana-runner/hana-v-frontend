@@ -266,19 +266,11 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
       await this.axiosInstance.request<TransactionInterestDetail>({
         method: "post",
         url: `/transaction-history-details/transaction-history/${transactionHistoryId}`,
-        data: {
-          interests: interests.map((interest) => ({
-            id: interest.id,
-            description: interest.description,
-            amount: interest.amount,
-          })),
-        },
+        data: { interests },
         headers: {
           "Content-Type": "application/json",
         },
       });
-    console.log("transactionHistoryId", transactionHistoryId);
-    console.log("interests는 과연?", interests);
     return response.data;
   }
 

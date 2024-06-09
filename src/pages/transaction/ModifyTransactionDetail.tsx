@@ -11,16 +11,12 @@ import {
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
 
-interface InterestDetail {
-  id: number;
-  amount: number;
-  description: string;
-}
-
 function ModifyTransactionDetail() {
   const location = useLocation();
   const transactionId = location.state?.transactionId;
-  const [interestList, setInterestList] = useState<InterestDetail[]>([]);
+  const [interestList, setInterestList] = useState<TransactionInterestDetail[]>(
+    [],
+  );
   const [currAmount, setCurrAmount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const previousUrl = location.state?.from;
@@ -41,7 +37,23 @@ function ModifyTransactionDetail() {
     },
   });
 
-  console.log("확인확인", transactionHistory);
+  // 사용자별 관심사 가져오기
+  const { data: userInterests } = useQuery<{
+    data: TransactionInterestDetail[];
+  }>({
+    queryKey: ["userInterests"],
+    queryFn: async () => {
+      const response = await ApiClient.getInstance().getUserInterests();
+      return response.data;
+    },
+  });
+
+  const handleDescriptionChange = (id: number, description: string) => {
+    const newInterestList = interestList.map((detail) =>
+      detail.id === id ? { ...detail, description } : detail,
+    );
+    setInterestList(newInterestList);
+  };
 
   const handleAmountChange = (id: number, newAmount: number) => {
     const newInterestList = interestList.map((detail) =>
@@ -62,13 +74,26 @@ function ModifyTransactionDetail() {
     }
   };
 
+  const handleInterestChange = (id: number, newInterestId: number) => {
+    const newInterestList = interestList.map((detail) =>
+      detail.id === id ? { ...detail, id: newInterestId } : detail,
+    );
+    setInterestList(newInterestList);
+  };
+
   // 목록 업데이트
   const updateTransactionDetail = useMutation({
     mutationFn: async () => {
       if (transactionHistory !== undefined && transactionId !== null) {
         const response = await ApiClient.getInstance().updateTransactionDetail(
           transactionId,
-          interestList,
+          {
+            interests: interestList.map((detail) => ({
+              id: detail.id,
+              description: detail.description,
+              amount: detail.amount,
+            })),
+          },
         );
         return response;
       }
@@ -86,7 +111,7 @@ function ModifyTransactionDetail() {
       setCurrAmount(transactionHistory.amount);
       const details = transactionHistory.transactionHistoryDetails.map(
         (detail) => ({
-          id: detail.id,
+          id: detail.interest.interestId,
           amount: detail.amount,
           description: detail.description,
         }),
@@ -109,7 +134,7 @@ function ModifyTransactionDetail() {
       return;
     }
     const newInterest = {
-      id: interestList.length,
+      id: 1,
       amount: 0,
       description: "",
     };
@@ -160,6 +185,7 @@ function ModifyTransactionDetail() {
                     ))}
                   {transactionHistory.transactionHistoryDetails.length > 2 && (
                     <button
+                      type="button"
                       onClick={handleExpandClick}
                       className="ml-2 text-hanaSilver"
                     >
@@ -202,10 +228,18 @@ function ModifyTransactionDetail() {
         <div className="max-h-[330px] overflow-y-auto scroll-auto mt-[16px] w-[326px] scrollbar-hide">
           {interestList.map((detail) => (
             <ModifyInterest
+              interests={userInterests}
               key={detail.id}
               amount={detail.amount}
               description={detail.description}
+              interestId={detail.id} // id 값 전달
               onAmountChange={(amount) => handleAmountChange(detail.id, amount)}
+              onDescriptionChange={(description) =>
+                handleDescriptionChange(detail.id, description)
+              }
+              onInterestChange={(interestId) =>
+                handleInterestChange(detail.id, interestId)
+              } // onInterestChange prop 전달
             />
           ))}
         </div>
