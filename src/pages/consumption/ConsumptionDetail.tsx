@@ -38,7 +38,7 @@ const ConsumptionDetail = () => {
 
   return (
     <section>
-      <Navbar option={true} title="소비 상세" logo={false} />
+      <Navbar option={true} title="소비 상세" logo={false} path="/home" />
       <div className="flex justify-start mx-8 mt-8 mb-4">
         <span className="font-hanaRegular">소비 분석</span>
       </div>
