@@ -5,12 +5,12 @@ importScripts(
   "https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js",
 );
 firebase.initializeApp({
-  apiKey: "AIzaSyAPBVQKxlDw1YgvoR1mJMXg9MWMxEhlHVU",
-  authDomain: "hana-v.firebaseapp.com",
-  projectId: "hana-v",
-  storageBucket: "hana-v.appspot.com",
-  messagingSenderId: "772014999430",
-  appId: "1:772014999430:web:31607b83737468898e8e07",
-  measurementId: "G-6NR609FYVD",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 });
 const messaging = firebase.messaging();
