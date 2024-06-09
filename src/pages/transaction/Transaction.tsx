@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import HistoryOption from "../../components/transaction/HistoryOption";
 import {
@@ -11,7 +12,8 @@ import ApiClient from "../../apis/apiClient";
 import calculateDate from "../../utils/calculateDate"; // 유틸리티 함수를 가져옵니다
 
 function Transaction() {
-  const accountId = 1;
+  const { id } = useParams<{ id: string }>();
+  const accountId = Number(id);
   const today = new Date();
   const [option, setOption] = useState<number>(0);
   const [sort, setSort] = useState<boolean>(true);
