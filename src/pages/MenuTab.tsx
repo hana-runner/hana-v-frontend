@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { AiOutlineSetting } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Menu, MenuElement } from "../components";
+import { UserInfoResponseType } from "../types/users/users-type";
+import ApiClient from "../apis/apiClient";
 
 const MenuTab = () => {
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [userName, setUserName] = useState("");
+  const getUserName = async () => {
+    const response: UserInfoResponseType =
+      await ApiClient.getInstance().getUserInfo();
+    setUserName(response.data.name);
+  };
 
   const menus = [
     { path: "myHana", title: "My하나" },
@@ -23,12 +31,16 @@ const MenuTab = () => {
 
   const interest = [{ path: "/interests", title: "관심사" }];
 
+  useEffect(() => {
+    getUserName();
+  }, []);
+
   return (
     <section>
       <div className="relative flex justify-between items-center w-full h-14 bg-white">
         <div className="flex justify-between items-center w-1/3 mx-4">
           <IoClose size={24} onClick={() => navigate("/home")} />
-          <span className="font-hanaBold text-lg pr-5">박효리님</span>
+          <span className="font-hanaBold text-lg pr-5">{userName}님</span>
         </div>
         <div className="flex justify-between items-center w-1/5 mx-4">
           <span className="font-hanaMedium text-xs underline">로그아웃</span>
