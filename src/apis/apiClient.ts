@@ -300,6 +300,15 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
+  // 등록된 계좌 정보 삭제 요청
+  public async deleteAccountInfo(accountId: number) {
+    const response = await this.axiosInstance.request<BaseResponseType>({
+      method: "delete",
+      url: `/account/${accountId}`,
+    });
+    return response.data;
+  }
+
   // 카테고리별 지출 합계 조회
   public async getExpensePerCategories() {
     const response = await this.axiosInstance.request<
