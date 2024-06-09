@@ -7,7 +7,7 @@ interface ModifyInterestProps {
   interestId: number;
   onDescriptionChange: (description: string) => void;
   onAmountChange: (amount: number) => void;
-  onInterestChange: (interestId: number) => void; // 추가된 prop
+  onInterestChange: (interestId: number) => void;
 }
 
 function ModifyInterest({
@@ -17,20 +17,16 @@ function ModifyInterest({
   interestId,
   onDescriptionChange,
   onAmountChange,
-  onInterestChange, // 추가된 prop
+  onInterestChange,
 }: ModifyInterestProps) {
   const [childAmount, setChildAmount] = useState(amount);
   const [childDescription, setChildDescription] = useState(description);
-  const [childInterestId, setChildInterestId] = useState(interestId); // 추가된 상태
-
-  // description이 10자를 넘어가면 자르기
-  const truncatedDescription =
-    description.length > 10 ? description.substring(0, 10) : description;
+  const [childInterestId, setChildInterestId] = useState(interestId);
 
   useEffect(() => {
     setChildAmount(amount);
     setChildDescription(description);
-    setChildInterestId(interestId); // 추가된 useEffect
+    setChildInterestId(interestId);
   }, [amount, description, interestId]);
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,8 +86,8 @@ function ModifyInterest({
         <select
           name="interests"
           className="border-b-2 border-hanaSilver-300 text-[12px] pb-[3px]"
-          value={childInterestId} // 추가된 부분
-          onChange={handleInterestChange} // 추가된 핸들러
+          value={childInterestId}
+          onChange={handleInterestChange}
         >
           {interests?.map((interest) => (
             <option key={interest.interestId} value={interest.interestId}>

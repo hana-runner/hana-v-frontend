@@ -10,6 +10,7 @@ import {
   Tag,
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
+import { v4 as uuidv4 } from "uuid";
 
 function ModifyTransactionDetail() {
   const location = useLocation();
@@ -22,7 +23,6 @@ function ModifyTransactionDetail() {
   const previousUrl = location.state?.from;
   const [expanded, setExpanded] = useState(false);
 
-  // 단일 거래내역 가져오기
   const {
     data: transactionHistory,
     isLoading,
@@ -37,7 +37,6 @@ function ModifyTransactionDetail() {
     },
   });
 
-  // 사용자별 관심사 가져오기
   const { data: userInterests } = useQuery<{
     data: TransactionInterestDetail[];
   }>({
@@ -48,14 +47,14 @@ function ModifyTransactionDetail() {
     },
   });
 
-  const handleDescriptionChange = (id: number, description: string) => {
+  const handleDescriptionChange = (id: string, description: string) => {
     const newInterestList = interestList.map((detail) =>
       detail.id === id ? { ...detail, description } : detail,
     );
     setInterestList(newInterestList);
   };
 
-  const handleAmountChange = (id: number, newAmount: number) => {
+  const handleAmountChange = (id: string, newAmount: number) => {
     const newInterestList = interestList.map((detail) =>
       detail.id === id ? { ...detail, amount: newAmount } : detail,
     );
@@ -74,32 +73,30 @@ function ModifyTransactionDetail() {
     }
   };
 
-  const handleInterestChange = (id: number, newInterestId: number) => {
+  const handleInterestChange = (id: string, newInterestId: number) => {
     const newInterestList = interestList.map((detail) =>
-      detail.id === id ? { ...detail, id: newInterestId } : detail,
+      detail.id === id ? { ...detail, interestId: newInterestId } : detail,
     );
     setInterestList(newInterestList);
   };
 
-  // 목록 업데이트
   const updateTransactionDetail = useMutation({
     mutationFn: async () => {
-      if (transactionHistory !== undefined && transactionId !== null) {
+      if (transactionHistory && transactionId) {
         const response = await ApiClient.getInstance().updateTransactionDetail(
           transactionId,
-          {
-            interests: interestList.map((detail) => ({
-              id: detail.id,
-              description: detail.description,
-              amount: detail.amount,
-            })),
-          },
+          interestList.map((detail) => ({
+            id: detail.interestId,
+            description: detail.description,
+            amount: detail.amount,
+          })),
         );
         return response;
       }
     },
     onSuccess: (data) => {
       console.log("Transaction saved successfully", data);
+      window.location.reload(); // 페이지를 리로딩합니다.
     },
     onError: (e) => {
       console.error("Error saving transaction", e);
@@ -111,7 +108,8 @@ function ModifyTransactionDetail() {
       setCurrAmount(transactionHistory.amount);
       const details = transactionHistory.transactionHistoryDetails.map(
         (detail) => ({
-          id: detail.interest.interestId,
+          id: uuidv4(),
+          interestId: detail.interest.interestId,
           amount: detail.amount,
           description: detail.description,
         }),
@@ -134,7 +132,8 @@ function ModifyTransactionDetail() {
       return;
     }
     const newInterest = {
-      id: 1,
+      id: uuidv4(),
+      interestId: userInterests[0].interestId,
       amount: 0,
       description: "",
     };
@@ -232,14 +231,14 @@ function ModifyTransactionDetail() {
               key={detail.id}
               amount={detail.amount}
               description={detail.description}
-              interestId={detail.id} // id 값 전달
+              interestId={detail.interestId}
               onAmountChange={(amount) => handleAmountChange(detail.id, amount)}
               onDescriptionChange={(description) =>
                 handleDescriptionChange(detail.id, description)
               }
               onInterestChange={(interestId) =>
                 handleInterestChange(detail.id, interestId)
-              } // onInterestChange prop 전달
+              }
             />
           ))}
         </div>
