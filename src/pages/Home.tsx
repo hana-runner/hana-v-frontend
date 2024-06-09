@@ -45,10 +45,10 @@ const Home = () => {
   return (
     <section>
       <Navbar option={false} title="HANA" logo={true} />
-      <Logout
+      {/* <Logout
         text="간이 로그아웃. 메뉴 구현시 삭제 예정"
         className="btn-primary"
-      />
+      /> */}
       {isLoading ? (
         <Loading />
       ) : (
