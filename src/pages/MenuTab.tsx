@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Menu, MenuElement } from "../components";
 import { UserInfoResponseType } from "../types/users/users-type";
 import ApiClient from "../apis/apiClient";
+import { removeCookie } from "../utils/cookie";
 
 const MenuTab = () => {
   const navigate = useNavigate();
@@ -43,7 +44,16 @@ const MenuTab = () => {
           <span className="font-hanaBold text-lg pr-5">{userName}님</span>
         </div>
         <div className="flex justify-between items-center w-1/5 mx-4">
-          <span className="font-hanaMedium text-xs underline">로그아웃</span>
+          <span
+            className="font-hanaMedium text-xs underline"
+            onClick={() => {
+              removeCookie("x-access-token", { path: "/" });
+              removeCookie("x-auth-token", { path: "/" });
+              navigate("/login", { replace: true });
+            }}
+          >
+            로그아웃
+          </span>
           <AiOutlineSetting size={24} />
         </div>
       </div>

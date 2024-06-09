@@ -2,11 +2,17 @@ import React from "react";
 import { useModal } from "../context/ModalContext";
 
 const Modal = () => {
-  const { isModalOpen, modalMessage, hasOption, closeModal } = useModal();
+  const { isModalOpen, modalMessage, hasOption, closeModal, onConfirm } =
+    useModal();
 
   if (!isModalOpen) {
     return null;
   }
+
+  const handleConfirm = () => {
+    onConfirm();
+    closeModal();
+  };
 
   return (
     <div className="fixed w-[390px] h-screen bg-black bg-opacity-50 z-40 flex justify-center items-center">
@@ -27,7 +33,7 @@ const Modal = () => {
             type="button"
             id="confirm"
             className="btn-primary"
-            onClick={closeModal}
+            onClick={handleConfirm}
           >
             확인
           </button>
