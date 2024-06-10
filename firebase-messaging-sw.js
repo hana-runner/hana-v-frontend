@@ -9,4 +9,24 @@ firebase.initializeApp({
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 });
-const messaging = firebase.messaging.isSupported() ? firebase.messaging() : null;
+const messaging = firebase.messaging();
+if ('serviceWorker' in navigator) {
+  console.log('in the service worker')
+  navigator.serviceWorker.register('../firebase-messaging-sw.js')
+  .then(function(registration) {
+  console.log('Registration successful, scope is:', registration.scope);
+  }).catch(function(err) {
+  console.log('Service worker registration failed, error:', err);
+  });
+  }
+  messaging.setBackgroundMessageHandler((payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // Customize notification here
+  const notificationTitle = 'Notification Service';
+  const notificationOptions = {
+  body: 'you have some new notifications.',
+  icon: '/firebase-logo.png'
+  };
+  
+  return self.registration.showNotification(notificationTitle, notificationOptions);
+});
