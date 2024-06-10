@@ -1,10 +1,9 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext } from "react";
 import userInterestTransactionsQuery from "../../hooks/useInterestTransactionQuery";
 
 interface InterestTransactionContextType {
   isLoading: boolean;
   userInterestTransactions: ApiResponseType<UserInterestTransactionsType>;
-  refetch: () => void;
 }
 
 const InterestTransactionContext =
@@ -31,7 +30,6 @@ const InterestTransactionContext =
       success: false,
       timestamp: "",
     },
-    refetch: () => {},
   });
 
 export const InterestTransactionContextProvider = ({
@@ -45,14 +43,13 @@ export const InterestTransactionContextProvider = ({
   month: number;
   children: React.ReactNode;
 }) => {
-  const { isLoading, userInterestTransactions, refetch } =
-    userInterestTransactionsQuery(Number(interestId), year, month);
+  const { isLoading, userInterestTransactions } = userInterestTransactionsQuery(
+    Number(interestId),
+    year,
+    month,
+  );
 
   console.log(userInterestTransactions);
-
-  useEffect(() => {
-    refetch();
-  }, [year, month]);
 
   return (
     <InterestTransactionContext.Provider

@@ -23,7 +23,7 @@ const ImageUploader = ({
 
     if (files.length > 0) {
       const file = files[0];
-      if (file.size > 1024 * 1024 * 2) {
+      if (file.size > 1024 * 1024 * 1) {
         openModal("이미지 용량을 초과했습니다.");
         return;
       }

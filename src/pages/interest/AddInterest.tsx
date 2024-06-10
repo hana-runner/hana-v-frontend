@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ApiClient from "../../apis/apiClient";
 import ImageApiClient from "../../apis/imageApiClient";
 import {
@@ -14,6 +14,7 @@ import { useModal } from "../../context/ModalContext";
 
 const AddInterest = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [interestInfo, setInterestInfo] = useState({
     interestId: 0,
@@ -28,6 +29,21 @@ const AddInterest = () => {
     queryFn: () => {
       const response = ApiClient.getInstance().getInterestList();
       return response;
+    },
+  });
+
+  const addInterest = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const response =
+        await ImageApiClient.getInstance().addUserInterest(formData);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userInterests"] });
+      navigate("/interests");
+    },
+    onError: (error) => {
+      openModal(error.message);
     },
   });
 
@@ -66,16 +82,11 @@ const AddInterest = () => {
         formData.append("image", new Blob());
       }
 
-      try {
-        const response =
-          await ImageApiClient.getInstance().addUserInterest(formData);
-        if (response.status === 200) {
-          navigate("/interests");
-        }
-      } catch (error: any) {
-        console.log(error);
-        openModal(error.response.data.message);
-      }
+      openModal(
+        "관심사를 추가하시겠습니까?",
+        () => addInterest.mutate(formData),
+        true,
+      );
     }
   };
 

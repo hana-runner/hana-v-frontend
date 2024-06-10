@@ -2,7 +2,7 @@ import React from "react";
 
 interface ImageCard {
   userInterest: UserInterestType;
-  onImageClick?: (interestId: number, title: string) => void;
+  onImageClick?: (interestTitle: string, interestId: number) => void;
 }
 
 const ImageCard = ({ userInterest, onImageClick }: ImageCard) => {
@@ -15,7 +15,7 @@ const ImageCard = ({ userInterest, onImageClick }: ImageCard) => {
         alt={`${userInterest.title}`}
         onClick={() =>
           onImageClick &&
-          onImageClick(userInterest.interestId, userInterest.title)
+          onImageClick(userInterest.title, userInterest.interestId)
         }
         role="presentation"
       />

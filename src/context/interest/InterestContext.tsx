@@ -4,7 +4,6 @@ import useInterestsQuery from "../../hooks/useInterestsQuery";
 interface InterestContextType {
   isLoading: boolean;
   userInterests: ApiResponseType<UserInterestType[]>;
-  refetch: () => void;
 }
 
 const InterestContext = createContext<InterestContextType>({
@@ -17,7 +16,6 @@ const InterestContext = createContext<InterestContextType>({
     success: false,
     timestamp: "",
   },
-  refetch: () => {},
 });
 
 export const InterestContextProvider = ({
@@ -25,10 +23,10 @@ export const InterestContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { isLoading, userInterests, refetch } = useInterestsQuery();
+  const { isLoading, userInterests } = useInterestsQuery();
 
   return (
-    <InterestContext.Provider value={{ isLoading, userInterests, refetch }}>
+    <InterestContext.Provider value={{ isLoading, userInterests }}>
       {children}
     </InterestContext.Provider>
   );
