@@ -69,7 +69,7 @@ const Home = () => {
         description="나의 거래 이력을 조회하고 소비 내역을 카테고리에 따라 분류해 보아요!"
         color="#757ECC"
         // 거래 내역 조회 페이지로 이동
-        clickHandler={() => navigate("/")}
+        clickHandler={() => navigate("/transaction")}
       />
     </section>
   );

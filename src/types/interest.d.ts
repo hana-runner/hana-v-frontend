@@ -50,6 +50,17 @@ interface TransactionAnalysisFor6Type {
   peerAverage: number;
 }
 
+interface InterestComparisonType {
+  average: number;
+  categoryId: number;
+  interestId: number;
+  categoryTitle: string;
+  expense: number;
+  interestTitle: string;
+  difference: number;
+  gender: string;
+}
+
 interface CardBenefitsType {
   title: string;
   description: string;
@@ -62,4 +73,10 @@ interface CardType {
   description: string;
   image: string;
   cardBenefits: CardBenefitsType[];
+}
+
+interface DateType {
+  curDate: Date;
+  year: number;
+  month: number;
 }
