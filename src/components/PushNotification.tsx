@@ -80,17 +80,15 @@ async function handleAllowNotification() {
   registerServiceWorker(); // 나중에 설명
   try {
     Notification.requestPermission().then((per) => {
-      if (per === "granted") {
-        getToken(messaging, {
-          vapidKey: VAPID_PUBLIC_KEY,
-        }).then((currToke) => {
-          if (currToke) {
-            console.log("token : ", currToke); // (토큰을 서버로 전송하는 로직)
-          } else {
-            alert("그딴거 없음");
-          }
-        });
-      }
+      getToken(messaging, {
+        vapidKey: VAPID_PUBLIC_KEY,
+      }).then((currToke) => {
+        if (currToke) {
+          console.log("token : ", currToke); // (토큰을 서버로 전송하는 로직)
+        } else {
+          alert("그딴거 없음");
+        }
+      });
     });
 
     const token = await getToken(messaging, {
