@@ -11,7 +11,7 @@ function TransactionDetail() {
         option={true}
         title="거래내역상세"
         logo={false}
-        path="/transaction"
+        path={`/transaction/${id}`}
       />
       <ListCard id={id} />
     </section>
