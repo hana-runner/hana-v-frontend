@@ -14,9 +14,8 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+const firebaseapp =  firebase.initializeApp(firebaseConfig);
+
 const PushNotification: React.FC = () => {
   const { openModal } = useModal();
   const updateIsReceive = async (stat: boolean) => {
@@ -58,7 +57,7 @@ const PushNotification: React.FC = () => {
   useEffect(() => {
     console.log(firebaseConfig);
     try {
-      const messaging = firebase.messaging();
+      const messaging = firebase.messaging(firebaseapp);
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
           // 브라우저에서 알림 허용시
