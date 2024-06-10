@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Tag from "../common/Tag";
 import ApiClient from "../../apis/apiClient";
 import Loading from "../common/Loading";
@@ -13,6 +13,7 @@ type ListCardProps = {
 function ListCard({ id }: ListCardProps) {
   const navigate = useNavigate();
   const [showAllTags, setShowAllTags] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleCategoryClick = (idx: string) => {
     navigate(`/transaction/detail/${idx}/category`, {
@@ -39,6 +40,10 @@ function ListCard({ id }: ListCardProps) {
       return response;
     },
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["transactionHistory", id] });
+  }, [id, queryClient]);
 
   const toggleShowAllTags = () => {
     setShowAllTags(!showAllTags);

@@ -27,8 +27,8 @@ function ModifyTransactionDetail() {
 
   const {
     data: transactionHistory,
-    isLoading,
-    error,
+    isLoading: isLoadingTransactionHistory,
+    error: transactionHistoryError,
   } = useQuery<TransactionType>({
     queryKey: ["transactionHistory", transactionId],
     queryFn: async () => {
@@ -39,7 +39,11 @@ function ModifyTransactionDetail() {
     },
   });
 
-  const { data: userInterests } = useQuery<{
+  const {
+    data: userInterests,
+    isLoading: isLoadingUserInterests,
+    error: userInterestsError,
+  } = useQuery<{
     data: TransactionInterestDetail[];
   }>({
     queryKey: ["userInterests"],
@@ -48,6 +52,13 @@ function ModifyTransactionDetail() {
       return response.data;
     },
   });
+
+  // 페이지 새로고침 로직 추가
+  useEffect(() => {
+    if (userInterests === undefined && !isLoadingUserInterests) {
+      window.location.reload();
+    }
+  }, [userInterests, isLoadingUserInterests]);
 
   const handleDescriptionChange = (id: string, description: string) => {
     const newInterestList = interestList.map((detail) =>
@@ -125,11 +136,11 @@ function ModifyTransactionDetail() {
     }
   }, [transactionHistory]);
 
-  if (isLoading) {
+  if (isLoadingTransactionHistory || isLoadingUserInterests) {
     return <Loading />;
   }
 
-  if (error) {
+  if (transactionHistoryError || userInterestsError) {
     return "Error!";
   }
 
