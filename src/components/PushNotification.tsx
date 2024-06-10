@@ -5,13 +5,8 @@ import { getToken } from "firebase/messaging";
 import ApiClient from "../apis/apiClient";
 import { useModal } from "../context/ModalContext";
 
-<<<<<<< Updated upstream
-export const VAPID_PUBLIC_KEY = "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
-
-=======
 export const VAPID_PUBLIC_KEY =
   "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
->>>>>>> Stashed changes
 const firebaseConfig = {
   apiKey: "AIzaSyDdWVKTE3q17G6lRtF_D2xmi0zPxxLsYCY",
   authDomain: "hanav-3f6ee.firebaseapp.com",
@@ -21,11 +16,6 @@ const firebaseConfig = {
   appId: "1:964360216393:web:7af3e9a9ec433897ae4498",
   measurementId: "G-2Z0TK05PLK",
 };
-<<<<<<< Updated upstream
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-=======
 const firebaseapp = firebase.initializeApp(firebaseConfig);
 
 // import { sendTokenToServer } from "./api";
@@ -84,7 +74,6 @@ async function handleAllowNotification() {
   } catch (error) {
     console.error("푸시 토큰 가져오는 중에 에러 발생", error);
   }
->>>>>>> Stashed changes
 }
 
 const PushNotification: React.FC = () => {
@@ -131,39 +120,6 @@ const PushNotification: React.FC = () => {
   };
 
   useEffect(() => {
-<<<<<<< Updated upstream
-    console.log(firebaseConfig);
-
-    if (typeof window !== "undefined" && typeof window.navigator !== "undefined" && 'serviceWorker' in navigator && 'PushManager' in window) {
-      try {
-        const messaging = firebase.messaging();
-
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            messaging.getToken({ vapidKey: VAPID_PUBLIC_KEY })
-              .then((currentToken) => {
-                if (currentToken) {
-                  console.log(currentToken);
-                  updateAlarmAtts(true, currentToken);
-                } else {
-                  console.log("No registration token available. Request permission to generate one.");
-                }
-              })
-              .catch((err) => {
-                console.log("An error occurred while retrieving token. ", err);
-              });
-          } else {
-            console.log("Permission not granted for Notification");
-          }
-        });
-      } catch (error) {
-        console.error("An error occurred while initializing messaging: ", error);
-      }
-    } else {
-      console.warn("This browser does not support the required features.");
-      openModal("Your browser does not support push notifications.");
-    }
-=======
     handleAllowNotification();
     // console.log(firebaseConfig);
     // try {
@@ -196,7 +152,6 @@ const PushNotification: React.FC = () => {
     // } catch (error) {
     //   console.error("An error occurred while initializing messaging: ", error);
     // }
->>>>>>> Stashed changes
   }, []);
 
   return (
