@@ -12,6 +12,11 @@ interface interestApi {
     year: number,
     month: number,
   ): Promise<ApiResponseType<TransactionAnalysisFor6Type>>;
+  getInterestComparison(
+    interestId: number,
+    year: number,
+    month: number,
+  ): Promise<ApiResponseType<InterestComparisonType[]>>;
   getCardInfo(interestId: number): Promise<ApiResponseType<CardType[]>>;
 }
 

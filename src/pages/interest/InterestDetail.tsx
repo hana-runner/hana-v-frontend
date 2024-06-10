@@ -2,12 +2,17 @@ import React, { useEffect } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ApiClient from "../../apis/apiClient";
-import { CardRecommendation, InterestGraphFor6Months } from "../../components";
+import {
+  CardRecommendation,
+  InterestComparison,
+  InterestGraphFor6Months,
+} from "../../components";
 
 const InterestDetail = () => {
   const queryClient = useQueryClient();
   const { interestTitle, interestId } = useParams();
-  const [userInterestTransactions, date] = useOutletContext();
+
+  const { userInterestTransactions, date } = useOutletContext();
 
   const { data: transactionAnalysisFor6 } = useQuery<
     ApiResponseType<TransactionAnalysisFor6Type>
@@ -62,6 +67,9 @@ const InterestDetail = () => {
         transactionAnalysisFor6={transactionAnalysisFor6!}
         color={color}
       />
+
+      {/* 또래 비교 분석 */}
+      <InterestComparison />
 
       {/* 카드 추천 */}
       <CardRecommendation />

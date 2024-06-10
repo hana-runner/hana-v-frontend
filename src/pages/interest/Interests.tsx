@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CiMenuKebab } from "react-icons/ci";
-import { ImageCard, InterestMenu, Loading, Navbar } from "../../components";
 import { FaPlus } from "react-icons/fa";
+import ApiClient from "../../apis/apiClient";
 import { useInterests } from "../../context/interest/InterestContext";
 import { useModal } from "../../context/ModalContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ApiClient from "../../apis/apiClient";
-import MenuSlide from "../../components/common/MenuSlide";
+import { ImageCard, InterestMenu, Loading, Navbar } from "../../components";
 
 const Interests = () => {
   const navigate = useNavigate();
