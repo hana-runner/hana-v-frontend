@@ -16,8 +16,8 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
-  const handleClick = (id: number) => {
-    navigate(`/transaction/detail/${id}`);
+  const handleClick = (transactionId: number, id: number) => {
+    navigate(`/transaction/${transactionId}/detail/${id}`);
   };
 
   const toggleExpand = (id: number) => {
@@ -43,7 +43,7 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
             <div
               key={data.id}
               className="mb-[6px] border-b-2 pt-[12px] pb-[16px] cursor-pointer"
-              onClick={() => handleClick(data.id)}
+              onClick={() => handleClick(data.accountId, data.id)}
             >
               <div className="text-hanaSilver text-[12px] text-left">
                 {new Date(data.createdAt).toLocaleString()}

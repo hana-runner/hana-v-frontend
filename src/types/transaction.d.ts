@@ -2,7 +2,7 @@ interface TransactionType {
   transactionHistory: Array;
   transactionHistoryDetails: Array;
   id: number;
-  account_id: number;
+  accountId: number;
   user_id: number;
   categoryTitle: string;
   categoryColor: string;

@@ -55,7 +55,10 @@ function App() {
       <Route path="/notification" element={<Notification />} />
       <Route path="/users/info" element={<PersonalInformation />} />
       <Route path="/transaction/:id" element={<Transaction />} />
-      <Route path="/transaction/detail/:id" element={<TransactionDetail />} />
+      <Route
+        path="/transaction/:accountId/detail/:id"
+        element={<TransactionDetail />}
+      />
       <Route
         path="/transaction/detail/:id/category"
         element={<ModifyCategory />}
