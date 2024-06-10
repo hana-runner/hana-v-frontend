@@ -1,13 +1,17 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../utils/cookie";
 import { CiMenuKebab } from "react-icons/ci";
 import { ImageCard, InterestMenu, Loading, Navbar } from "../../components";
 import { FaPlus } from "react-icons/fa";
 import { useInterests } from "../../context/interest/InterestContext";
+import { useModal } from "../../context/ModalContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ApiClient from "../../apis/apiClient";
+import MenuSlide from "../../components/common/MenuSlide";
 
 const Interests = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [clickedMenu, setClickedMenu] = useState(false);
@@ -16,8 +20,24 @@ const Interests = () => {
   const titleRefs = useRef<(HTMLLIElement | null)[]>([]);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { isLoading, userInterests, refetch } = useInterests();
-  console.log(userInterests);
+  const { isLoading, userInterests } = useInterests();
+  const { openModal } = useModal();
+
+  const deleteInterest = useMutation({
+    mutationFn: async (interestId: number) => {
+      const response = await ApiClient.getInstance().deleteUserInterest(
+        Number(interestId),
+      );
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userInterests"] });
+      navigate("/interests");
+    },
+    onError: (error) => {
+      openModal(error.message);
+    },
+  });
 
   // 관심사 제목을 클릭하면 해당하는 이미지로 이동
   const handleTitleClick = (idx: number) => {
@@ -32,13 +52,12 @@ const Interests = () => {
   };
 
   // 이미지를 클릭하면 관심사 분석 페이지로 이동
-  const handleImageClick = (interestId: number, interestTitle: string) => {
-    navigate(`/interests/analysis/${interestId}`);
-    setCookie("interestTitle", interestTitle);
+  const handleImageClick = (interestTitle: string, interestId: number) => {
+    navigate(`/interests/analysis/${interestTitle}/${interestId}/detail`);
   };
 
   // 이미지를 스크롤하면 해당하는 관심사 제목으로 이동
-  const handleImageScroll = useCallback(() => {
+  const handleImageScroll = () => {
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
@@ -50,7 +69,17 @@ const Interests = () => {
       );
       setSelectedIndex(index);
     }, 200);
-  }, []);
+  };
+
+  const handleDelete = (interestId: number) => {
+    openModal(
+      `전체 거래 내역이 삭제됩니다. 삭제하시겠습니까?`,
+      () => {
+        deleteInterest.mutate(interestId);
+      },
+      true,
+    );
+  };
 
   // 인덱스가 변경될 때 마다 관심사 제목이 화면에 노출
   useEffect(() => {
@@ -61,10 +90,6 @@ const Interests = () => {
       });
     }
   }, [selectedIndex]);
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -117,7 +142,12 @@ const Interests = () => {
                   >
                     수정
                   </div>
-                  <div className="px-2 pt-1 pb-2">삭제</div>
+                  <div
+                    className="px-2 pt-1 pb-2"
+                    onClick={() => handleDelete(userInterest.interestId)}
+                  >
+                    삭제
+                  </div>
                 </div>
               </div>
               <ImageCard

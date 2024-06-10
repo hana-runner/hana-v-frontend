@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface ModalContextType {
   isModalOpen: boolean;
@@ -25,11 +24,10 @@ const ModalContext = createContext<ModalContextType>({
 });
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [hasOption, setHasOption] = useState(false);
-  const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
+  const [onConfirm, setOnConfirm] = useState(() => {});
 
   const openModal = (
     modalMessage: string,
@@ -38,7 +36,11 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   ) => {
     setModalMessage(modalMessage);
     setHasOption(hasOption);
-    setOnConfirm(() => onConfirm);
+    if (onConfirm) {
+      setOnConfirm(() => onConfirm);
+    } else {
+      setOnConfirm(() => {});
+    }
     setIsModalOpen(true);
   };
 

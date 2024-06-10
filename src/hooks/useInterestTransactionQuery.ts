@@ -6,11 +6,9 @@ const userInterestTransactionsQuery = (
   year: number,
   month: number,
 ) => {
-  const {
-    isLoading,
-    data: userInterestTransactions,
-    refetch,
-  } = useQuery<ApiResponseType<UserInterestTransactionsType>>({
+  const { isLoading, data: userInterestTransactions } = useQuery<
+    ApiResponseType<UserInterestTransactionsType>
+  >({
     queryKey: ["userInterestTransactions"],
     queryFn: () => {
       const response = ApiClient.getInstance().getUserInterestTransactions(
@@ -22,7 +20,7 @@ const userInterestTransactionsQuery = (
     },
   });
 
-  return { isLoading, userInterestTransactions, refetch };
+  return { isLoading, userInterestTransactions };
 };
 
 export default userInterestTransactionsQuery;

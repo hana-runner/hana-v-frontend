@@ -11,10 +11,12 @@ import { BsCamera } from "react-icons/bs";
 import ImageApiClient from "../../apis/imageApiClient";
 import { useInterests } from "../../context/interest/InterestContext";
 import { useModal } from "../../context/ModalContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ModifyInterest = () => {
   const { interestId } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [interestInfo, setInterestInfo] = useState({
     interestId: 0,
@@ -29,6 +31,21 @@ const ModifyInterest = () => {
   const { isLoading, userInterests } = useInterests();
 
   const { openModal } = useModal();
+
+  const updateInterest = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const response =
+        await ImageApiClient.getInstance().modifyUserInterest(formData);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userInterests"] });
+      navigate("/interests");
+    },
+    onError: (error) => {
+      openModal(error.message);
+    },
+  });
 
   const findInterest = userInterests?.data.find(
     (interest: UserInterestType) => interest.interestId === Number(interestId),
@@ -75,16 +92,11 @@ const ModifyInterest = () => {
         formData.append("image", new Blob());
       }
 
-      try {
-        const response =
-          await ImageApiClient.getInstance().modifyUserInterest(formData);
-        if (response.status === 200) {
-          navigate("/interests");
-        }
-      } catch (error: any) {
-        console.log(error);
-        openModal(error.response.data.message);
-      }
+      openModal(
+        "관심사를 수정하시겠습니까?",
+        () => updateInterest.mutate(formData),
+        true,
+      );
     }
   };
 

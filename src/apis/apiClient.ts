@@ -12,11 +12,9 @@ import {
   UserUpdateInfoType,
 } from "../types/users/users-type";
 
-import { getCookie, removeCookie, setCookie } from "../utils/cookie";
+import { getCookie } from "../utils/cookie";
 import accountApi from "./interfaces/accountApi";
 import EmailConverter from "../components/users/emailConverter";
-
-const ACCESSTOKEN = getCookie("x-access-token");
 
 class ApiClient implements userApi, interestApi, transactionApi, accountApi {
   // 싱글톤 인스턴스
@@ -168,18 +166,27 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
+  // 사용자 관심사 삭제
+  public async deleteUserInterest(interestId: number) {
+    const response = await this.axiosInstance.request<BaseResponseType>({
+      method: "delete",
+      url: `/user-interests/${interestId}`,
+    });
+
+    return response.data;
+  }
+
   // 사용자 관심사별 거래 내역 조회
   public async getUserInterestTransactions(
     interestId: number,
     year: number,
     month: number,
   ) {
-    const userId = 1;
     const response = await this.axiosInstance.request<
       ApiResponseType<UserInterestTransactionsType>
     >({
       method: "get",
-      url: `/user-interests/transaction/${interestId}?userId=${userId}&year=${year}&month=${month}`,
+      url: `/user-interests/transaction/${interestId}?&year=${year}&month=${month}`,
     });
 
     return response.data;
@@ -194,6 +201,32 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
       url: "/interests",
     });
 
+    return response.data;
+  }
+
+  // 관심사 6개월 분석
+  public async getTransactionsAnalysisFor6(
+    interestId: number,
+    year: number,
+    month: number,
+  ) {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<TransactionAnalysisFor6Type>
+    >({
+      method: "get",
+      url: `/user-interests/report/${interestId}?year=${year}&month=${month}`,
+    });
+    return response.data;
+  }
+
+  // 카드 정보 가져오기
+  public async getCardInfo(interestId: number) {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<CardType[]>
+    >({
+      method: "get",
+      url: `/user-interests/cards/${interestId}`,
+    });
     return response.data;
   }
 

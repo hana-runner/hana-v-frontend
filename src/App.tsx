@@ -30,9 +30,8 @@ import {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Splash />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/splash" element={<Splash />} />
       <Route path="/consumption" element={<ConsumptionDetail />} />
       <Route path="/add_account" element={<AddAccount />} />
       <Route path="/register" element={<Register />} />
@@ -43,7 +42,7 @@ function App() {
       <Route path="/interest/add" element={<AddInterest />} />
       <Route path="/interest/modify/:interestId" element={<ModifyInterest />} />
       <Route
-        path="/interests/analysis/:interestId"
+        path="/interests/analysis/:interestTitle/:interestId"
         element={<InterestAnalysis />}
       >
         <Route path="detail" element={<InterestDetail />} />
@@ -62,9 +61,9 @@ function App() {
         path="/transaction/detail/:id/interest"
         element={<ModifyTransactionDetail />}
       />
-
       <Route path="/settings" element={<Settings />} />
       <Route path="/menu" element={<MenuTab />} />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
