@@ -64,33 +64,37 @@ const PushNotification: React.FC = () => {
     console.log(firebaseConfig);
     // Firebase 초기화
     const app: FirebaseApp = initializeApp(firebaseConfig);
-    const messaging: Messaging = getMessaging(app);
-
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        // 브라우저에서 알림 허용시
-        getToken(messaging, {
-          vapidKey: VAPID_PUBLIC_KEY,
-        })
-          .then((currentToken) => {
-            if (currentToken) {
-              console.log(currentToken);
-              //   alert("토큰: " + currentToken);
-              // 토큰을 서버에 전달...
-              updateAlarmAtts(true, currentToken);
-            } else {
-              console.log(
-                "No registration token available. Request permission to generate one.",
-              );
-            }
+    try {
+      const messaging: Messaging = getMessaging(app);
+  
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          // 브라우저에서 알림 허용시
+          getToken(messaging, {
+            vapidKey: VAPID_PUBLIC_KEY,
           })
-          .catch((err) => {
-            console.log("An error occurred while retrieving token. ", err);
-          });
-      } else {
-        console.log("Permission not granted for Notification");
-      }
-    });
+            .then((currentToken) => {
+              if (currentToken) {
+                console.log(currentToken);
+                //   alert("토큰: " + currentToken);
+                // 토큰을 서버에 전달...
+                updateAlarmAtts(true, currentToken);
+              } else {
+                console.log(
+                  "No registration token available. Request permission to generate one.",
+                );
+              }
+            })
+            .catch((err) => {
+              console.log("An error occurred while retrieving token. ", err);
+            });
+        } else {
+          console.log("Permission not granted for Notification");
+        }
+      });
+    } catch (error) {
+      console.error("An error occurred while initializing messaging: ", error);
+    }
   }, []);
 
   return (

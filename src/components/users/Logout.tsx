@@ -16,7 +16,7 @@ const Logout = ({ className = "", text = "로그아웃" }: Prop) => {
       onClick={() => {
         removeCookie("x-access-token", { path: "/" });
         removeCookie("x-auth-token", { path: "/" });
-        navigate("/", { replace: true });
+        navigate("/home", { replace: true });
       }}
     >
       {text}
