@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
@@ -15,13 +15,14 @@ import { useModal } from "../../context/ModalContext";
 
 function ModifyTransactionDetail() {
   const location = useLocation();
+  const { accountId } = useParams<{ accountId: string }>(); // accountId
   const transactionId = location.state?.transactionId;
+  const previousUrl = `/transaction/${accountId}/detail/${transactionId}`;
   const [interestList, setInterestList] = useState<TransactionInterestDetail[]>(
     [],
   );
   const [currAmount, setCurrAmount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const previousUrl = location.state?.from;
   const [expanded, setExpanded] = useState(false);
   const { openModal } = useModal();
 
