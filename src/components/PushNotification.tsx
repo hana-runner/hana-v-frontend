@@ -3,8 +3,9 @@ import firebase from "firebase/app";
 import "firebase/messaging";
 import ApiClient from "../apis/apiClient";
 import { useModal } from "../context/ModalContext";
-export const VAPID_PUBLIC_KEY =
-  "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
+
+export const VAPID_PUBLIC_KEY = "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -14,83 +15,93 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
-const firebaseapp =  firebase.initializeApp(firebaseConfig);
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const PushNotification: React.FC = () => {
   const { openModal } = useModal();
+
   const updateIsReceive = async (stat: boolean) => {
     try {
-      const response: BaseResponseType =
-        await ApiClient.getInstance().updateNotiReceive(stat);
+      const response = await ApiClient.getInstance().updateNotiReceive(stat);
       return response.success;
     } catch (err) {
       console.error(err);
       return false;
     }
   };
+
   const updateDeviceToken = async (token: string) => {
     try {
-      const response: BaseResponseType =
-        await ApiClient.getInstance().updateDeviceToken(token);
+      const response = await ApiClient.getInstance().updateDeviceToken(token);
       return true;
     } catch (err) {
       console.error(err);
       return false;
     }
   };
+
   const updateAlarmAtts = async (stat: boolean, token: string) => {
     try {
-      const isReceive: boolean = await updateIsReceive(stat);
+      const isReceive = await updateIsReceive(stat);
       if (isReceive) {
         try {
-          const isTokenupdated: boolean = await updateDeviceToken(token);
+          const isTokenupdated = await updateDeviceToken(token);
+          if (!isTokenupdated) {
+            throw new Error("Failed to update token");
+          }
+          console.log("알람 성공");
         } catch (err) {
           return false;
         }
-        console.log("알람 성공");
       }
     } catch (err) {
       openModal("알람 등록 실패");
       return false;
     }
   };
+
   useEffect(() => {
     console.log(firebaseConfig);
-    try {
-      const messaging = firebase.messaging(firebaseapp);
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          // 브라우저에서 알림 허용시
-          messaging
-            .getToken({
-              vapidKey: VAPID_PUBLIC_KEY,
-            })
-            .then((currentToken) => {
-              if (currentToken) {
-                console.log(currentToken);
-                // 토큰을 서버에 전달...
-                updateAlarmAtts(true, currentToken);
-              } else {
-                console.log(
-                  "No registration token available. Request permission to generate one.",
-                );
-              }
-            })
-            .catch((err) => {
-              console.log("An error occurred while retrieving token. ", err);
-            });
-        } else {
-          console.log("Permission not granted for Notification");
-        }
-      });
-    } catch (error) {
-      console.error("An error occurred while initializing messaging: ", error);
+
+    if (typeof window !== "undefined" && typeof window.navigator !== "undefined" && 'serviceWorker' in navigator && 'PushManager' in window) {
+      try {
+        const messaging = firebase.messaging();
+
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            messaging.getToken({ vapidKey: VAPID_PUBLIC_KEY })
+              .then((currentToken) => {
+                if (currentToken) {
+                  console.log(currentToken);
+                  updateAlarmAtts(true, currentToken);
+                } else {
+                  console.log("No registration token available. Request permission to generate one.");
+                }
+              })
+              .catch((err) => {
+                console.log("An error occurred while retrieving token. ", err);
+              });
+          } else {
+            console.log("Permission not granted for Notification");
+          }
+        });
+      } catch (error) {
+        console.error("An error occurred while initializing messaging: ", error);
+      }
+    } else {
+      console.warn("This browser does not support the required features.");
+      openModal("Your browser does not support push notifications.");
     }
   }, []);
+
   return (
     <section>
       <h1>Push Notification Setup</h1>
     </section>
   );
 };
+
 export default PushNotification;
