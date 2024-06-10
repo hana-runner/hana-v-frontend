@@ -1,9 +1,5 @@
-importScripts(
-  "https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js",
-);
-importScripts(
-  "https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js",
-);
+importScripts('https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.8.0/firebase-messaging.js');
 firebase.initializeApp({
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
