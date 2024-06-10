@@ -4,6 +4,7 @@ import { ListCard, Navbar } from "../../components";
 
 function TransactionDetail() {
   const { id } = useParams<{ id: string }>(); // transactionHistoryId
+  const { accountId } = useParams<{ accountId: string }>(); // accountId
 
   return (
     <section>
@@ -11,7 +12,7 @@ function TransactionDetail() {
         option={true}
         title="거래내역상세"
         logo={false}
-        path="/transaction"
+        path={`/transaction/${accountId}`}
       />
       <ListCard id={id} />
     </section>

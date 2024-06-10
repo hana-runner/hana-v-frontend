@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { v4 as uuidv4 } from "uuid";
 import {
   CancleBtn,
   Loading,
@@ -10,7 +11,7 @@ import {
   Tag,
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
-import { v4 as uuidv4 } from "uuid";
+import { useModal } from "../../context/ModalContext";
 
 function ModifyTransactionDetail() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function ModifyTransactionDetail() {
   const [errorMessage, setErrorMessage] = useState("");
   const previousUrl = location.state?.from;
   const [expanded, setExpanded] = useState(false);
+  const { openModal } = useModal();
 
   const {
     data: transactionHistory,
@@ -80,6 +82,11 @@ function ModifyTransactionDetail() {
     setInterestList(newInterestList);
   };
 
+  const handleInterestDelete = (id: string) => {
+    const newInterestList = interestList.filter((detail) => detail.id !== id);
+    setInterestList(newInterestList);
+  };
+
   const updateTransactionDetail = useMutation({
     mutationFn: async () => {
       if (transactionHistory && transactionId) {
@@ -96,7 +103,7 @@ function ModifyTransactionDetail() {
     },
     onSuccess: (data) => {
       console.log("Transaction saved successfully", data);
-      window.location.reload(); // 페이지를 리로딩합니다.
+      window.location.reload(); // 페이지 리로딩
     },
     onError: (e) => {
       console.error("Error saving transaction", e);
@@ -224,7 +231,7 @@ function ModifyTransactionDetail() {
         )}
       </div>
       <div className="flex flex-col items-center">
-        <div className="max-h-[330px] overflow-y-auto scroll-auto mt-[16px] w-[326px] scrollbar-hide">
+        <div className="max-h-[300px] overflow-y-auto scroll-auto mt-[16px] w-[326px] scrollbar-hide">
           {interestList.map((detail) => (
             <ModifyInterest
               interests={userInterests}
@@ -232,12 +239,24 @@ function ModifyTransactionDetail() {
               amount={detail.amount}
               description={detail.description}
               interestId={detail.interestId}
-              onAmountChange={(amount) => handleAmountChange(detail.id, amount)}
+              onAmountChange={(amount) =>
+                handleAmountChange(detail.id.toString(), amount)
+              }
               onDescriptionChange={(description) =>
-                handleDescriptionChange(detail.id, description)
+                handleDescriptionChange(detail.id.toString(), description)
               }
               onInterestChange={(interestId) =>
-                handleInterestChange(detail.id, interestId)
+                handleInterestChange(detail.id.toString(), interestId)
+              }
+              onDelete={() =>
+                openModal(
+                  "해당 내역을 삭제하시겠습니까?",
+                  () => {
+                    handleInterestDelete(detail.id.toString());
+                    updateTransactionDetail.mutate();
+                  },
+                  true,
+                )
               }
             />
           ))}

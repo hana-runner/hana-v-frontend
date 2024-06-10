@@ -3,7 +3,7 @@ interface AccountInfoType {
   accountNumber: string;
 }
 
-interface AccountType {
+interface AccountType extends AccountInfoType {
   id: number;
   accountNumber: string;
   balance: number;
