@@ -1,13 +1,10 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { useEffect } from "react";
-import { initializeApp, FirebaseApp } from "firebase/app";
-import { getMessaging, getToken, Messaging } from "firebase/messaging";
+import firebase from "firebase/app";
+import "firebase/messaging";
 import ApiClient from "../apis/apiClient";
 import { useModal } from "../context/ModalContext";
-
 export const VAPID_PUBLIC_KEY =
   "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -17,21 +14,21 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
-
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 const PushNotification: React.FC = () => {
   const { openModal } = useModal();
   const updateIsReceive = async (stat: boolean) => {
     try {
       const response: BaseResponseType =
         await ApiClient.getInstance().updateNotiReceive(stat);
-
       return response.success;
     } catch (err) {
       console.error(err);
       return false;
     }
   };
-
   const updateDeviceToken = async (token: string) => {
     try {
       const response: BaseResponseType =
@@ -42,7 +39,6 @@ const PushNotification: React.FC = () => {
       return false;
     }
   };
-
   const updateAlarmAtts = async (stat: boolean, token: string) => {
     try {
       const isReceive: boolean = await updateIsReceive(stat);
@@ -59,24 +55,20 @@ const PushNotification: React.FC = () => {
       return false;
     }
   };
-
   useEffect(() => {
     console.log(firebaseConfig);
-    // Firebase 초기화
-    const app: FirebaseApp = initializeApp(firebaseConfig);
     try {
-      const messaging: Messaging = getMessaging(app);
-  
+      const messaging = firebase.messaging();
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
           // 브라우저에서 알림 허용시
-          getToken(messaging, {
-            vapidKey: VAPID_PUBLIC_KEY,
-          })
+          messaging
+            .getToken({
+              vapidKey: VAPID_PUBLIC_KEY,
+            })
             .then((currentToken) => {
               if (currentToken) {
                 console.log(currentToken);
-                //   alert("토큰: " + currentToken);
                 // 토큰을 서버에 전달...
                 updateAlarmAtts(true, currentToken);
               } else {
@@ -96,12 +88,10 @@ const PushNotification: React.FC = () => {
       console.error("An error occurred while initializing messaging: ", error);
     }
   }, []);
-
   return (
     <section>
       <h1>Push Notification Setup</h1>
     </section>
   );
 };
-
 export default PushNotification;
