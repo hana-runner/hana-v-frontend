@@ -4,6 +4,7 @@ import { initializeApp, FirebaseApp } from "firebase/app";
 import { getMessaging, getToken, Messaging } from "firebase/messaging";
 import ApiClient from "../apis/apiClient";
 import { useModal } from "../context/ModalContext";
+import isMember from "../utils/isMember";
 
 export const VAPID_PUBLIC_KEY =
   "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
@@ -38,6 +39,7 @@ const PushNotification: React.FC = () => {
         await ApiClient.getInstance().updateDeviceToken(token);
       return true;
     } catch (err) {
+      console.log("여기에서 에러남");
       console.error(err);
       return false;
     }
@@ -66,9 +68,9 @@ const PushNotification: React.FC = () => {
     const app: FirebaseApp = initializeApp(firebaseConfig);
     try {
       const messaging: Messaging = getMessaging(app);
-  
+
       Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
+        if (permission === "granted" && isMember()) {
           // 브라우저에서 알림 허용시
           getToken(messaging, {
             vapidKey: VAPID_PUBLIC_KEY,

@@ -460,31 +460,15 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
       headers,
     });
 
-    newInstance.interceptors.request.use(
-      (config) => {
-        if (getCookie("x-access-token")) {
-          config.headers["Authorization"] =
-            `Bearer ${getCookie("x-access-token")}`;
-        }
+    newInstance.interceptors.request.use((config) => {
+      if (getCookie("x-access-token")) {
+        config.headers["Authorization"] =
+          `Bearer ${getCookie("x-access-token")}`;
+      }
 
-        config.headers["Content-Type"] = "application/json";
-        return config;
-      },
-
-      (error) => {
-        console.log(error);
-        const errorStatus = error.response.data.code;
-        const errorMessage = error.response.data.message;
-
-        switch (errorStatus) {
-          case "USERINTEREST-001":
-            return Promise.reject(new Error(errorMessage));
-
-          default:
-            break;
-        }
-      },
-    );
+      config.headers["Content-Type"] = "application/json";
+      return config;
+    });
 
     return newInstance;
   };
