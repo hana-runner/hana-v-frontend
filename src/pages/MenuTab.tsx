@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { AiOutlineSetting } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { Menu, MenuElement } from "../components";
 import { UserInfoResponseType } from "../types/users/users-type";
 import ApiClient from "../apis/apiClient";
@@ -53,7 +53,8 @@ const MenuTab = () => {
             onClick={() => {
               removeCookie("x-access-token", { path: "/" });
               removeCookie("x-auth-token", { path: "/" });
-              navigate("/login", { replace: true });
+              // navigate("/login", { replace: true });
+              location.replace("/login");
             }}
           >
             로그아웃

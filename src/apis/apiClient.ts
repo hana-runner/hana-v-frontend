@@ -231,6 +231,7 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
       method: "get",
       url: `/user-interests/compare/${interestId}?year=${year}&month=${month}`,
     });
+    console.log(response);
     return response.data;
   }
 

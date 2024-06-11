@@ -51,12 +51,12 @@ interface TransactionAnalysisFor6Type {
 }
 
 interface InterestComparisonType {
-  average: number;
   categoryId: number;
   interestId: number;
   categoryTitle: string;
-  expense: number;
   interestTitle: string;
+  average: number;
+  expense: number;
   difference: number;
   gender: string;
 }
