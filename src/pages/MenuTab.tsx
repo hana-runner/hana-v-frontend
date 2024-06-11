@@ -25,7 +25,7 @@ const MenuTab = () => {
 
   const myHana = [
     { path: "/users/info", title: "내 정보 조회/변경" },
-    { path: "/accounts/setting", title: "내 계좌 관리" },
+    { path: "/manage_account", title: "내 계좌 관리" },
   ];
 
   const transaction = [{ path: "/transaction", title: "거래 내역" }];
@@ -40,12 +40,16 @@ const MenuTab = () => {
     <section>
       <div className="relative flex justify-between items-center w-full h-14 bg-white">
         <div className="flex justify-between items-center w-1/3 mx-4">
-          <IoClose size={24} onClick={() => navigate("/home")} />
+          <IoClose
+            className="cursor-pointer"
+            size={24}
+            onClick={() => navigate("/home")}
+          />
           <span className="font-hanaBold text-lg pr-5">{userName}님</span>
         </div>
         <div className="flex justify-between items-center w-1/5 mx-4">
           <span
-            className="font-hanaMedium text-xs underline"
+            className="font-hanaMedium text-xs underline cursor-pointer"
             onClick={() => {
               removeCookie("x-access-token", { path: "/" });
               removeCookie("x-auth-token", { path: "/" });
@@ -54,7 +58,11 @@ const MenuTab = () => {
           >
             로그아웃
           </span>
-          <AiOutlineSetting size={24} />
+          <AiOutlineSetting
+            className="cursor-pointer"
+            size={24}
+            onClick={() => navigate("/settings")}
+          />
         </div>
       </div>
       <div className="flex">

@@ -46,7 +46,7 @@ function AccountInfo({
     );
   };
   return (
-    <div className="w-[348px] h-[156px] bg-white rounded-[24px] p-[20px] mt-[24px]">
+    <div className="w-[348px] h-[156px] bg-white rounded-[24px] p-[20px] mt-[24px] border-hanaSilver-300 border-2">
       <div className="flex justify-between border-b-2">
         <p className="text-[18px] font-hanaMedium">{accountTitle}</p>
         <BsTrash3
