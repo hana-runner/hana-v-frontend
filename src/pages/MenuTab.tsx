@@ -25,7 +25,7 @@ const MenuTab = () => {
 
   const myHana = [
     { path: "/users/info", title: "내 정보 조회/변경" },
-    { path: "/accounts/setting", title: "내 계좌 관리" },
+    { path: "/manage_account", title: "내 계좌 관리" },
   ];
 
   const transaction = [{ path: "/transaction", title: "거래 내역" }];
