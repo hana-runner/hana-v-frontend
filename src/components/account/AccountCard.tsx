@@ -20,7 +20,11 @@ const AccountCard = ({
       className="bg-white flex flex-col items-start mx-4 mb-4 rounded-3xl shadow-md pl-4 pr-8 py-8 cursor-pointer"
     >
       <div className="flex items-center mb-1">
-        <img src="/img/hana_logo.png" className="w-6 h-6 mr-1" />
+        {accountName === "하나은행" ? (
+          <img src="/img/hana_logo.png" className="w-6 h-6 mr-1" />
+        ) : (
+          <img src="/img/shinhan_logo.png" className="w-6 h-6 mr-1" />
+        )}
         <span className="font-hanaMedium">{accountName}</span>
       </div>
       <div className="flex items-center">
