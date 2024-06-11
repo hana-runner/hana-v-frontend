@@ -54,7 +54,11 @@ const MenuTab = () => {
           >
             로그아웃
           </span>
-          <AiOutlineSetting size={24} />
+          <AiOutlineSetting
+            className="cursor-pointer"
+            size={24}
+            onClick={() => navigate("/settings")}
+          />
         </div>
       </div>
       <div className="flex">
