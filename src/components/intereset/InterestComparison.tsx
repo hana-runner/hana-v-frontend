@@ -1,26 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { useOutletContext, useParams } from "react-router-dom";
-import ApiClient from "../../apis/apiClient";
+import React from "react";
 
-const InterestComparison = () => {
-  const { interestId } = useParams();
-
-  const { date } = useOutletContext();
-
-  const { data: interestComparison } = useQuery<
-    ApiResponseType<InterestComparisonType[]>
-  >({
-    queryKey: ["interestComparison"],
-    queryFn: () => {
-      const response = ApiClient.getInstance().getInterestComparison(
-        Number(interestId),
-        date.year,
-        date.month,
-      );
-      return response;
-    },
-  });
-
+const InterestComparison = ({
+  interestComparison,
+}: {
+  interestComparison: ApiResponseType<InterestComparisonType[]>;
+}) => {
   const largestDifference = interestComparison?.data.reduce((max, current) => {
     return current.difference > max.difference ? current : max;
   }, interestComparison.data[0]);

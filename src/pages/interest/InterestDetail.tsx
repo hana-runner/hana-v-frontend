@@ -28,6 +28,20 @@ const InterestDetail = () => {
     },
   });
 
+  const { data: interestComparison } = useQuery<
+    ApiResponseType<InterestComparisonType[]>
+  >({
+    queryKey: ["interestComparison"],
+    queryFn: () => {
+      const response = ApiClient.getInstance().getInterestComparison(
+        Number(interestId),
+        date.year,
+        date.month,
+      );
+      return response;
+    },
+  });
+
   const percentageSpent =
     userInterestTransactions?.data?.interestTotalSpent &&
     userInterestTransactions?.data?.totalSpent
@@ -41,6 +55,7 @@ const InterestDetail = () => {
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["transactionAnalysisFor6"] });
+    queryClient.invalidateQueries({ queryKey: ["interestComparison"] });
   }, [date]);
 
   return (
@@ -69,7 +84,7 @@ const InterestDetail = () => {
       />
 
       {/* 또래 비교 분석 */}
-      <InterestComparison />
+      <InterestComparison interestComparison={interestComparison} />
 
       {/* 카드 추천 */}
       <CardRecommendation />

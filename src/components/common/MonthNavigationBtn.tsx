@@ -30,7 +30,10 @@ const MonthNavigationBtn = ({ getValues }: MonthNavigationBtnType) => {
   };
 
   useEffect(() => {
-    if (date.getMonth() + 1 >= new Date().getMonth() + 1) {
+    if (
+      date.getFullYear() === new Date().getFullYear() &&
+      date.getMonth() + 1 >= new Date().getMonth() + 1
+    ) {
       setButtonDisabled(true);
     }
     getValues(date, year, month);

@@ -89,7 +89,7 @@ const Login = () => {
       if (response.success) {
         setCookie("x-access-token", response.accessToken);
         setCookie("x-auth-token", response.refreshToken);
-        navigation("/home", { replace: true });
+        location.replace("/home");
       }
     } catch (err) {
       openModal("일치하는 계정이 없습니다", "", () => {
