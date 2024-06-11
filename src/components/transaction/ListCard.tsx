@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsPencil } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Tag from "../common/Tag";
 import ApiClient from "../../apis/apiClient";
@@ -11,18 +11,19 @@ type ListCardProps = {
 };
 
 function ListCard({ id }: ListCardProps) {
+  const { accountId } = useParams<{ accountId: string }>(); // accountId
   const navigate = useNavigate();
   const [showAllTags, setShowAllTags] = useState(false);
   const queryClient = useQueryClient();
 
   const handleCategoryClick = (idx: string) => {
-    navigate(`/transaction/detail/${idx}/category`, {
+    navigate(`/transaction/${accountId}/detail/${idx}/category`, {
       state: { from: window.location.pathname, transactionId: idx },
     });
   };
 
   const handleInterestClick = (idx: string) => {
-    navigate(`/transaction/detail/${idx}/interest`, {
+    navigate(`/transaction/${accountId}/detail/${idx}/interest`, {
       state: { from: window.location.pathname, transactionId: idx },
     });
   };
