@@ -59,11 +59,11 @@ function App() {
         element={<TransactionDetail />}
       />
       <Route
-        path="/transaction/detail/:id/category"
+        path="/transaction/:accountId/detail/:id/category"
         element={<ModifyCategory />}
       />
       <Route
-        path="/transaction/detail/:id/interest"
+        path="/transaction/:accountId/detail/:id/interest"
         element={<ModifyTransactionDetail />}
       />
       <Route path="/settings" element={<Settings />} />

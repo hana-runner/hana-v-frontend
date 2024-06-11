@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CancleBtn, CategoryBtn, Navbar } from "../../components";
 import ApiClient from "../../apis/apiClient";
 
@@ -17,8 +17,10 @@ const ModifyCategory: React.FC = () => {
   );
   const location = useLocation();
   const navigate = useNavigate();
-  const previousUrl = location.state?.from;
+  const { accountId } = useParams<{ accountId: string }>(); // accountId
   const transactionId = location.state?.transactionId;
+  const previousUrl = `/transaction/${accountId}/detail/${transactionId}`;
+
   const queryClient = useQueryClient();
 
   // public의 category 정보 가져오기

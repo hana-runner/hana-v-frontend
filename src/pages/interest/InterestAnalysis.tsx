@@ -77,7 +77,7 @@ const InterestAnalysis = () => {
         <button
           type="button"
           id="transaction"
-          className={`w-2/5 h-8 rounded-r-md ${selected ? "bg-hanaSilver " : "bg-hanaGreen text-white"}`}
+          className={`w-2/5 h-8 rounded-r-md ${selected ? "bg-hanaSilver" : "bg-hanaGreen text-white"}`}
           onClick={handleClick}
         >
           거래 내역
@@ -85,14 +85,18 @@ const InterestAnalysis = () => {
       </div>
 
       {/* 총 지출액 */}
-      <div className="flex flex-col flex-grow gap-4 px-6 py-4 rounded-t-3xl bg-white">
+      <div className="flex flex-col flex-grow gap-4 px-6 py-4 bg-white">
         <MonthNavigationBtn getValues={getValues} />
         <div className="flex gap-1">
           <p className="text-left ml-2">{`${userInterestTransactions?.data.interestTotalSpent.toLocaleString("kr-KR")} 원`}</p>
           <p className="flex items-end text-xs text-hanaSliver">{`/${userInterestTransactions?.data.totalSpent.toLocaleString("kr-KR")} 원`}</p>
         </div>
 
-        <Outlet context={[userInterestTransactions, date]} />
+        {userInterestTransactions?.data.interestTotalSpent !== 0 ? (
+          <Outlet context={{ userInterestTransactions, date }} />
+        ) : (
+          <div>{interestTitle}에 지출한 금액이 없습니다.</div>
+        )}
       </div>
     </section>
   );

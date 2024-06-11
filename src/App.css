@@ -1,5 +1,6 @@
 #root {
   width: 390px;
   min-height: 100vh;
-  background-color: #f9f9fb;
+  /* background-color: #f9f9fb; */
+  background-color: white;
 }

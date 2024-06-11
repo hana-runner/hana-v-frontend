@@ -28,6 +28,7 @@ export { default as InterestMenu } from "./intereset/InterestMenu";
 export { default as ImageUploader } from "./intereset/ImageUploader";
 export { default as InterestSubtitle } from "./intereset/InterestSubtitle";
 export { default as InterestGraphFor6Months } from "./intereset/InterestGraphFor6Months";
+export { default as InterestComparison } from "./intereset/InterestComparison";
 export { default as CardRecommendation } from "./intereset/CardRecommendation";
 export { default as InterestConsumptionDetail } from "./consumption/InterestConsumptionDetail";
 export { default as Menu } from "./Menu";

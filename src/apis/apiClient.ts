@@ -219,6 +219,21 @@ class ApiClient implements userApi, interestApi, transactionApi, accountApi {
     return response.data;
   }
 
+  // 동료 관심사 비교 분석
+  public async getInterestComparison(
+    interestId: number,
+    year: number,
+    month: number,
+  ) {
+    const response = await this.axiosInstance.request<
+      ApiResponseType<InterestComparisonType[]>
+    >({
+      method: "get",
+      url: `/user-interests/compare/${interestId}?year=${year}&month=${month}`,
+    });
+    return response.data;
+  }
+
   // 카드 정보 가져오기
   public async getCardInfo(interestId: number) {
     const response = await this.axiosInstance.request<

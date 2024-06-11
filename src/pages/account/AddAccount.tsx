@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { useModal } from "../../context/ModalContext";
 import ApiClient from "../../apis/apiClient";
 import { Navbar, SelectBox } from "../../components";
+import { useNavigate } from "react-router-dom";
 
 const banks = [
   { title: "하나은행" },
@@ -19,6 +20,7 @@ const AddAccount = () => {
   const queryClient = useQueryClient();
   const accountNumberRef = useRef<HTMLInputElement>(null);
   const [bankName, setBankName] = useState("");
+  const navigate = useNavigate();
   const { openModal } = useModal();
 
   const getValue = (values: string) => {
@@ -57,7 +59,13 @@ const AddAccount = () => {
 
     onSuccess: (data) => {
       console.log(data);
-      openModal("/home", "등록되었습니다!");
+      openModal(
+        "등록되었습니다!",
+        () => {
+          navigate("/home");
+        },
+        false,
+      );
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
     },
 
