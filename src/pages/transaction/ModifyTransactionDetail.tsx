@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
@@ -16,6 +16,7 @@ import { FiMoreHorizontal } from "react-icons/fi";
 
 function ModifyTransactionDetail() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { accountId } = useParams<{ accountId: string }>(); // accountId
   const transactionId = location.state?.transactionId;
   const previousUrl = `/transaction/${accountId}/detail/${transactionId}`;
@@ -116,7 +117,7 @@ function ModifyTransactionDetail() {
     },
     onSuccess: (data) => {
       console.log("Transaction saved successfully", data);
-      window.location.reload(); // 페이지 리로딩
+      navigate(previousUrl); // 성공하면 이전 페이지로 이동
     },
     onError: (e) => {
       console.error("Error saving transaction", e);
