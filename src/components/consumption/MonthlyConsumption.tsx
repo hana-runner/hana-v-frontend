@@ -76,7 +76,7 @@ const MonthlyConsumption: React.FC<MonthlyConsumptionProps> = ({
       ],
     });
 
-    const newLegends = labels.map((label, index) => ({
+    const newLegends = labels.slice(0, 5).map((label, index) => ({
       title: label,
       ratio: data[index],
       color: backgroundColor[index],
