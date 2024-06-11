@@ -27,6 +27,7 @@ import {
   MenuTab,
   AccountManagement,
 } from "./pages";
+import RequiredAuth from "./utils/RequiredAuth";
 
 function App() {
   return (
@@ -51,8 +52,22 @@ function App() {
         <Route path="transaction" element={<InterestTransaction />} />
       </Route>
       <Route path="/register" element={<Register />} />
-      <Route path="/notification" element={<Notification />} />
-      <Route path="/users/info" element={<PersonalInformation />} />
+      <Route
+        path="/notification"
+        element={
+          <RequiredAuth>
+            <Notification />{" "}
+          </RequiredAuth>
+        }
+      />
+      <Route
+        path="/users/info"
+        element={
+          <RequiredAuth>
+            <PersonalInformation />
+          </RequiredAuth>
+        }
+      />
       <Route path="/transaction/:id" element={<Transaction />} />
       <Route
         path="/transaction/:accountId/detail/:id"
@@ -66,6 +81,7 @@ function App() {
         path="/transaction/:accountId/detail/:id/interest"
         element={<ModifyTransactionDetail />}
       />
+
       <Route path="/settings" element={<Settings />} />
       <Route path="/menu" element={<MenuTab />} />
 
