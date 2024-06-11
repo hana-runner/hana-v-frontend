@@ -9,6 +9,8 @@ import ResetPasswrod from "./subPages/ResetPassword";
 import { FindPwVerification } from "../../../types/users/validate-verify";
 import Verified from "../../../components/users/Verified";
 import { useUserInfo } from "../../../context/register-context/register-context";
+import { useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
 
 const InitialVerificationData: FindPwVerification = {
   [VERIFICATION.CODE]: false,
@@ -44,6 +46,7 @@ const reducer = (list: FindPwVerification, { type }: FindPwAction) => {
 };
 
 const FindPw = () => {
+  const navigate = useNavigate();
   const [checkList, dispatch] = useReducer(reducer, InitialVerificationData);
   const [showVerified, setShowVerified] = useState(false);
   const { reset } = useUserInfo();
@@ -63,7 +66,13 @@ const FindPw = () => {
 
   return (
     <UserWrapper hasNav title="비밀번호 재설정" option logo>
-      <div className=" h-full">
+      <div
+        className="flex justify-start h-14"
+        onClick={() => navigate("/login")}
+      >
+        <IoIosArrowBack size={20} />
+      </div>
+      <div className="mt-10 h-full">
         {!checkList[VERIFICATION.USER_ID] && <VerifyId dispatch={dispatch} />}
         {checkList[VERIFICATION.USER_ID] && !checkList[VERIFICATION.EMAIL] && (
           <VerifyEmail dispatch={dispatch} />

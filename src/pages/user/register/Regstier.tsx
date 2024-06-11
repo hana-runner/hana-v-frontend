@@ -135,7 +135,10 @@ const Register = () => {
 
   return (
     <UserWrapper hasNav={false}>
-      <div className="flex justify-start h-14" onClick={() => navigate(-1)}>
+      <div
+        className="flex justify-start h-14"
+        onClick={() => navigate("/login")}
+      >
         <IoIosArrowBack size={20} />
       </div>
       {!infoList[VERIFICATION.USER_ID] && <RegisterId dispatch={dispatch} />}

@@ -104,13 +104,9 @@ const Login = () => {
 
   return (
     <UserWrapper hasNav title="로그인" option>
-      <div className="flex flex-col gap-20 h-full py-10">
+      <div className="flex flex-col gap-10 h-full py-10">
         <div className="flex flex-col gap-10">
-          <h1 className="text-xl">
-            아이디와 비밀번호를
-            <br />
-            입력해주세요
-          </h1>
+          <h1 className="text-2xl font-hanaMedium">로그인</h1>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2 text-start">
               <input

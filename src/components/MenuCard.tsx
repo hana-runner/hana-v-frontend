@@ -17,7 +17,7 @@ const MenuCard = ({
       style={{ backgroundColor: color }}
       onClick={clickHandler}
     >
-      <div className="flex flex-col items-start gap-2">
+      <div className="relative flex flex-col items-start gap-2">
         <span className="font-hanaMedium text-left text-white">{title}</span>
         <span className="font-hanaRegular text-xs text-left text-white w-2/3">
           {description}
