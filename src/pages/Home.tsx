@@ -46,7 +46,7 @@ const Home = () => {
   }
 
   return (
-    <section>
+    <section className="mx-2">
       <Navbar option={false} title="HANA" logo={true} />
       <MyAccount accounts={accounts} />
       <MonthlyConsumption expenses={expenses} />

@@ -18,13 +18,13 @@ const UserWrapper = ({
 }: Prop) => {
   return (
     <section className="flex flex-col justify-between items-center h-[100vh]">
-      {hasNav && (
+      {/* {hasNav && (
         <Navbar
           title={title || ""}
           option={option || false}
           logo={logo || false}
         />
-      )}
+      )} */}
       <div className="flex flex-col justify-between h-full w-80 py-10">
         {children}
       </div>
