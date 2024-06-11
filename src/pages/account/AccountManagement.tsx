@@ -23,7 +23,7 @@ function AccountManagement() {
   return (
     <section>
       <div>
-        <Navbar option={true} logo={false} title="내 계좌관리" path="/" />
+        <Navbar option={true} logo={false} title="내 계좌관리" path="/menu" />
         {/* map으로 AccountInfo 생성해주기 */}
         <div className="flex flex-col justify-center items-center over w-max-[540px] overflow-y-scroll scrollbar-hide">
           {accounts &&
