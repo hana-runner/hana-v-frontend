@@ -1,13 +1,16 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { initializeApp, FirebaseApp } from "firebase/app";
 import { getMessaging, getToken, Messaging } from "firebase/messaging";
 import ApiClient from "../apis/apiClient";
 import { useModal } from "../context/ModalContext";
 import isMember from "../utils/isMember";
 
-export const VAPID_PUBLIC_KEY =
-  "BKCxoDymGFRQXp21d5FhA9ncs-BqMfT0FmC__3HzNmMX9m4veRjnlfhSTi0yBPVfn80O-KSvDMYSZzW5jfyKE7k";
+interface Prop {
+  children: ReactNode;
+}
+
+export const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -19,7 +22,7 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
-const PushNotification: React.FC = () => {
+const PushNotification = ({ children }: Prop) => {
   const { openModal } = useModal();
   const updateIsReceive = async (stat: boolean) => {
     try {
@@ -99,11 +102,7 @@ const PushNotification: React.FC = () => {
     }
   }, []);
 
-  return (
-    <section>
-      <h1>Push Notification Setup</h1>
-    </section>
-  );
+  return <section>{children}</section>;
 };
 
 export default PushNotification;
