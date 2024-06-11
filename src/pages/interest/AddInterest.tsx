@@ -84,7 +84,9 @@ const AddInterest = () => {
 
       openModal(
         "관심사를 추가하시겠습니까?",
-        () => addInterest.mutate(formData),
+        () => {
+          addInterest.mutate(formData);
+        },
         true,
       );
     }

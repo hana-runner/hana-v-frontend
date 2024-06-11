@@ -103,9 +103,7 @@ const AddAccount = () => {
               className="placeholder-hanaSilver w-72 border-b-2 px-4 py-1 border-hanaGreen focus:outline-none"
               ref={accountNumberRef}
             />
-            <div className="text-hanaSilver font-hanaRegular text-xs text-right">
-              *계좌번호는 ‘-’ 없이 숫자로만 입력해주세요
-            </div>
+            <div className="text-hanaSilver font-hanaRegular text-xs text-right"></div>
           </div>
         </div>
         <div className="flex justify-center items-center">

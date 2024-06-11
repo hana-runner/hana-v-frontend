@@ -14,6 +14,9 @@ const Navbar = ({ title, option, path, logo }: NavbarType) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    if (path === "-1") {
+      navigate(Number(path));
+    }
     if (path) {
       navigate(path);
     }
