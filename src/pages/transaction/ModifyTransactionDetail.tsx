@@ -12,6 +12,7 @@ import {
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
 import { useModal } from "../../context/ModalContext";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 function ModifyTransactionDetail() {
   const location = useLocation();
@@ -189,7 +190,7 @@ function ModifyTransactionDetail() {
       />
       <div className="flex flex-col items-center">
         {transactionHistory ? (
-          <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
+          <div className="w-[326px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
             <div className="text-hanaSilver text-[8px] mb-[8px]">
               {new Date(transactionHistory.createdAt).toLocaleString()}
             </div>
@@ -215,7 +216,7 @@ function ModifyTransactionDetail() {
                       onClick={handleExpandClick}
                       className="ml-2 text-hanaSilver"
                     >
-                      ...
+                      <FiMoreHorizontal />
                     </button>
                   )}
                 </div>

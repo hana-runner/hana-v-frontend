@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Tag from "../common/Tag";
 import ApiClient from "../../apis/apiClient";
 import Loading from "../common/Loading";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 type ListCardProps = {
   id: string;
@@ -86,7 +87,7 @@ function ListCard({ id }: ListCardProps) {
             className="text-hanaSilver"
             onClick={toggleShowAllTags}
           >
-            ...
+            <FiMoreHorizontal />
           </button>
         </>
       );
@@ -97,13 +98,13 @@ function ListCard({ id }: ListCardProps) {
   return (
     <div className="flex flex-col items-center">
       {transactionHistory ? (
-        <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
+        <div className="w-[326px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
           <div className="text-hanaSilver text-[8px] mb-[8px]">
             {new Date(transactionHistory.createdAt).toLocaleString()}
           </div>
           <div>{transactionHistory.description}</div>
-          <div className="flex justify-between mt-[20px] items-top">
-            <div className="grid grid-cols-3 w-[200px]">
+          <div className="flex mt-[20px] items-top justify-between">
+            <div className="flex flex-raw flex-wrap max-w-48">
               <Tag
                 title={transactionHistory.categoryTitle}
                 color={transactionHistory.categoryColor}
@@ -141,7 +142,7 @@ function ListCard({ id }: ListCardProps) {
           />
         </div>
         <div className="flex justify-between my-[8px]">
-          <div className="flex">
+          <div className="flex flex-row">
             <p>관심사</p>
             <BsPencil
               className="ml-[6px] mt-[3px] text-hanaSilver cursor-pointer"
@@ -150,7 +151,9 @@ function ListCard({ id }: ListCardProps) {
               }
             />
           </div>
-          <div className="flex flex-row max-w-[200px]">{renderTags()}</div>
+          <div className="flex flex-wrap max-w-[200px] justify-end">
+            {renderTags()}
+          </div>
         </div>
         <div className="flex justify-between my-[8px]">
           <p>승인번호</p>

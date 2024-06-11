@@ -75,7 +75,7 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                 </div>
               </div>
               <div className="flex justify-between items-start">
-                <div className="flex flex-col mt-[8px]">
+                <div className="flex flex-col mt-[8px] max-w-48">
                   <div className="flex flex-wrap items-center">
                     <Tag
                       title={data.categoryTitle}
