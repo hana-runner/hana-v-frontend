@@ -23,12 +23,22 @@ const NavIcon = () => {
     <div className="absolute right-5 flex justify-between items-center gap-3">
       <BiBell
         id="notification"
-        className="mt-[2px]"
+        className="mt-[2px] cursor-pointer"
         size={20}
         onClick={(e) => handleClick(e)}
       />
-      <BiHomeAlt2 id="home" size={20} onClick={(e) => handleClick(e)} />
-      <IoMenu id="menu" size={20} onClick={(e) => handleClick(e)} />
+      <BiHomeAlt2
+        id="home"
+        className="cursor-pointer"
+        size={20}
+        onClick={(e) => handleClick(e)}
+      />
+      <IoMenu
+        id="menu"
+        className="cursor-pointer"
+        size={20}
+        onClick={(e) => handleClick(e)}
+      />
     </div>
   );
 };

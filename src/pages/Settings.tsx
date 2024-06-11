@@ -5,7 +5,7 @@ import ToggleBtn from "../components/common/ToggleBtn";
 function Settings() {
   return (
     <section>
-      <Navbar title="설정" option={true} logo={false} />
+      <Navbar title="설정" option={true} logo={false} path="/menu" />
       <div className="mx-[32px] mt-[22px]">
         <p className="font-hanaBold text-[17px] text-left">알림 설정</p>
         <div className="flex justify-between mt-[26px]">
@@ -17,7 +17,6 @@ function Settings() {
           <ToggleBtn />
         </div>
       </div>
-
     </section>
   );
 }

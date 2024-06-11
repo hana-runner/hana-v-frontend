@@ -26,7 +26,7 @@ const Navbar = ({ title, option, path, logo }: NavbarType) => {
           className="absolute left-5 flex justify-center"
           onClick={handleClick}
         >
-          <IoIosArrowBack size={20} />
+          <IoIosArrowBack className="cursor-pointer" size={20} />
         </div>
       )}
       <div className="flex-grow flex justify-center items-center text-center font-hanaMedium">
