@@ -52,14 +52,7 @@ function App() {
         <Route path="transaction" element={<InterestTransaction />} />
       </Route>
       <Route path="/register" element={<Register />} />
-      <Route
-        path="/notification"
-        element={
-          <RequiredAuth>
-            <Notification />{" "}
-          </RequiredAuth>
-        }
-      />
+      <Route path="/notification" element={<Notification />} />
       <Route
         path="/users/info"
         element={

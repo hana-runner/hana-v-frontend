@@ -36,7 +36,7 @@ const Notification = () => {
 
   return (
     <section className="flex flex-col justify-start items-center h-[100vh]">
-      <Navbar title="알림" option />
+      <Navbar title="알림" option path="-1" />
       <button type="button" onClick={() => onClick()}>
         전체 삭제
       </button>
