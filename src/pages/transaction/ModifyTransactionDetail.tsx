@@ -12,6 +12,7 @@ import {
 } from "../../components";
 import ApiClient from "../../apis/apiClient";
 import { useModal } from "../../context/ModalContext";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 function ModifyTransactionDetail() {
   const location = useLocation();
@@ -145,6 +146,16 @@ function ModifyTransactionDetail() {
     return "Error!";
   }
 
+  // 중복된 interest title 제거
+  const uniqueInterests = Array.from(
+    new Map(
+      transactionHistory.transactionHistoryDetails.map((detail) => [
+        detail.interest.interestId,
+        detail,
+      ]),
+    ).values(),
+  );
+
   const addList = () => {
     if (currAmount <= 0) {
       setErrorMessage("더 이상 목록을 추가하실 수 없습니다.");
@@ -179,7 +190,7 @@ function ModifyTransactionDetail() {
       />
       <div className="flex flex-col items-center">
         {transactionHistory ? (
-          <div className="w-[326px] h-[135px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
+          <div className="w-[326px] mt-[20px] p-[22px] rounded-[20px] shadow-md text-left bg-white flex flex-col">
             <div className="text-hanaSilver text-[8px] mb-[8px]">
               {new Date(transactionHistory.createdAt).toLocaleString()}
             </div>
@@ -191,9 +202,27 @@ function ModifyTransactionDetail() {
                     title={transactionHistory.categoryTitle}
                     color={transactionHistory.categoryColor}
                   />
-                  {transactionHistory.transactionHistoryDetails
-                    .slice(0, 2)
-                    .map((detail, index) => (
+                  {uniqueInterests.slice(0, 2).map((detail, index) => (
+                    <div key={index}>
+                      <Tag
+                        title={detail.interest.title}
+                        color={detail.interest.color}
+                      />
+                    </div>
+                  ))}
+                  {uniqueInterests.length > 2 && (
+                    <button
+                      type="button"
+                      onClick={handleExpandClick}
+                      className="ml-2 text-hanaSilver"
+                    >
+                      <FiMoreHorizontal />
+                    </button>
+                  )}
+                </div>
+                {expanded && (
+                  <div className="flex flex-row">
+                    {uniqueInterests.slice(2).map((detail, index) => (
                       <div key={index}>
                         <Tag
                           title={detail.interest.title}
@@ -201,28 +230,6 @@ function ModifyTransactionDetail() {
                         />
                       </div>
                     ))}
-                  {transactionHistory.transactionHistoryDetails.length > 2 && (
-                    <button
-                      type="button"
-                      onClick={handleExpandClick}
-                      className="ml-2 text-hanaSilver"
-                    >
-                      ...
-                    </button>
-                  )}
-                </div>
-                {expanded && (
-                  <div className="flex flex-row">
-                    {transactionHistory.transactionHistoryDetails
-                      .slice(2)
-                      .map((detail, index) => (
-                        <div key={index}>
-                          <Tag
-                            title={detail.interest.title}
-                            color={detail.interest.color}
-                          />
-                        </div>
-                      ))}
                   </div>
                 )}
               </div>

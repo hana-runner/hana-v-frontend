@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Tag from "../common/Tag";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 interface TransactionListProps {
   transactions: TransactionType[];
@@ -29,7 +30,18 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
       <div className="w-[326px] h-[446px] border-2 rounded-[20px] bg-white mt-[8px] px-[12px] py-[6px] overflow-y-scroll scrollbar-hide">
         {transactions.map((data: TransactionType) => {
           const isExpanded = expanded[data.id] || false;
-          const tags = data.transactionHistoryDetails.map((detail, index) => (
+
+          // 중복된 interest title 제거
+          const uniqueDetails = Array.from(
+            new Map(
+              data.transactionHistoryDetails.map((detail) => [
+                detail.interest.interestId,
+                detail,
+              ]),
+            ).values(),
+          );
+
+          const tags = uniqueDetails.map((detail, index) => (
             <div key={index} className="flex">
               <Tag
                 title={detail.interest.title}
@@ -63,8 +75,8 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                 </div>
               </div>
               <div className="flex justify-between items-start">
-                <div className="flex flex-col mt-[8px]">
-                  <div className="flex flex-row items-center">
+                <div className="flex flex-col mt-[8px] max-w-48">
+                  <div className="flex flex-wrap items-center">
                     <Tag
                       title={data.categoryTitle}
                       color={data.categoryColor}
@@ -72,17 +84,19 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                     {displayedTags}
                     {tags.length > 2 && !isExpanded && (
                       <button
-                        onClick={() => toggleExpand(data.id)}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleExpand(data.id);
+                        }}
                         className="ml-2 text-hanaSilver"
                       >
-                        ...
+                        <FiMoreHorizontal />
                       </button>
                     )}
                   </div>
                   {isExpanded && (
-                    <div className="flex flex-row items-center mt-2">
-                      {tags.slice(2)}
-                    </div>
+                    <div className="flex flex-wrap mt-2">{tags.slice(10)}</div>
                   )}
                 </div>
                 <div className="text-[12px] mt-[8px]">
