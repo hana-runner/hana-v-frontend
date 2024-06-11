@@ -64,9 +64,9 @@ const TransactionHistoryList: React.FC<TransactionListProps> = ({
                 <div className="text-[16px]">{data.description}</div>
                 <div
                   className={
-                    data.type === "입금"
+                    data.action === "입금"
                       ? "text-hanaGreen"
-                      : data.type === "출금"
+                      : data.action === "출금"
                         ? "text-hanaRed"
                         : ""
                   }
