@@ -113,7 +113,7 @@ function ListCard({ id }: ListCardProps) {
             </div>
             <p
               className={
-                transactionHistory.type === "입금"
+                transactionHistory.action === "입금"
                   ? "text-hanaGreen"
                   : "text-hanaRed"
               }

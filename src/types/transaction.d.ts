@@ -8,9 +8,9 @@ interface TransactionType {
   categoryColor: string;
   approvalNumber: number;
   num: number;
-  type: string;
+  type: number;
   description: string;
-  action: number;
+  action: string;
   amount: number;
   balance: number;
   createdAt: string;
