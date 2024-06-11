@@ -21,17 +21,18 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <PushNotification />
-      <QueryClientProvider client={queryClient}>
-        <RegisterProvider>
-          <InterestContextProvider>
-            <ModalProvider>
-              <Modal />
-              <App />
-            </ModalProvider>
-          </InterestContextProvider>
-        </RegisterProvider>
-      </QueryClientProvider>
+      <PushNotification>
+        <QueryClientProvider client={queryClient}>
+          <RegisterProvider>
+            <InterestContextProvider>
+              <ModalProvider>
+                <Modal />
+                <App />
+              </ModalProvider>
+            </InterestContextProvider>
+          </RegisterProvider>
+        </QueryClientProvider>
+      </PushNotification>
     </BrowserRouter>
   </React.StrictMode>,
 );

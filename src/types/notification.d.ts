@@ -1,4 +1,4 @@
 interface NotificationFetchResType {
   title: string;
-  body: string;
+  message: string;
 }
