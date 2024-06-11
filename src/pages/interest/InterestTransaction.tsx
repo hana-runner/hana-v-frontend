@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
 const InterestTransaction = () => {
-  const [userInterestTransactions, date] = useOutletContext();
+  const { userInterestTransactions, date } = useOutletContext();
 
   if (userInterestTransactions?.data.interestTotalSpent === 0) {
-    return <div>{date.month}월 사용한 금액이 없습니다.</div>;
+    return <div>지출한 금액이 없습니다.</div>;
   }
 
   useEffect(() => {

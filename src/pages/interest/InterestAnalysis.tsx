@@ -77,7 +77,7 @@ const InterestAnalysis = () => {
         <button
           type="button"
           id="transaction"
-          className={`w-2/5 h-8 rounded-r-md ${selected ? "bg-hanaSilver " : "bg-hanaGreen text-white"}`}
+          className={`w-2/5 h-8 rounded-r-md ${selected ? "bg-hanaSilver" : "bg-hanaGreen text-white"}`}
           onClick={handleClick}
         >
           거래 내역
@@ -92,7 +92,11 @@ const InterestAnalysis = () => {
           <p className="flex items-end text-xs text-hanaSliver">{`/${userInterestTransactions?.data.totalSpent.toLocaleString("kr-KR")} 원`}</p>
         </div>
 
-        <Outlet context={{ userInterestTransactions, date }} />
+        {userInterestTransactions?.data.interestTotalSpent !== 0 ? (
+          <Outlet context={{ userInterestTransactions, date }} />
+        ) : (
+          <div>{interestTitle}에 지출한 금액이 없습니다.</div>
+        )}
       </div>
     </section>
   );
