@@ -220,14 +220,14 @@ function HistoryOptionBoard({
         <button
           type="button"
           onClick={closeModal}
-          className="w-[85px] h-[53px] mr-[16px] bg-hanaSilver text-white rounded-[15px] shadow-xl"
+          className="w-[155px] h-[53px] mr-[16px] bg-hanaSilver text-white rounded-[15px]"
         >
           취소
         </button>
         <button
           type="button"
           onClick={handleConfirm}
-          className="w-[225px] h-[53px] bg-hanaGreen text-white rounded-[15px] shadow-xl"
+          className="w-[155px] h-[53px] bg-hanaGreen text-white rounded-[15px]"
         >
           확인
         </button>
