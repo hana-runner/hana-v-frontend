@@ -60,13 +60,23 @@ function ListCard({ id }: ListCardProps) {
 
   const renderTags = () => {
     if (!transactionHistory?.transactionHistoryDetails) return null;
-    const tags = transactionHistory.transactionHistoryDetails.map(
-      (detail, index) => (
-        <div key={index}>
-          <Tag title={detail.interest.title} color={detail.interest.color} />
-        </div>
-      ),
+
+    // 중복된 interest title 제거
+    const uniqueDetails = Array.from(
+      new Map(
+        transactionHistory.transactionHistoryDetails.map((detail) => [
+          detail.interest.interestId,
+          detail,
+        ]),
+      ).values(),
     );
+
+    const tags = uniqueDetails.map((detail, index) => (
+      <div key={index}>
+        <Tag title={detail.interest.title} color={detail.interest.color} />
+      </div>
+    ));
+
     if (tags.length > 2 && !showAllTags) {
       return (
         <>

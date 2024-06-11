@@ -145,6 +145,16 @@ function ModifyTransactionDetail() {
     return "Error!";
   }
 
+  // 중복된 interest title 제거
+  const uniqueInterests = Array.from(
+    new Map(
+      transactionHistory.transactionHistoryDetails.map((detail) => [
+        detail.interest.interestId,
+        detail,
+      ]),
+    ).values(),
+  );
+
   const addList = () => {
     if (currAmount <= 0) {
       setErrorMessage("더 이상 목록을 추가하실 수 없습니다.");
@@ -191,17 +201,15 @@ function ModifyTransactionDetail() {
                     title={transactionHistory.categoryTitle}
                     color={transactionHistory.categoryColor}
                   />
-                  {transactionHistory.transactionHistoryDetails
-                    .slice(0, 2)
-                    .map((detail, index) => (
-                      <div key={index}>
-                        <Tag
-                          title={detail.interest.title}
-                          color={detail.interest.color}
-                        />
-                      </div>
-                    ))}
-                  {transactionHistory.transactionHistoryDetails.length > 2 && (
+                  {uniqueInterests.slice(0, 2).map((detail, index) => (
+                    <div key={index}>
+                      <Tag
+                        title={detail.interest.title}
+                        color={detail.interest.color}
+                      />
+                    </div>
+                  ))}
+                  {uniqueInterests.length > 2 && (
                     <button
                       type="button"
                       onClick={handleExpandClick}
@@ -213,16 +221,14 @@ function ModifyTransactionDetail() {
                 </div>
                 {expanded && (
                   <div className="flex flex-row">
-                    {transactionHistory.transactionHistoryDetails
-                      .slice(2)
-                      .map((detail, index) => (
-                        <div key={index}>
-                          <Tag
-                            title={detail.interest.title}
-                            color={detail.interest.color}
-                          />
-                        </div>
-                      ))}
+                    {uniqueInterests.slice(2).map((detail, index) => (
+                      <div key={index}>
+                        <Tag
+                          title={detail.interest.title}
+                          color={detail.interest.color}
+                        />
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
