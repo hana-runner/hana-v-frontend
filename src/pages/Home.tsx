@@ -9,7 +9,6 @@ import {
 } from "../components";
 import { useQueries } from "@tanstack/react-query";
 import ApiClient from "../apis/apiClient";
-import Logout from "../components/users/Logout";
 
 const Home = () => {
   const results = useQueries({
@@ -42,21 +41,15 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <section>
       <Navbar option={false} title="HANA" logo={true} />
-      {/* <Logout
-        text="간이 로그아웃. 메뉴 구현시 삭제 예정"
-        className="btn-primary"
-      /> */}
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <MyAccount accounts={accounts} />
-          <MonthlyConsumption expenses={expenses} />
-        </>
-      )}
+      <MyAccount accounts={accounts} />
+      <MonthlyConsumption expenses={expenses} />
       <MenuCard
         title="나의 관심사"
         description="나의 관심사를 설정하여 비슷한 관심사를 가진 사람들과 소비를 비교해 보아요!"

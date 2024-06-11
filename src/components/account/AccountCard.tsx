@@ -27,12 +27,11 @@ const AccountCard = ({
         <span className="text-hanaSilver text-xs mr-1">{accountType}</span>
         <span className="text-hanaSilver text-xs">{accountNumber}</span>
       </div>
-      <div className="flex items-center pl-12 pr-8 mt-8">
-        <div className="font-hanaBold text-2xl mr-1">
+      <div className="flex justify-center items-center m-auto mt-4">
+        <span className="font-hanaBold text-2xl mr-1">
           {balance.toLocaleString()}
-        </div>
+        </span>
         <span className="mr-1">원</span>
-        <div className="bg-hanaSilver rounded-2xl text-xs px-2 py-0">숨김</div>
       </div>
     </div>
   );
