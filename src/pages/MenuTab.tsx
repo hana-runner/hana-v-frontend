@@ -40,12 +40,16 @@ const MenuTab = () => {
     <section>
       <div className="relative flex justify-between items-center w-full h-14 bg-white">
         <div className="flex justify-between items-center w-1/3 mx-4">
-          <IoClose size={24} onClick={() => navigate("/home")} />
+          <IoClose
+            className="cursor-pointer"
+            size={24}
+            onClick={() => navigate("/home")}
+          />
           <span className="font-hanaBold text-lg pr-5">{userName}님</span>
         </div>
         <div className="flex justify-between items-center w-1/5 mx-4">
           <span
-            className="font-hanaMedium text-xs underline"
+            className="font-hanaMedium text-xs underline cursor-pointer"
             onClick={() => {
               removeCookie("x-access-token", { path: "/" });
               removeCookie("x-auth-token", { path: "/" });
