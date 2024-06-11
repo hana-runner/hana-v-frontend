@@ -1,28 +1,38 @@
-import { useEffect } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useOutletContext } from "react-router-dom";
 
 const InterestTransaction = () => {
-  const { userInterestTransactions, date } = useOutletContext();
+  const [visibleCount, setVisibleCount] = useState(20);
+
+  const { userInterestTransactions } = useOutletContext<{
+    userInterestTransactions: {
+      data: {
+        interestTotalSpent: number;
+        transaction: UserInterestTransactionType[];
+      };
+    };
+  }>();
+
+  const transactions = userInterestTransactions.data.transaction.slice(
+    0,
+    visibleCount,
+  );
+
+  const loadMore = () => {
+    setVisibleCount((prevCount) => prevCount + 20);
+  };
 
   if (userInterestTransactions?.data.interestTotalSpent === 0) {
     return <div>지출한 금액이 없습니다.</div>;
   }
 
-  useEffect(() => {
-    console.log(userInterestTransactions);
-  }, [userInterestTransactions]);
-
   return (
     <ul className="flex flex-col px-6 border border-hanaSilver rounded-3xl">
-      {userInterestTransactions?.data.transaction.map(
+      {transactions.map(
         (transaction: UserInterestTransactionType, idx: number) => (
           <li
             key={transaction.transactionHistoryId}
-            className={`${
-              idx !== userInterestTransactions.data.transaction.length - 1
-                ? "border-b border-hanaSilver"
-                : ""
-            }`}
+            className={`${idx !== transactions.length - 1 ? "border-b border-hanaSilver" : ""}`}
           >
             <div className="my-6">
               <div className="text-[12px] text-hanaSilver text-left">
@@ -42,6 +52,15 @@ const InterestTransaction = () => {
             </div>
           </li>
         ),
+      )}
+      {visibleCount < userInterestTransactions.data.transaction.length && (
+        <button
+          type="button"
+          onClick={loadMore}
+          className="p-2 text-hanaSilver rounded"
+        >
+          + 더보기
+        </button>
       )}
     </ul>
   );
