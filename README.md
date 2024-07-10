@@ -2,7 +2,12 @@
 
 <div align="center"><strong>Variety, View, Value</strong> 당신의 소비 생활을 더 스마트하게</div>
 
-## ✍️ 프로젝트 소개
+<br/> 
+<div align="center">
+  <img src="https://github.com/hana-runner/hana-v-frontend/assets/31836035/9e145f7c-32ae-46b2-a066-667f38b5b410" />
+</div>
+
+## 🗣️ 프로젝트 소개
 비슷한 관점을 가진 사람들의 소비 성향과 자신의 소비 성향을 비교하여 효율적인 소비 생활을 위한 금융 방향성을 제시하는 플랫폼
 
 ## 🛠️ 기술 스택
@@ -15,7 +20,7 @@
   <img src="https://img.shields.io/badge/Yarn-2C8EBB" />
 </div>
 
-## 🖥️ 기능 소개
+## 💻 기능 소개
 <div>
   <p>1. 스플래쉬</p>
   <img src="https://github.com/hana-runner/hana-v-frontend/assets/31836035/abead441-e764-42a3-b3da-3d9fea4e7edc" width="200"/>
@@ -75,7 +80,7 @@
 </div>
 
 
-## 👪 멤버 소개
+## 👫 멤버 소개
 <table>
 <tr align="center">
    <th>김지윤</th>
